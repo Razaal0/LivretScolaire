@@ -1,5 +1,6 @@
 <?php
 require_once('includes/header.php');
+require_once('includes/nav.php');
 require_once('includes/user-session.php');
 
 if (UserConnected()) {
@@ -7,8 +8,6 @@ if (UserConnected()) {
   add_notif_modal('danger', 'Erreur', 'Vous êtes déjà connecté.');
   exit();
 }
-require_once('includes/header.php');
-require_once('includes/nav.php');
 ?>
 <main id="main" class="main">
   <div class="container">
@@ -93,9 +92,3 @@ require_once('includes/nav.php');
 <?php
 require_once 'includes/footer.php';
 ?>
-
-<style>
-  #footer {
-    margin-left: 0px;
-}
-</style>

@@ -3,11 +3,7 @@ require_once '../view/includes/user-session.php';
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-?>
-    <script>
-        window.location.replace("/view");
-    </script>
-    <?php
+    echo '<meta http-equiv="refresh" content="0; url=/view" />';
     exit();
 }
 
@@ -39,22 +35,18 @@ if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['date_naissa
         try {
             insert_etudiant($nom, $prenom, $date, $classes, $numero_national);
             //Renvoie "Erreur" si une erreur d'insertion � eu lieu
-            $message = "Insertion de l'étudiant : " . $nom . " " . $prenom . " dans la classe : " . $classes . " effectuée";
+            add_notif_modal("success", "Etudiant ajouté", "L'étudiant a bien été ajouté");
             $error = 0;
         } catch (Exception $e) {
-            $message = "Erreur lors de l'insertion de l'étudiant : " . $nom . " " . $prenom . " dans la classe : " . $classes;
-            $message += $e->getMessage();
+            add_notif_modal("danger", "Erreur", "Erreur lors de l'insertion de l'étudiant : " . $nom . " " . $prenom . " dans la classe : " . $classes);
             $error = 1;
         }
     } else {
-        $message = "Erreur lors de l'insertion de l'étudiant : " . $nom . " " . $prenom . " dans la classe : " . $classes;
+        add_notif_modal("danger", "Erreur", "Erreur lors de l'insertion de l'étudiant : " . $nom . " " . $prenom . " dans la classe : " . $classes);
         $error = 1;
     }
-?>
-    <script>
-        window.location.href = "../controller/C_etudiant.php?message=<?php echo $message; ?>&error=<?php echo $error; ?>";
-    </script>
-<?php
+        echo '<meta http-equiv="refresh" content="0; url=/controller/C_etudiant.php" />';
+        exit();
 }
 require_once '../view/Etudiant.php';
 require_once '../view/includes/footer.php';

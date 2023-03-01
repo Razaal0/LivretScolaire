@@ -3,11 +3,7 @@ require_once '../view/includes/user-session.php';
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
   add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-?>
-  <script>
-      window.location.replace("/view");
-  </script>
-  <?php
+  echo '<meta http-equiv="refresh" content="0; url=/view" />';
   exit();
 }
 ?>
@@ -26,19 +22,13 @@ $enseignant = recupere_enseignants();
 if (verif_submit('saisie_pr') == 'Ajouter') {
   if (isset($_POST['nom']) && isset($_POST['prenom']) && !empty($_POST['nom']) && !empty($_POST['prenom'])) {
     insert_enseignants();
-?>
-    <script>
-      window.location.href = "../controller/C_prof.php";
-    </script>
-  <?php
-  //retourner une erreur si au moins un des champs est vide
+    add_notif_modal("success", "Enseignant ajouté", "L'enseignant a bien été ajouté");
+    // redirection
+    echo '<meta http-equiv="refresh" content="0; url=/controller/C_prof.php" />';
+    exit();
   } else {
-  ?>
-    <script>
-      error = [];
-      error.push("Veuillez remplir tous les champs");
-    </script>
-<?php
+    //retourner une erreur si au moins un des champs est vide
+    add_notif_modal("danger", "Erreur", "Veuillez remplir tous les champs");
   }
 }
 

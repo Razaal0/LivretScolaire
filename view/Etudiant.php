@@ -2,102 +2,126 @@
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-?>
-    <script>
-        window.location.replace("/view");
-    </script>
-    <?php
+    echo '<meta http-equiv="refresh" content="0; url=/view" />';
     exit();
 }
-
-
 ?>
-    <html>
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Étudiants</em></h1>
+    </div>
+    <section class="section">
 
-    <body>
-        <title>Etudiants</title>
-        <main id="main" class="main container">
-            <div style="display: inline-table; margin-right: 30px">
-                <form method="post" class="form-control">
-                    <h4>Ajouter un(e) étudiant:</h4><br />
-                    <label>Nom :</label>
-                    <input type="text" name="nom" required />
-                    <label>Prenom :</label>
-                    <input type="text" name="prenom" required />
-                    <label>Date de naissance :</label>
-                    <input type="date" name="date_naissance" required />
-                    <label>Numéro National</label>
-                    <input type="text" name="numero_national" />
-                    <select name="classe" required>
-                        <option value="">Classe :</option>
-                        <?php
-                        foreach ($classe as $c) {
-                            echo "\t" . '<option value=' . $c['classecode'] . '>' . $c['Libellecourt'] . '</option>' . "\n";
-                        }
-                        ?>
-                    </select>
-                    <input type="submit" value="Ajouter" name="saisie_pr" />
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ajouter un nouveau étudiant :</h5>
+                <!-- Formulaire pour ajouter un étudiant -->
+                <form class="row g-3" method="POST">
+
+                    <div class="col-md-2">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" name="prenom" id="prenom" value="" placeholder=" " required>
+                            <label for="prenom" class="form-label">Prénom</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" name="nom" id="nom" value="" placeholder=" " required>
+                            <label for="nom" class="form-label">Nom</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" name="date_naissance" id="date_naissance" value="" placeholder=" " required>
+                            <label for="date_naissance" class="form-label">Date de naissance</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-floating">
+                            <select class="form-select" name="classe" id="classe" required>
+                                <option value=""></option>
+                                <?php
+                                foreach ($classe as $c) {
+                                    echo "\t" . '<option value=' . $c['classecode'] . '>' . $c['Libellecourt'] . '</option>' . "\n";
+                                }
+                                ?>
+                            </select>
+                            <label for="classe" class="form-label">Classe</label>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-2">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" name="numero_national" id="numero_national" placeholder=" ">
+                            <label for="numero_national" class="form-label">Numéro National</label>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Ajouter</button>
+                    </div>
                 </form>
-                <span id="ajouter&supprimer" class="ajouter_supprimer">
-                    <?php
-                    if (isset($_GET['message'])) {
-                        if ($_GET['error'] == 0) {
-                            echo '<div class="alert alert-success" role="alert">' . $_GET['message'] . '</div>';
-                        } else {
-                            echo '<div class="alert alert-danger" role="alert">' . $_GET['message'] . '</div>';
-                        }
-                    }
-                    ?>
-                </span>
+                <!-- End Formulaire pour ajouter un étudiant -->
+
             </div>
-            <div style="display: inline-table">
-                <h2> Liste des étudiants </h2>
-                <table border="1">
-                    <tr>
-                        <th colspan="6">Etudiants</th>
-                    </tr>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Date de naissance</th>
-                        <th>Classe</th>
-                        <th colspan="2"></th>
-                    </tr>
-                    <?php
-                    foreach ($etudiant as $et) {
-                    ?>
-                        <tr>
-                            <td><?php echo $et['NOMETUDIANT']; ?></td>
-                            <td><?php echo $et['PRENOMETUDIANT']; ?></td>
-                            <td><?php echo $et['datedenaissance']; ?></td>
-                            <td><?php echo $et['Libellecourt']; ?></td>
-                            <td><?php echo "<a href=../Controller/C_modif.php?codeetud=" . $et['codeetudiant'] . ">" ?>Modifier <img src="../bootstrap-icons-1.8.3/pencil.svg" height="14" width="25" /></a> </td>
-                            <td><?php echo "<a href=../Controller/Supprime.php?codeetud=" . $et['codeetudiant'] . " " . "onclick='return confirmation();'" . ">" ?> Supprimer <img src="../bootstrap-icons-1.8.3/trash.svg" height="14" width="25" /></a> </td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                </table>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Listes des étudiants :</h5>
+                        
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Prénom</th>
+                                    <th scope="col">Date de naissance</th>
+                                    <th scope="col">Classe</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($etudiant as $et) {
+                                ?>
+                                    <tr data-toggle="collapse">
+                                        <td><?php echo $et['NOMETUDIANT']; ?></td>
+                                        <td><?php echo $et['PRENOMETUDIANT']; ?></td>
+                                        <td><?php echo $et['datedenaissance']; ?></td>
+                                        <td><?php echo $et['Libellecourt']; ?></td>
+                                        <td><?php echo "<a href=../Controller/C_modif.php?codeetud=" . $et['codeetudiant'] . ">" ?>Modifier <img src="../bootstrap-icons-1.8.3/pencil.svg" height="14" width="25" /></a> </td>
+                                        <td><?php echo "<a href=../Controller/Supprime.php?codeetud=" . $et['codeetudiant'] . " " . "onclick='return confirmation();'" . ">" ?> Supprimer <img src="../bootstrap-icons-1.8.3/trash.svg" height="14" width="25" /></a> </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </main>
-    </body>
+        </div>
+        
+    </section>
+</main><!-- End #main -->
+<?php
+?>
 
-    </html>
-
-    <style>
-        input[type=date],
-        textarea {
-            display: block;
-            padding: 5px;
-            margin-bottom: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-            text-align: center;
-        }
-
-        input[type=date],
-        input[type=text] {
-            width: 200px;
-        }
-    </style>
+<script>
+    $(document).ready(function() {
+        $('table.datatable').DataTable({
+            language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"
+            }
+        });
+    });
+</script>

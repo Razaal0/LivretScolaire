@@ -3,11 +3,7 @@ require_once '../view/includes/user-session.php';
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-?>
-    <script>
-        window.location.replace("/view");
-    </script>
-<?php
+    echo '<meta http-equiv="refresh" content="0; url=/view" />';
     exit();
 }
 ?>
@@ -29,7 +25,7 @@ require_once('../view/includes/nav.php');
 
     if (!isset($_GET['nb_eleve_insert'])) {
     ?>
-        <main id="main" class="main container">
+        <main id="main" class="">
             <form method="POST" action="import_traitement.php" enctype="multipart/form-data" style="display: inline-table">
                 <h3>Importation des élèves format csv : </h3>
                 <h6>(NOM | PRENOM | SEXE | NE(E) LE | DIV. | REG. | OPT1 | OPT2 | DIV.PREC.)</h6>

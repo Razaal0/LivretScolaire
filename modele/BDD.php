@@ -67,6 +67,15 @@ function recupere_enseignants()
     return $profs;
 }
 
+function recupere_enseignants_by_id($codeenseignant)
+{
+    $enseignant = connexion()->prepare("SELECT * FROM `ENSEIGNANT` WHERE CodeEnseignant = :codeens");
+    $enseignant->bindParam(':codeens', $codeenseignant, PDO::PARAM_INT);
+    $enseignant->execute();
+    $profs = $enseignant->fetch (PDO::FETCH_ASSOC);
+    return $profs;
+}
+
 function insert_enseignants()
 {
     $name = filter_input(INPUT_POST, "nom");
@@ -85,17 +94,21 @@ function modif_ens($codeenseignant)
 {
     $nomens = filter_input(INPUT_POST, "nomens");
     $prenomens = filter_input(INPUT_POST, "prenomens");
+    try{
     if ($nomens && !empty($nomens)) {
         $modifn = connexion()->prepare("UPDATE `ENSEIGNANT` SET NOM ='" . $nomens . "' WHERE CodeEnseignant = :codeens");
         $modifn->bindParam(':codeens', $codeenseignant, PDO::PARAM_INT);
         $modifn->execute();
-        echo 'nom modifié' . ' ';
     }
     if ($prenomens && !empty($prenomens)) {
         $modifp = connexion()->prepare("UPDATE `ENSEIGNANT` SET PRENOM ='" . $prenomens . "' WHERE CodeEnseignant = :codeens");
         $modifp->bindParam(':codeens', $codeenseignant, PDO::PARAM_INT);
         $modifp->execute();
-        echo 'prénom modifié' . ' ';
+    }
+    return true;
+    }catch(Exception $ex){
+        die('Erreur:' . $ex->getMessage());
+        return false;
     }
 }
 
@@ -112,6 +125,15 @@ function recupere_matieres()
     $matiere = connexion()->prepare("SELECT * FROM `MATIERE`");
     $matiere->execute();
     $m = $matiere->fetchAll(PDO::FETCH_ASSOC);
+    return $m;
+}
+
+function recupere_matieres_by_id($codematiere)
+{
+    $matiere = connexion()->prepare("SELECT * FROM `MATIERE` WHERE CodeMatiere = :codemat");
+    $matiere->bindParam(':codemat', $codematiere, PDO::PARAM_INT);
+    $matiere->execute();
+    $m = $matiere->fetch(PDO::FETCH_ASSOC);
     return $m;
 }
 
@@ -134,11 +156,16 @@ function insert_matieres()
 function modif_matiere($codematiere)
 {
     $matiere = filter_input(INPUT_POST, "matiere");
+    try{
     if ($matiere) {
         $modifm = connexion()->prepare("UPDATE `MATIERE` SET LibMatiere ='" . $matiere . "' WHERE CodeMatiere =:codemat");
         $modifm->bindParam(':codemat', $codematiere, PDO::PARAM_INT);
         $modifm->execute();
-        return $modifm;
+    }
+    return true;
+    }catch(Exception $ex){
+        die('Erreur:' . $ex->getMessage());
+        return false;
     }
 }
 
@@ -181,36 +208,46 @@ function recupere_etudiants()
     return $r;
 }
 
+function recupere_etudiants_by_id($id)
+{
+    $req = connexion()->prepare("SELECT * from `ETUDIANT` join `ASSO_9` on `ASSO_9`.codeetudiant = `ETUDIANT`.codeetudiant join `CLASSE` on `CLASSE`.classecode = `ASSO_9`.classecode where `ETUDIANT`.codeetudiant = :id");
+    $req->bindParam(':id', $id, PDO::PARAM_INT);
+    $req->execute();
+    $r = $req->fetch(PDO::FETCH_ASSOC);
+    return $r;
+}
+
 function modif_etud($codeetudiant)
 {
     $nometu = filter_input(INPUT_POST, "nometu");
     $prenometu = filter_input(INPUT_POST, "prenometu");
     $datenaissance = filter_input(INPUT_POST, "date");
     $classe = filter_input(INPUT_POST, "classe");
-
+    try{
     if ($nometu) {
         $modifetu = connexion()->prepare("UPDATE `ETUDIANT` SET NomEtudiant ='" . $nometu . "' WHERE codeetudiant = :codeetud");
         $modifetu->bindParam(':codeetud', $codeetudiant, PDO::PARAM_INT);
         $modifetu->execute();
-        return $modifetu;
     }
     if ($prenometu) {
         $modifetu = connexion()->prepare("UPDATE `ETUDIANT` SET PrenomEtudiant ='" . $prenometu . "' WHERE codeetudiant = :codeetud");
         $modifetu->bindParam(':codeetud', $codeetudiant, PDO::PARAM_INT);
         $modifetu->execute();
-        return $modifetu;
     }
     if ($datenaissance) {
         $modifetu = connexion()->prepare("UPDATE `ETUDIANT` SET Datedenaissance ='" . $datenaissance . "' WHERE codeetudiant = :codeetud");
         $modifetu->bindParam(':codeetud', $codeetudiant, PDO::PARAM_INT);
         $modifetu->execute();
-        return $modifetu;
     }
     if ($classe) {
-        $modifetu = connexion()->prepare("UPDATE `ETUDIANT` SET Classe ='" . $classe . "' WHERE codeetudiant = :codeetud");
+        $modifetu = connexion()->prepare("UPDATE `ASSO_9` SET classecode ='" . $classe . "' WHERE codeetudiant = :codeetud");
         $modifetu->bindParam(':codeetud', $codeetudiant, PDO::PARAM_INT);
         $modifetu->execute();
-        return $modifetu;
+    }
+    return true;
+    }catch(PDOException $e){
+        echo $e->getMessage();
+        return false;
     }
 }
 
@@ -355,24 +392,13 @@ function ajouter_etudiant_csv($NOMETUDIANT, $PRENOMETUDIANT, $datedenaissance, $
 }
 
 function recupere_user($user,$password) {
-    $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE NOM = :username and MDP = :password");
+    $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE NOM = :username OR EMAIL = :username and MDP = :password");
     $us->bindParam(':username', $user, PDO::PARAM_STR);
     $us->bindParam(':password', $password, PDO::PARAM_STR);
     $us->execute();
     $m = $us->fetch(PDO::FETCH_ASSOC);
     if (!empty($m)) {
         return $m;
-    } else {
-        $us = connexion()->prepare("SELECT * FROM ENSEIGNANT WHERE NOM = :username and MDP = :password");
-        $us->bindParam(':username', $user, PDO::PARAM_STR);
-        $us->bindParam(':password', $password, PDO::PARAM_STR);
-        $us->execute();
-        $m = $us->fetch(PDO::FETCH_ASSOC);
-        if (!empty($m)) {
-            return $m;
-        } else {
-            return False;
-        }
     }
 }
 
@@ -387,7 +413,7 @@ function insert_user($email,$nom,$prenom,$password) {
 }
 
 function email_exist($email) {
-    $us = connexion()->prepare("SELECT * FROM ENSEIGNANT WHERE email = :email");
+    $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE EMAIL = :email");
     $us->bindParam(':email', $email, PDO::PARAM_STR);
     $us->execute();
     $m = $us->fetch(PDO::FETCH_ASSOC);

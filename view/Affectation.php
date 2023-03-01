@@ -2,18 +2,14 @@
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-?>
-    <script>
-        window.location.replace("/view");
-    </script>
-    <?php
+    echo '<meta http-equiv="refresh" content="0; url=/view" />';
     exit();
 }
 ?>
 <html>
 
 <body>
-    <main id="main" class="container">
+    <main id="main" class="main">
         <script>
             var class_count = 0;
         </script>

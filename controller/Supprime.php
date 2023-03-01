@@ -1,13 +1,9 @@
 <?php
-require_once '../controller/session.php';
+require_once('../view/includes/user-session.php');
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-?>
-    <script>
-        window.location.replace("/view");
-    </script>
-<?php
+    echo '<meta http-equiv="refresh" content="0; url=/view" />';
     exit();
 }
 
@@ -27,35 +23,37 @@ $codeetudiant = filter_input(INPUT_GET, 'codeetud');
 require_once '../modele/BDD.php';
 if ($codemat) {
     supprimer_matiere($codemat);
+    add_notif_modal("success", "Matière supprimée", "La matière a bien été supprimée");
 ?>
     <script>
-        window.location.href = "../controller/C_matiere.php";
+         window.location.replace("/controller/C_matiere.php");
     </script>
 <?php
 }
 //Suppression de l'enseignant
 if ($codeens) {
     supprimer_enseignant($codeens);
+    add_notif_modal("success", "Enseignant supprimé", "L'enseignant a bien été supprimé");
 ?>
     <script>
-        window.location.href = "../controller/C_prof.php";
+       window.location.replace("/controller/C_prof.php");
     </script>
 <?php
 }
+
 //Suppression de l'�tudiant
 if ($codeetudiant) {
     try {
         supprimer_etudiant($codeetudiant);
         $error = 0;
-        $message = "Etudiant supprimé avec succès";
+        add_notif_modal("success", "Etudiant supprimé", "L'étudiant a bien été supprimé");
     } catch (Exception $e) {
         $error = 1;
-        $message = "Erreur lors de la suppression de l'étudiant";
-        $message += $e->getMessage();
+        add_notif_modal("danger", "Erreur", "L'étudiant n'a pas pu être supprimé" . $e->getMessage());
     }
 ?>
     <script>
-        window.location.href = "../controller/C_etudiant.php?message=<?php echo $message; ?>&error=<?php echo $error; ?>";
+       window.location.replace("/controller/C_etudiant.php");
     </script>
 <?php
 }
