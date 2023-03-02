@@ -44,6 +44,7 @@ function hasAccess($level)
         return false;
     }
 
+    $_SESSION['Permission'] = getPermission($_SESSION['EMAIL']);
     // on vérifie si l'utilisateur a le niveau d'accès requis
     // dans $_SESSION['Permission'] on à un varchar : 1,20,30
     if (strpos($_SESSION['Permission'], $level) !== false || strpos($_SESSION['Permission'], 100) !== false) {

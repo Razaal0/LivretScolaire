@@ -420,6 +420,27 @@ function insert_user($email,$nom,$prenom,$password) {
     return $us;
 }
 
+function update_user($email, $prenom, $nom, $ancien_email) {
+    $us = connexion()->prepare("UPDATE UTILISATEUR set NOM = :nom, PRENOM = :prenom, EMAIL = :email WHERE EMAIL = :ancien_email");
+    $us->bindParam(':nom', $nom, PDO::PARAM_STR);
+    $us->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+    $us->bindParam(':email', $email, PDO::PARAM_STR);
+    $us->bindParam(':ancien_email', $ancien_email, PDO::PARAM_STR);
+    $us->execute();
+    return $us;
+}
+
+function getPermission($email){
+    $us = connexion()->prepare("SELECT Permission FROM UTILISATEUR WHERE EMAIL = :email");
+    $us->bindParam(':email', $email, PDO::PARAM_STR);
+    $us->execute();
+    $m = $us->fetch(PDO::FETCH_ASSOC);
+    if (!empty($m)) {
+        return $m['Permission'];
+    }
+    return "0";
+}
+
 function email_exist($email) {
     $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE EMAIL = :email");
     $us->bindParam(':email', $email, PDO::PARAM_STR);
