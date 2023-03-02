@@ -1,4 +1,5 @@
 <?php
+require_once('../modele/BDD.php');
 require_once('includes/header.php');
 require_once('includes/user-session.php');
 

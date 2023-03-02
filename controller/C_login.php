@@ -10,7 +10,6 @@ if (UserConnected()) {
 
 // post username and password
 if (isset($_POST['email']) && isset($_POST['password'])) {
-    require_once('../view/includes/user-session.php');
     // récupéré les données du formulaire
     $username = htmlspecialchars($_POST['email']);
     $password = htmlspecialchars($_POST['password']);

@@ -1,4 +1,5 @@
 <?php
+require_once('../modele/BDD.php');
 require_once '../view/includes/user-session.php';
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
@@ -8,7 +9,6 @@ if (!hasAccess(100)) {
 }
 
 
-require_once('../modele/BDD.php');
 require_once('../view/includes/header.php');
 require_once('../view/includes/nav.php');
 //R�cup�re le code enseignant, le code mati�re et le code �tudiant

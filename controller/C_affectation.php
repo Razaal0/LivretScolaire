@@ -1,4 +1,5 @@
 <?php
+require_once('../modele/BDD.php');
 require_once '../view/includes/user-session.php';
 
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
@@ -8,7 +9,6 @@ if (!hasAccess(100)) {
     exit();
 }
 
-require_once('../modele/BDD.php');
 $enseignant = recupere_enseignants();
 $matiere = recupere_matieres();
 $classe = recupere_classes();
