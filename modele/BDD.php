@@ -4,7 +4,7 @@ function connexion()
 {
     try {
         // ip :  145.239.62.99
-        $conn = new PDO('mysql:host=145.239.62.99;dbname=livret', 'fiche_annee', '^8g889Ngz');
+        $conn = new PDO('mysql:host=readergen.synology.me;dbname=livret;port=3307', 'livret', 'Livret2023*');
     } catch (Exception $ex) {
         die('Erreur:' . $ex->getMessage());
     }
