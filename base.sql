@@ -16,13 +16,13 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `asso_9`
+-- Table structure for table `ETUDIANT_CLASSE`
 --
 
-DROP TABLE IF EXISTS `asso_9`;
+DROP TABLE IF EXISTS `ETUDIANT_CLASSE`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `asso_9` (
+CREATE TABLE `ETUDIANT_CLASSE` (
   `codeetudiant` int(5) NOT NULL,
   `classecode` int(5) NOT NULL,
   PRIMARY KEY (`codeetudiant`,`classecode`)
@@ -30,13 +30,13 @@ CREATE TABLE `asso_9` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `asso_9`
+-- Dumping data for table `ETUDIANT_CLASSE`
 --
 
-LOCK TABLES `asso_9` WRITE;
-/*!40000 ALTER TABLE `asso_9` DISABLE KEYS */;
-INSERT INTO `asso_9` VALUES (1,4),(2,6),(3,12),(4,3),(5,9),(8,7),(9,13),(10,5),(11,16),(12,17),(13,12),(14,18),(16,1);
-/*!40000 ALTER TABLE `asso_9` ENABLE KEYS */;
+LOCK TABLES `ETUDIANT_CLASSE` WRITE;
+/*!40000 ALTER TABLE `ETUDIANT_CLASSE` DISABLE KEYS */;
+INSERT INTO `ETUDIANT_CLASSE` VALUES (1,4),(2,6),(3,12),(4,3),(5,9),(8,7),(9,13),(10,5),(11,16),(12,17),(13,12),(14,18),(16,1);
+/*!40000 ALTER TABLE `ETUDIANT_CLASSE` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

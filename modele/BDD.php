@@ -187,7 +187,7 @@ function recupere_classes()
 
 function asso_cl_et($valeur)
 {
-    $etud = connexion()->prepare("SELECT * from `ASSO_9` join `CLASSE` on `CLASSE`.classecode = `ASSO_9`.classecode join `ETUDIANT` on `ETUDIANT`.codeetudiant = `ASSO_9`.codeetudiant where `ASSO_9`.classecode ='" . $valeur."'");
+    $etud = connexion()->prepare("SELECT * from `ETUDIANT_CLASSE` join `CLASSE` on `CLASSE`.classecode = `ETUDIANT_CLASSE`.classecode join `ETUDIANT` on `ETUDIANT`.codeetudiant = `ETUDIANT_CLASSE`.codeetudiant where `ETUDIANT_CLASSE`.classecode ='" . $valeur."'");
     $etud->execute();
     $et = $etud->fetchAll(PDO::FETCH_ASSOC);
     return $et;
@@ -195,14 +195,14 @@ function asso_cl_et($valeur)
 
 function asso_cl_et_un_etudiant($classe,$codeEtu)
 {
-    $etud = connexion()->prepare("SELECT * from `ASSO_9` join `CLASSE` on `CLASSE`.classecode = `ASSO_9`.classecode join `ETUDIANT` on `ETUDIANT`.codeetudiant = `ASSO_9`.codeetudiant where `ASSO_9`.classecode =" . $classe . " and `ASSO_9`.codeetudiant = " . $codeEtu);
+    $etud = connexion()->prepare("SELECT * from `ETUDIANT_CLASSE` join `CLASSE` on `CLASSE`.classecode = `ETUDIANT_CLASSE`.classecode join `ETUDIANT` on `ETUDIANT`.codeetudiant = `ETUDIANT_CLASSE`.codeetudiant where `ETUDIANT_CLASSE`.classecode =" . $classe . " and `ETUDIANT_CLASSE`.codeetudiant = " . $codeEtu);
     $etud->execute();
     $et = $etud->fetchAll(PDO::FETCH_ASSOC);
     return $et;
 }
 function recupere_etudiants()
 {
-    $req = connexion()->prepare("SELECT * from `ETUDIANT` join `ASSO_9` on `ASSO_9`.codeetudiant = `ETUDIANT`.codeetudiant join `CLASSE` on `CLASSE`.classecode = `ASSO_9`.classecode;");
+    $req = connexion()->prepare("SELECT * from `ETUDIANT` join `ETUDIANT_CLASSE` on `ETUDIANT_CLASSE`.codeetudiant = `ETUDIANT`.codeetudiant join `CLASSE` on `CLASSE`.classecode = `ETUDIANT_CLASSE`.classecode;");
     $req->execute();
     $r = $req->fetchAll(PDO::FETCH_ASSOC);
     return $r;
@@ -210,7 +210,7 @@ function recupere_etudiants()
 
 function recupere_etudiants_by_id($id)
 {
-    $req = connexion()->prepare("SELECT * from `ETUDIANT` join `ASSO_9` on `ASSO_9`.codeetudiant = `ETUDIANT`.codeetudiant join `CLASSE` on `CLASSE`.classecode = `ASSO_9`.classecode where `ETUDIANT`.codeetudiant = :id");
+    $req = connexion()->prepare("SELECT * from `ETUDIANT` join `ETUDIANT_CLASSE` on `ETUDIANT_CLASSE`.codeetudiant = `ETUDIANT`.codeetudiant join `CLASSE` on `CLASSE`.classecode = `ETUDIANT_CLASSE`.classecode where `ETUDIANT`.codeetudiant = :id");
     $req->bindParam(':id', $id, PDO::PARAM_INT);
     $req->execute();
     $r = $req->fetch(PDO::FETCH_ASSOC);
@@ -240,7 +240,7 @@ function modif_etud($codeetudiant)
         $modifetu->execute();
     }
     if ($classe) {
-        $modifetu = connexion()->prepare("UPDATE `ASSO_9` SET classecode ='" . $classe . "' WHERE codeetudiant = :codeetud");
+        $modifetu = connexion()->prepare("UPDATE `ETUDIANT_CLASSE` SET classecode ='" . $classe . "' WHERE codeetudiant = :codeetud");
         $modifetu->bindParam(':codeetud', $codeetudiant, PDO::PARAM_INT);
         $modifetu->execute();
     }
@@ -301,7 +301,7 @@ function insert_etudiant($nom, $prenom, $date, $classe, $numero_national)
 
     // si sa correspond à l'étudiant inséré, on l'ajoute dans assos_9
     if ($eleve_test[0]['codeetudiant'] == $id_eleve_test && $eleve_test[0]['NOMETUDIANT'] == $nom && $eleve_test[0]['PRENOMETUDIANT'] == $prenom && $eleve_test[0]['datedenaissance'] == $date) {
-        $ajout_etud = connexion()->prepare("INSERT INTO `ASSO_9` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
+        $ajout_etud = connexion()->prepare("INSERT INTO `ETUDIANT_CLASSE` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
         $ajout_etud->bindParam(':code_etudiant', $id_eleve_test, PDO::PARAM_INT);
         $ajout_etud->bindParam(':code_classe', $classe, PDO::PARAM_INT);
         $ajout_etud->execute();
@@ -318,9 +318,9 @@ function insert_etudiant($nom, $prenom, $date, $classe, $numero_national)
 
         // si eleve_test est non vide, on vérifie que les données correspondent
         if (!empty($eleve_test)) {
-            // si on le trouve, on l'insère dans la table ASSO_9 (codeclasse, codeetudiant)
+            // si on le trouve, on l'insère dans la table ETUDIANT_CLASSE (codeclasse, codeetudiant)
             if ($eleve_test[0]['codeetudiant'] == $i && $eleve_test[0]['NOMETUDIANT'] == $nom && $eleve_test[0]['PRENOMETUDIANT'] == $prenom && $eleve_test[0]['datedenaissance'] == $date) {
-                $ajout_etud = connexion()->prepare("INSERT INTO `ASSO_9` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
+                $ajout_etud = connexion()->prepare("INSERT INTO `ETUDIANT_CLASSE` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
                 $ajout_etud->bindParam(':code_etudiant', $i, PDO::PARAM_INT);
                 $ajout_etud->bindParam(':code_classe', $classe, PDO::PARAM_INT);
                 $ajout_etud->execute();
@@ -339,7 +339,7 @@ function insert_etudiant($nom, $prenom, $date, $classe, $numero_national)
         // si eleve_test est non vide, on vérifie que les données correspondent
         if (!empty($eleve_test)) {
             if ($eleve_test[0]['codeetudiant'] == $i && $eleve_test[0]['NOMETUDIANT'] == $nom && $eleve_test[0]['PRENOMETUDIANT'] == $prenom && $eleve_test[0]['datedenaissance'] == $date) {
-                $ajout_etud = connexion()->prepare("INSERT INTO `ASSO_9` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
+                $ajout_etud = connexion()->prepare("INSERT INTO `ETUDIANT_CLASSE` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
                 $ajout_etud->bindParam(':code_etudiant', $i, PDO::PARAM_INT);
                 $ajout_etud->bindParam(':code_classe', $classe, PDO::PARAM_INT);
                 $ajout_etud->execute();
@@ -384,7 +384,7 @@ function ajouter_etudiant_csv($NOMETUDIANT, $PRENOMETUDIANT, $datedenaissance, $
     $note->execute();
 
 
-    $ajout_etud = connexion()->prepare("INSERT INTO `ASSO_9` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
+    $ajout_etud = connexion()->prepare("INSERT INTO `ETUDIANT_CLASSE` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
     $ajout_etud->bindParam(':code_etudiant', $id_eleve_test, PDO::PARAM_INT);
     $ajout_etud->bindParam(':code_classe', $classe, PDO::PARAM_INT);
     $ajout_etud->execute();
