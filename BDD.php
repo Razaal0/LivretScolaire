@@ -78,6 +78,14 @@ function recuperer_MoyParClasse($classecode)
     $recup_class->execute();
     return $recup_class;
 }
+
+function procedure_NoteparClasseetMatiere($classecode){
+    $appelprocedure = connexion()->prepare("Call NoteparClasseetMatiere(:classecode)");
+    $appelprocedure ->bindParam(':classecode', $classecode);
+    $appelprocedure ->execute();
+    return $appelprocedure;
+}
+
 function insert_enseignants()
 {
     $name = filter_input(INPUT_POST, "nom");
