@@ -1,215 +1,2140 @@
--- MariaDB dump 10.19  Distrib 10.5.13-MariaDB, for Win64 (AMD64)
+-- phpMyAdmin SQL Dump
+-- version 5.1.3
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: livret
--- ------------------------------------------------------
--- Server version	10.5.13-MariaDB
+-- Hôte : localhost:3306
+-- Généré le : jeu. 02 mars 2023 à 08:44
+-- Version du serveur : 10.3.38-MariaDB-0ubuntu0.20.04.1
+-- Version de PHP : 7.4.33
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `ETUDIANT_CLASSE`
+-- Base de données : `livret`
 --
 
-DROP TABLE IF EXISTS `ETUDIANT_CLASSE`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `CLASSE`
+--
+
+CREATE TABLE `CLASSE` (
+  `classecode` int(5) NOT NULL,
+  `Libelleclasse` varchar(35) NOT NULL,
+  `specialite` varchar(100) NOT NULL,
+  `Annee` int(4) NOT NULL,
+  `Libellecourt` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Déchargement des données de la table `CLASSE`
+--
+
+INSERT INTO `CLASSE` (`classecode`, `Libelleclasse`, `specialite`, `Annee`, `Libellecourt`) VALUES
+(1, 'Brevet de technicien superieur', 'Services informatiques aux organisations', 1, 'BTS1SIO1'),
+(2, 'Brevet de technicien superieur', 'Notariat', 1, 'BTS1NOT1'),
+(3, 'Brevet de technicien superieur', 'Services informatiques aux organisations', 2, 'BTS2SIO'),
+(4, 'Brevet de technicien superieur', 'Notariat', 2, 'BTS2NOT'),
+(5, 'Brevet de technicien superieur', 'Support a l\'Action Manageriale', 1, 'BTS1SAM1'),
+(6, 'Brevet de technicien superieur', 'Support a l\'Action Manageriale', 2, 'BTS2SAM'),
+(7, 'Brevet de technicien superieur', 'Services et prestations des secteurs sanitaire et social', 2, 'BTS2SP3S'),
+(8, 'Brevet de technicien superieur', 'Services et prestations des secteurs sanitaire et social', 1, 'BTS1SP3S1'),
+(9, 'Brevet de technicien superieur', 'Comptabilite et gestion', 1, 'BTS1CG1'),
+(10, 'Brevet de technicien superieur', 'Comptabilite et gestion', 2, 'BTS2CG'),
+(11, 'Classe preparatoire', 'Economique et commerciale technologique', 1, 'ECT1'),
+(12, 'Classe preparatoire', 'Economique et commerciale technologique', 2, 'ECT2'),
+(13, 'DTS', 'Imagerie medicale', 1, 'DTS1'),
+(14, 'DTS', 'Imagerie medicale', 2, 'DTS2'),
+(15, 'DTS', 'Imagerie medicale', 3, 'DTS3'),
+(16, 'Diplome', 'Comptabilite et Gestion', 1, 'DCG1'),
+(17, 'Diplome', 'Comptabilite et Gestion', 2, 'DCG2'),
+(18, 'Diplome', 'Comptabilite et Gestion', 3, 'DCG3');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ENSEIGNANT`
+--
+
+CREATE TABLE `ENSEIGNANT` (
+  `CodeEnseignant` int(5) NOT NULL,
+  `NOM` varchar(50) NOT NULL,
+  `PRENOM` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Déchargement des données de la table `ENSEIGNANT`
+--
+
+INSERT INTO `ENSEIGNANT` (`CodeEnseignant`, `NOM`, `PRENOM`) VALUES
+(46, 'test', 'test');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ENSEIGNER`
+--
+
+CREATE TABLE `ENSEIGNER` (
+  `classecode` int(5) NOT NULL,
+  `CodeEnseignant` int(5) NOT NULL,
+  `CodeMatiere` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ETUDIANT`
+--
+
+CREATE TABLE `ETUDIANT` (
+  `codeetudiant` int(5) NOT NULL,
+  `NOMETUDIANT` varchar(50) NOT NULL,
+  `PRENOMETUDIANT` varchar(50) NOT NULL,
+  `datedenaissance` date NOT NULL,
+  `Numeronational` varchar(32) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Déchargement des données de la table `ETUDIANT`
+--
+
+INSERT INTO `ETUDIANT` (`codeetudiant`, `NOMETUDIANT`, `PRENOMETUDIANT`, `datedenaissance`, `Numeronational`) VALUES
+(1, 'CABRINO', 'Nolan', '2004-01-12', ''),
+(2, 'CABAYE', 'Nadjima', '2004-10-01', ''),
+(3, 'PHULPIN', 'Don Harold', '2002-02-07', ''),
+(4, 'DIMEGLIO', 'Tonik', '2002-05-11', ''),
+(5, 'MAOULIDA', 'Tea', '2003-01-16', ''),
+(6, 'GRAIET', 'Ouassila', '2004-08-05', ''),
+(7, 'DAKI', 'Maël', '2001-06-03', ''),
+(8, 'SACHETTO', 'Yoan', '2003-11-16', ''),
+(9, 'RICCA', 'Dana', '2004-12-03', ''),
+(10, 'BEN SETHOUM', 'Eya', '2004-08-18', ''),
+(11, 'NAAMANE', 'André', '2004-11-10', ''),
+(12, 'TRIKI', 'Aurélie', '2001-08-16', ''),
+(13, 'ESSALAH', 'Méric', '2003-02-22', ''),
+(14, 'ANANI', 'Mathilda', '2004-03-26', ''),
+(15, 'SOILIHI HAMADI', 'Sofien', '2004-05-18', ''),
+(16, 'MENASRI', 'Nour', '2001-11-30', ''),
+(17, 'EL ABIDI', 'Yousra', '2003-02-20', ''),
+(18, 'CHARTON', 'Yanis', '2004-05-04', ''),
+(19, 'DE PINA FERNANDES', 'Omar', '2004-05-28', ''),
+(20, 'SCHIAVO', 'Aminat', '2003-06-24', ''),
+(21, 'FTISSA', 'Maelly', '2002-04-23', ''),
+(22, 'MINEUR', 'Jihen', '2003-08-12', ''),
+(23, 'BAHADI', 'Souloumbeck', '2002-07-08', ''),
+(24, 'KECHIDA', 'Julia', '2002-06-07', ''),
+(25, 'PRONEUR', 'Laura', '2004-12-16', ''),
+(26, 'MASSIERA', 'Norhène', '2002-10-14', ''),
+(27, 'ALIU', 'Illona', '2003-01-10', ''),
+(28, 'BULANADI', 'Cristina', '2004-02-12', ''),
+(29, 'DAURIN', 'Farrah', '2000-07-05', ''),
+(30, 'RIZ', 'Emma', '2004-05-19', ''),
+(31, 'MARINO', 'Titouan', '2003-11-08', ''),
+(32, 'DOS REIS DECORNOY', 'Edmylson', '2004-01-18', ''),
+(33, 'GUIRO', 'Bastien', '2004-04-25', ''),
+(34, 'PONS', 'Veronica', '2004-12-15', ''),
+(35, 'BOUHLEL', 'Mathéo', '2004-07-30', ''),
+(36, 'COSTA', 'Sarah', '2003-05-02', ''),
+(37, 'COSTA NOVAIS', 'Lisa', '2000-06-15', ''),
+(38, 'DANIEL', 'Naël', '2004-10-13', ''),
+(39, 'SOLAMITO', 'Aya', '2004-10-06', ''),
+(40, 'RALIMASON', 'Nina', '2003-11-13', ''),
+(41, 'SCHWANDER', 'Elisa', '2003-08-14', ''),
+(42, 'POMPEE', 'Fouad', '2002-10-01', ''),
+(43, 'FENOT', 'Charlotte', '2003-02-13', ''),
+(44, 'BLETTERY', 'Raphaël', '2004-10-15', ''),
+(45, 'VARELA TAVARES', 'Yasmine', '2004-10-24', ''),
+(46, 'Julia', 'Julia', '2004-08-16', ''),
+(47, 'DA SILVA', 'Johan', '2000-11-10', ''),
+(48, 'BOUCHAREB', 'Camille', '2003-11-12', ''),
+(49, 'RAISS', 'Nizar', '2004-12-28', ''),
+(50, 'ALBA', 'Islame', '2004-10-14', ''),
+(51, 'OULEKHIARI', 'Emma', '2004-12-01', ''),
+(52, 'STUBER', 'Sondes', '2003-07-07', ''),
+(53, 'EL MOUSTAID', 'Phoebe', '2002-11-05', ''),
+(54, 'CHOUCHANE', 'Hannah Jade', '2003-05-10', ''),
+(55, 'AYARI', 'Nahimane', '2003-07-15', ''),
+(56, 'MEDDAH', 'Océane', '2002-01-30', ''),
+(57, 'MANTERO', 'Florian', '2004-10-24', ''),
+(58, 'RERIOUEDJ', 'Fabien', '2004-07-20', ''),
+(59, 'FERRARA', 'Lucile', '2004-02-08', ''),
+(60, 'DROUVIN', 'Karl', '2000-06-18', ''),
+(61, 'KOREN', 'Sarah', '2004-08-07', ''),
+(62, 'HENNI MANSOUR', 'Florian', '2003-08-05', ''),
+(63, 'ENNAJI', 'Iman', '2002-11-06', ''),
+(64, 'DECOSTA', 'Célia', '2003-08-06', ''),
+(66, 'GADIO', 'Léa', '2003-11-28', ''),
+(67, 'SERRAF', 'Erik', '2001-02-27', ''),
+(68, 'BOUKOUM', 'Souhyre', '2004-09-28', ''),
+(69, 'BAGUIRIAN', 'Theo', '2000-10-25', ''),
+(70, 'CHIKHAOUI', 'Lina', '2003-11-06', ''),
+(71, 'LAARAJ', 'Amelie', '2003-06-23', ''),
+(72, 'ROUSIER-AGOSTINELLI', 'Fleur', '2002-06-06', ''),
+(73, 'DZUHO', 'Theo', '2003-10-01', ''),
+(74, 'PONS', 'Rayane', '2002-05-15', ''),
+(75, 'LAVOISIER', 'Younes', '2002-12-20', ''),
+(76, 'GARNIER', 'Emilie', '2003-05-21', ''),
+(77, 'GAUCIN OVIEDO', 'Laura', '2002-05-04', ''),
+(78, 'CARNI-LAGARDE', 'Rayan', '2003-01-11', ''),
+(79, 'SAUVAN', 'Tourpalkhan', '2001-08-27', ''),
+(80, 'CICCIA', 'Ryan', '2003-10-08', ''),
+(81, 'CHIKOVANI', 'Haïfaou', '2001-12-02', ''),
+(82, 'ROUX-MELINE', 'Mohamed Rayane', '2004-02-02', ''),
+(83, 'COMMANDEUR', 'Jonathan', '2002-10-26', ''),
+(84, 'Juste', 'Juste', '2004-07-26', ''),
+(85, 'PIEJOS', 'Mohamed Ayoub', '2003-01-03', ''),
+(86, 'AIGUIER', 'Yagmur', '2002-01-05', ''),
+(87, 'GUERVILLE', 'Hassan', '2002-02-22', ''),
+(88, 'PETROSSI', 'Camille', '2002-04-14', ''),
+(89, 'COURSOL', 'Johanna', '2003-12-17', ''),
+(90, 'LEONES', 'Thomas', '2004-06-29', ''),
+(91, 'DIAS PEREIRA', 'Mathis', '1999-10-11', ''),
+(92, 'PION', 'Aïda', '2002-08-23', ''),
+(93, 'GAZZAH', 'Eva-Marie', '2004-07-10', ''),
+(94, 'BARDAI', 'Nathan', '2002-06-24', ''),
+(95, 'MILLO', 'Feryel', '2002-03-21', ''),
+(96, 'LOUTF', 'Martin', '2004-01-26', ''),
+(97, 'PHULPIN', 'Jordan', '2002-03-13', ''),
+(98, 'MENDOZA', 'Laura', '2004-06-04', ''),
+(99, 'ROBALO SEMEDO', 'Ombelline', '2004-06-26', ''),
+(100, 'TORNEL', 'Enzo', '2003-02-10', ''),
+(101, 'BAGNINI', 'Chamseddine', '2001-09-05', ''),
+(102, 'MESSAOUDENE', 'Mariam', '2004-08-02', ''),
+(103, 'KHAYAT', 'Yasmine', '2003-07-31', ''),
+(104, 'REYTINAS', 'Julie', '2003-01-20', ''),
+(105, 'OUALA', 'Jules', '2003-11-13', ''),
+(106, 'NIBA', 'Manale', '2005-06-15', ''),
+(107, 'JAQIR', 'Célenna', '2003-07-29', ''),
+(108, 'MULLER', 'Liana', '2004-01-27', ''),
+(109, 'PARANDERO', 'Lena', '2004-10-24', ''),
+(110, 'KAMEL', 'Candice', '1993-08-10', ''),
+(111, 'DALANI', 'Maëlly', '2004-02-05', ''),
+(112, 'LABATE', 'Naydine', '2004-09-03', ''),
+(113, 'DEL GIUDICE', 'Adelina', '2004-02-12', ''),
+(114, 'MASSE', 'Redouane', '2003-11-15', ''),
+(115, 'BELLEVAUX', 'Christelle', '2004-03-08', ''),
+(116, 'DEMARCO', 'Manuela', '1997-10-31', ''),
+(117, 'ALUNNO-MANCINI', 'Clement', '2004-08-08', ''),
+(118, 'BOURDEAU', 'Mathieu', '2002-12-25', ''),
+(119, 'GOUASMI', 'Linda', '2002-05-28', ''),
+(120, 'DIALLO', 'Ilyan', '2004-08-25', ''),
+(121, 'FAVALE', 'Maxime', '2004-12-23', ''),
+(122, 'DAUPHIN', 'Eva', '2003-06-23', ''),
+(123, 'MARIO', 'Roxanna', '2003-09-04', ''),
+(124, 'CERQUEIRA PETADA', 'Magalie', '2004-02-25', ''),
+(125, 'FURTADO MONTEIRO', 'Maïky', '2004-04-04', ''),
+(126, 'GUILLOU', 'Helena', '2002-10-03', ''),
+(127, 'BOURAGBA', 'Robin', '2004-06-30', ''),
+(128, 'HERELLE', 'Caroline', '2003-06-22', ''),
+(129, 'GROSCH', 'Sidlene', '2003-02-01', ''),
+(130, 'DEMOL', 'Meryam', '2002-04-30', ''),
+(131, 'BATTLE-BALESSA', 'Sofia', '2004-02-15', ''),
+(132, 'LEMOINE', 'Francesco', '2004-10-09', ''),
+(133, 'ESSEMLALI', 'Anna Rose', '2003-12-14', ''),
+(134, 'SCOTTO DI UCCIO', 'Mohamed', '2003-05-29', ''),
+(135, 'KIFAJI', 'Mélanie', '2002-02-07', ''),
+(136, 'TOUIL', 'Mayreau', '2004-04-15', ''),
+(137, 'GUEZ GUEZ', 'Myriam', '2003-11-13', ''),
+(138, 'BELLONE', 'Angelina', '2003-12-23', ''),
+(139, 'RESTANO', 'Marie', '2002-12-30', ''),
+(140, 'HOUKI', 'Caroline', '2004-05-28', ''),
+(141, 'SPAHIU', 'Vincent', '2003-02-08', ''),
+(142, 'BEDROSSIAN', 'Lily', '2003-09-09', ''),
+(143, 'BENSADON', 'Sacha', '2000-07-17', ''),
+(144, 'FERRER', 'Hajar', '2004-12-14', ''),
+(145, 'MATUSIAK', 'Fabien', '2004-03-11', ''),
+(146, 'BOURKAB', 'Clarisse', '2004-07-20', ''),
+(147, 'AROUTUNIAN', 'Dan', '2004-10-20', ''),
+(148, 'HAMILA', 'Sofia', '2004-01-04', ''),
+(149, 'GONCALVES DE OLIVEIRA', 'Valentina', '2003-07-31', ''),
+(150, 'CORONADO-CHAMOUARD', 'Fatima', '2002-10-30', ''),
+(151, 'SOYER', 'Pauline', '2003-05-06', ''),
+(152, 'ABDOU HOUMADI', 'Paul', '2003-06-16', ''),
+(153, 'AJROUD', 'Sebastiano', '2003-09-08', ''),
+(154, 'GOJNETE', 'Noah', '2003-08-10', ''),
+(155, 'MOSER-VERCHOT', 'Lana', '2004-12-06', ''),
+(156, 'TEBOURBI', 'Oceane', '2004-09-12', ''),
+(157, 'ATTIA', 'Amira', '2003-01-11', ''),
+(158, 'LELOUP-PUCHAUX', 'Olivier', '2002-03-31', ''),
+(159, 'PEY', 'Oumeima', '1999-11-13', ''),
+(160, 'BARGAOUI', 'Maelys', '2003-11-15', ''),
+(161, 'HLIAL', 'Elida', '2003-07-25', ''),
+(162, 'MESBAH', 'Éléa', '2003-07-30', ''),
+(163, 'CARIBA', 'Naïm', '2001-06-16', ''),
+(164, 'FOURNIER', 'Sofiane', '2000-11-17', ''),
+(165, 'PATRICO', 'Rayane', '2003-04-05', ''),
+(166, 'ARFAOUI', 'Florian', '2004-10-23', ''),
+(167, 'BALHARI', 'Naima', '2003-03-22', ''),
+(168, 'DAKKOURI', 'Tom', '2004-12-11', ''),
+(169, 'SBAI', 'Saad', '2003-09-03', ''),
+(170, 'BARONE', 'Jason', '2002-12-16', ''),
+(171, 'COSTE', 'Aliénor', '2000-04-11', ''),
+(172, 'GARNERO KUBLER', 'Emilie', '2003-11-11', ''),
+(173, 'HEIDET', 'Emma', '2001-01-11', ''),
+(174, 'TORRE', 'Aymen', '2004-05-03', ''),
+(175, 'BRISSAC', 'Ikram', '2002-03-20', ''),
+(176, 'VARELA TAVARES', 'Reda', '2004-03-06', ''),
+(177, 'DARWICHE', 'Marwa', '2003-09-03', ''),
+(178, 'KERMICHE', 'Soufiane', '2004-03-09', ''),
+(179, 'REOULET', 'Mohamed', '2003-10-29', ''),
+(180, 'BEN TAHAR', 'Emilie', '2003-10-16', ''),
+(181, 'BELHAJ', 'Ines', '2004-09-20', ''),
+(182, 'CHERUEL', 'Oscar', '2000-05-20', ''),
+(183, 'MANA NSIMBA', 'Terry', '2004-02-20', ''),
+(184, 'BONI', 'Arman', '2004-01-22', ''),
+(185, 'LACHHAB', 'Eva Claudia', '2004-04-29', ''),
+(186, 'TAHIRI', 'Manon', '2003-09-25', ''),
+(187, 'SALUSSOLIA', 'Sarah', '2004-05-13', ''),
+(188, 'VAILLANT', 'Dylan', '2002-09-01', ''),
+(189, 'MMADI', 'Jean-Patrick', '2002-07-12', ''),
+(190, 'BOUSMAHA', 'Lauryane', '2002-03-24', ''),
+(191, 'THIRIET', 'Djibril', '2002-01-30', ''),
+(192, 'DA COSTA VINHAS', 'Reda', '2001-06-14', ''),
+(193, 'PEREZ MOVILLA', 'Aline', '2002-08-27', ''),
+(194, 'BZIOUECH', 'Déborah', '2003-08-07', ''),
+(195, 'YUSOUPOV', 'Youssef', '2001-10-27', ''),
+(196, 'MOKADDEM', 'Manon', '2000-12-11', ''),
+(197, 'OUABOU', 'Imène', '2004-02-12', ''),
+(198, 'LEVENT', 'Jade', '2004-10-20', ''),
+(199, 'DRAPERI', 'Léane', '2004-05-03', ''),
+(200, 'CUARES', 'Ebtissem', '2004-10-05', ''),
+(201, 'CHAREYRON', 'Chiara', '2003-04-13', ''),
+(202, 'VALLIERES', 'Sirine', '2004-07-25', ''),
+(203, 'CARATINI', 'Evan', '2003-09-10', ''),
+(204, 'HOUBERDON', 'Eya', '2002-07-10', ''),
+(205, 'GUTHMANN - PANZER', 'Charlène', '2004-05-23', ''),
+(206, 'EL DJENDOUBI', 'Schadrac', '2005-06-10', ''),
+(207, 'KHALFALLAH', 'Ines', '2003-03-05', ''),
+(208, 'JANATI', 'Yanis', '2003-11-28', ''),
+(209, 'AKEB', 'Sofia', '2003-07-31', ''),
+(210, 'JELLOUL', 'Maéva', '2003-06-08', ''),
+(211, 'MONTERO', 'Samantha', '1999-04-04', ''),
+(212, 'BELLAGRA', 'Noah', '2002-08-19', ''),
+(213, 'SALEM', 'Shérine', '2003-09-13', ''),
+(214, 'KEDDACHE', 'Maxime', '2002-07-31', ''),
+(215, 'BOXBERGER', 'Anaïs', '2003-09-21', ''),
+(216, 'KHADRAOUI', 'Lyes', '2003-04-20', ''),
+(217, 'GAALOUL', 'Linda', '2004-02-29', ''),
+(218, 'KAZANJIAN', 'Carlo', '2004-05-24', ''),
+(219, 'TCHERMUIKHANOV', 'Omaima', '2004-11-30', ''),
+(220, 'KACZMAREK', 'Quentin', '2004-10-15', ''),
+(221, 'M\'CHETTI', 'Israa', '2003-01-02', ''),
+(222, 'SAURIAT', 'Véronica', '2003-08-04', ''),
+(223, 'FARAJI', 'Amine', '2001-08-26', ''),
+(224, 'TOSKA', 'Yanis', '1994-04-21', ''),
+(225, 'GHEZELANI', 'Rabia', '2004-06-19', ''),
+(226, 'SCIE', 'Sabrina', '2003-03-28', ''),
+(227, 'NAÂMANE', 'Davit', '2002-08-19', ''),
+(228, 'LACAY - PASQUALI', 'Soane', '2003-09-08', ''),
+(229, 'CHAEHOI', 'Pauline', '1999-12-07', ''),
+(230, 'AECK', 'Maïwenn', '2002-01-30', ''),
+(231, 'CHELLALI', 'Mehdi', '2003-03-17', ''),
+(232, 'TLILI', 'Manal', '2003-10-28', ''),
+(233, 'BARTHELMEBS', 'Louane', '2002-06-12', ''),
+(234, 'BOURASSIN', 'Clara', '2003-11-28', ''),
+(235, 'HOFFMANN', 'Alain', '2004-05-09', ''),
+(236, 'NIX', 'Anaïs', '2004-10-01', ''),
+(237, 'GUTH', 'Nadim', '2002-12-10', ''),
+(238, 'HASSANI', 'Océane', '2003-09-25', ''),
+(239, 'GHIRO', 'Mathias', '2003-11-19', ''),
+(240, 'SEMEDO PEREIRA', 'Eva', '2003-02-04', ''),
+(241, 'RICHARDIN', 'Valentine', '2004-05-13', ''),
+(242, 'IGNATOWICZ', 'Lea', '2002-12-20', ''),
+(243, 'FOUCHER', 'Sakira', '2002-07-22', ''),
+(244, 'DELARUE', 'Colleen', '2003-04-25', ''),
+(245, 'BEN HASSINE', 'Jade', '2003-12-01', ''),
+(246, 'CHARIBA', 'Baptiste', '2003-02-26', ''),
+(247, 'EL AYADI', 'Laëtitia', '2004-06-08', ''),
+(248, 'CIOBANU', 'Manar', '2003-11-29', ''),
+(249, 'HOLLVILLE', 'Maëlly', '2004-11-15', ''),
+(250, 'BARAS', 'Nuno Evaristo', '2003-03-13', ''),
+(251, 'MOUGARI', 'Ruben', '2004-01-19', ''),
+(252, 'MANDI', 'Liliana', '2004-01-27', ''),
+(253, 'TRUCCO', 'Olivia', '2002-07-20', ''),
+(254, 'POURTIER', 'Lilou', '2003-07-05', ''),
+(255, 'LUPPINO', 'Mathis', '2001-07-05', ''),
+(256, 'HOUSSAINI', 'Ibrahima', '2004-04-20', ''),
+(257, 'STA', 'Arthur', '2000-06-02', ''),
+(258, 'DA SILVA BORGES', 'Imène', '2003-11-26', ''),
+(259, 'RAVARY', 'Matt', '2003-09-10', ''),
+(260, 'CAYUELA', 'Lina', '2000-04-26', ''),
+(261, 'ES-SYAD', 'Manon', '2004-10-10', ''),
+(262, 'VACCHIO-PEZZOTTA', 'Thémis', '2004-05-30', ''),
+(263, 'GRISON', 'Zineb', '2002-01-06', ''),
+(264, 'GALLOT', 'Sarah', '2004-01-16', ''),
+(265, 'BEN REDJEB', 'Lilia', '2003-08-14', ''),
+(266, 'DE JESUS', 'Nicolas', '2004-02-21', ''),
+(267, 'LOUBELO HOUNOUNOU', 'Angela', '2003-05-22', ''),
+(268, 'HILALI', 'Sirine', '2003-05-04', ''),
+(269, 'WARRAND', 'Jules', '2004-04-16', ''),
+(270, 'CERANA', 'Souhail', '2000-02-05', ''),
+(271, 'RAOUAFI', 'Kostadin', '2003-06-09', ''),
+(272, 'OLIVIER', 'Aya Nada', '2002-01-28', ''),
+(273, 'BODDAERT', 'Mikaël', '2003-06-14', ''),
+(274, 'PRIETO', 'Beatriz', '2004-10-15', ''),
+(275, 'SALL', 'Manon', '2002-10-11', ''),
+(276, 'EL BAROUDI EL KHATTABI', 'Léna', '2001-10-30', ''),
+(277, 'MIJATOVIC', 'Taïssir', '2004-03-05', ''),
+(278, 'LAMACHE', 'Rafaël', '2002-09-28', ''),
+(279, 'MARQUES SOUSA', 'Lana', '2003-09-21', ''),
+(280, 'MOUSSALIK', 'Océane', '2004-12-03', ''),
+(281, 'DAQUIN', 'Célia', '2004-09-23', ''),
+(282, 'GOFFREDO', 'Ophélie', '2003-12-08', ''),
+(283, 'CAPELLE DRAU', 'Erica Oceane', '2001-08-13', ''),
+(284, 'MENKOUCH', 'Léa', '2000-12-31', ''),
+(285, 'Cyrille', 'Cyrille', '2003-10-25', ''),
+(286, 'ROUGEMONT', 'Paola', '2003-07-30', ''),
+(287, 'SELCUK', 'Evaëlle', '2004-11-10', ''),
+(288, 'PERILLAT', 'Carla', '2004-04-08', ''),
+(289, 'SAUNIER', 'Eva', '2003-07-21', ''),
+(290, 'JEBALI', 'Hajar', '2003-08-10', ''),
+(291, 'TITTON', 'Ouiam', '2004-08-11', ''),
+(292, 'PELLETIER', 'Malek', '2004-07-31', ''),
+(293, 'BENAUD', 'Raja', '2004-09-12', ''),
+(294, 'NEUMANN', 'Anwar', '2004-10-04', ''),
+(295, 'GRIMAUD', 'Baptiste', '2003-10-16', ''),
+(296, 'MANUNTA', 'Donovan', '2004-12-13', ''),
+(297, 'ESSAIES', 'Cherok', '2003-04-08', ''),
+(298, 'ANOUZET', 'Amandine', '2004-09-30', ''),
+(299, 'ORDRONNEAU', 'Michael', '2003-01-12', ''),
+(300, 'SCHNITZENBAUMER', 'Ibeao', '2002-02-21', ''),
+(301, 'BARELLI-DOZOL', 'Melissa', '2003-05-28', ''),
+(302, 'LASSERRE', 'Enzo', '2001-09-28', ''),
+(303, 'MAJOURI', 'Lobna', '2004-07-26', ''),
+(304, 'BOUKADIDA', 'Jade', '2004-05-31', ''),
+(305, 'GLIN', 'Ornella', '2003-03-23', ''),
+(306, 'CAMBON', 'Islem', '2003-02-14', ''),
+(307, 'GRAVE', 'Elidjah', '2003-11-24', ''),
+(308, 'DHIFALLAH', 'Alexandre', '2002-11-22', ''),
+(309, 'BOUAZZI', 'Annelou', '2004-07-01', ''),
+(310, 'BOUKOUM', 'Estelle', '2004-07-05', ''),
+(311, 'DE KEYSER', 'Hedi', '2003-07-17', ''),
+(312, 'BEN NEJMA', 'Lila', '2003-01-17', ''),
+(313, 'TRIPAULT', 'Melia', '2002-11-07', ''),
+(314, 'VELINOV', 'Anaëlle', '2003-11-26', ''),
+(315, 'CHAKHARI', 'Deborah', '2003-06-06', ''),
+(316, 'BORSLA', 'Océane', '2004-11-30', ''),
+(317, 'BENIHICH', 'Malik', '2002-10-02', ''),
+(318, 'LAHORE-LAHITTE', 'Julien', '2003-06-14', ''),
+(319, 'LACHHAB', 'François', '2003-05-21', ''),
+(320, 'KECHICHE', 'Loris', '2003-07-26', ''),
+(321, 'DOUKHA', 'Manon', '2004-06-24', ''),
+(322, 'SOARES TAVARES', 'Auriane', '2001-07-12', ''),
+(323, 'YOUSSEF', 'Rahma', '2003-02-28', ''),
+(324, 'DRYJARD DES GARNIERS', 'Reda', '2003-03-29', ''),
+(325, 'CARZO', 'Pauline', '2002-08-05', ''),
+(326, 'LANCINOT', 'Martin', '2004-09-20', ''),
+(327, 'BARREIRA DE OLIVEIRA', 'Nawel', '2003-09-07', ''),
+(328, 'VAN DEN BERG', 'Charlotte', '2004-10-16', ''),
+(329, 'ARANGIA', 'Cassie', '2003-02-04', ''),
+(330, 'SIMANIVA', 'Mirselda', '2004-03-31', ''),
+(331, 'BENAMARA', 'Léa', '2003-05-14', ''),
+(332, 'BARROS GOMES', 'Angelina', '2003-03-11', ''),
+(333, 'SAADANA', 'Gaspard', '2004-02-16', ''),
+(334, 'DAU', 'Amandine', '2000-12-21', ''),
+(335, 'MOUTY', 'Quentin', '2001-12-05', ''),
+(336, 'BOUROUROU', 'Amir', '2001-01-14', ''),
+(337, 'BESHAY', 'Apolline', '2002-07-01', ''),
+(338, 'BEITES--FERNANDES', 'Jade', '2004-06-13', ''),
+(339, 'CAMPO', 'Alain', '2002-11-14', ''),
+(340, 'MONTEIRO CORREIA', 'Rayane', '2000-11-15', ''),
+(341, 'MARCHAL', 'Kathleen', '2003-08-24', ''),
+(342, 'REMY', 'Clara', '2004-07-20', ''),
+(343, 'BOCCHETTI', 'Nicolas', '2003-09-12', ''),
+(344, 'DUBRAY-TARTARELLI', 'Zoé', '2004-04-01', ''),
+(345, 'PIERSON', 'Ness', '2003-09-07', ''),
+(346, 'MUSSO', 'Zaccharia', '2004-07-29', ''),
+(347, 'RAHOU', 'Solène', '2004-10-14', ''),
+(348, 'OURGUIG', 'Karim', '2004-12-04', ''),
+(349, 'FRACHISSE', 'Khava', '2003-07-26', ''),
+(350, 'EL GOURARI', 'Nicolas', '2002-01-10', ''),
+(351, 'SALLABERRY', 'Zoé', '2002-04-01', ''),
+(352, 'LOMBARD', 'Julien', '2003-10-03', ''),
+(353, 'NERI', 'Edelvira', '2001-04-01', ''),
+(354, 'BELTRAND-CANONICI', 'Lyna', '2003-03-09', ''),
+(355, 'GONZALEZ', 'Nicolas', '2003-09-05', ''),
+(356, 'GHOZAYEL', 'Marion', '2000-01-01', ''),
+(357, 'TRIFI', 'Anna', '2003-11-08', ''),
+(358, 'PATAUD', 'Thi Mai', '2003-03-02', ''),
+(359, 'MOLINARI', 'Alexis', '2004-06-03', ''),
+(360, 'CABRINO', 'Nolan', '2004-01-12', ''),
+(361, 'CABAYE', 'Nadjima', '2004-10-01', ''),
+(362, 'PHULPIN', 'Don Harold', '2002-02-07', ''),
+(363, 'DIMEGLIO', 'Tonik', '2002-05-11', ''),
+(364, 'MAOULIDA', 'Tea', '2003-01-16', ''),
+(365, 'GRAIET', 'Ouassila', '2004-08-05', ''),
+(366, 'DAKI', 'Maël', '2001-06-03', ''),
+(367, 'SACHETTO', 'Yoan', '2003-11-16', ''),
+(368, 'RICCA', 'Dana', '2004-12-03', ''),
+(369, 'BEN SETHOUM', 'Eya', '2004-08-18', ''),
+(370, 'NAAMANE', 'André', '2004-11-10', ''),
+(371, 'TRIKI', 'Aurélie', '2001-08-16', ''),
+(372, 'ESSALAH', 'Méric', '2003-02-22', ''),
+(373, 'ANANI', 'Mathilda', '2004-03-26', ''),
+(374, 'SOILIHI HAMADI', 'Sofien', '2004-05-18', ''),
+(375, 'MENASRI', 'Nour', '2001-11-30', ''),
+(376, 'EL ABIDI', 'Yousra', '2003-02-20', ''),
+(377, 'CHARTON', 'Yanis', '2004-05-04', ''),
+(378, 'DE PINA FERNANDES', 'Omar', '2004-05-28', ''),
+(379, 'SCHIAVO', 'Aminat', '2003-06-24', ''),
+(380, 'FTISSA', 'Maelly', '2002-04-23', ''),
+(381, 'MINEUR', 'Jihen', '2003-08-12', ''),
+(382, 'BAHADI', 'Souloumbeck', '2002-07-08', ''),
+(383, 'KECHIDA', 'Julia', '2002-06-07', ''),
+(384, 'PRONEUR', 'Laura', '2004-12-16', ''),
+(385, 'MASSIERA', 'Norhène', '2002-10-14', ''),
+(386, 'ALIU', 'Illona', '2003-01-10', ''),
+(387, 'BULANADI', 'Cristina', '2004-02-12', ''),
+(388, 'DAURIN', 'Farrah', '2000-07-05', ''),
+(389, 'RIZ', 'Emma', '2004-05-19', ''),
+(390, 'MARINO', 'Titouan', '2003-11-08', ''),
+(391, 'DOS REIS DECORNOY', 'Edmylson', '2004-01-18', ''),
+(392, 'GUIRO', 'Bastien', '2004-04-25', ''),
+(393, 'PONS', 'Veronica', '2004-12-15', ''),
+(394, 'BOUHLEL', 'Mathéo', '2004-07-30', ''),
+(395, 'COSTA', 'Sarah', '2003-05-02', ''),
+(396, 'COSTA NOVAIS', 'Lisa', '2000-06-15', ''),
+(397, 'DANIEL', 'Naël', '2004-10-13', ''),
+(398, 'SOLAMITO', 'Aya', '2004-10-06', ''),
+(399, 'RALIMASON', 'Nina', '2003-11-13', ''),
+(400, 'SCHWANDER', 'Elisa', '2003-08-14', ''),
+(401, 'POMPEE', 'Fouad', '2002-10-01', ''),
+(402, 'FENOT', 'Charlotte', '2003-02-13', ''),
+(403, 'BLETTERY', 'Raphaël', '2004-10-15', ''),
+(404, 'VARELA TAVARES', 'Yasmine', '2004-10-24', ''),
+(405, 'ABDALLAH', 'Julia', '2004-08-16', ''),
+(406, 'DA SILVA', 'Johan', '2000-11-10', ''),
+(407, 'BOUCHAREB', 'Camille', '2003-11-12', ''),
+(408, 'RAISS', 'Nizar', '2004-12-28', ''),
+(409, 'ALBA', 'Islame', '2004-10-14', ''),
+(410, 'OULEKHIARI', 'Emma', '2004-12-01', ''),
+(411, 'STUBER', 'Sondes', '2003-07-07', ''),
+(412, 'EL MOUSTAID', 'Phoebe', '2002-11-05', ''),
+(413, 'CHOUCHANE', 'Hannah Jade', '2003-05-10', ''),
+(414, 'AYARI', 'Nahimane', '2003-07-15', ''),
+(415, 'MEDDAH', 'Océane', '2002-01-30', ''),
+(416, 'MANTERO', 'Florian', '2004-10-24', ''),
+(417, 'RERIOUEDJ', 'Fabien', '2004-07-20', ''),
+(418, 'FERRARA', 'Lucile', '2004-02-08', ''),
+(419, 'DROUVIN', 'Karl', '2000-06-18', ''),
+(420, 'KOREN', 'Sarah', '2004-08-07', ''),
+(421, 'HENNI MANSOUR', 'Florian', '2003-08-05', ''),
+(422, 'ENNAJI', 'Iman', '2002-11-06', ''),
+(423, 'DECOSTA', 'Célia', '2003-08-06', ''),
+(424, 'ZAATOUT M\'KHININI', 'Nils', '2004-10-28', ''),
+(425, 'GADIO', 'Léa', '2003-11-28', ''),
+(426, 'SERRAF', 'Erik', '2001-02-27', ''),
+(427, 'BOUKOUM', 'Souhyre', '2004-09-28', ''),
+(428, 'BAGUIRIAN', 'Theo', '2000-10-25', ''),
+(429, 'CHIKHAOUI', 'Lina', '2003-11-06', ''),
+(430, 'LAARAJ', 'Amelie', '2003-06-23', ''),
+(431, 'ROUSIER-AGOSTINELLI', 'Fleur', '2002-06-06', ''),
+(432, 'DZUHO', 'Theo', '2003-10-01', ''),
+(433, 'PONS', 'Rayane', '2002-05-15', ''),
+(434, 'LAVOISIER', 'Younes', '2002-12-20', ''),
+(435, 'GARNIER', 'Emilie', '2003-05-21', ''),
+(436, 'GAUCIN OVIEDO', 'Laura', '2002-05-04', ''),
+(437, 'CARNI-LAGARDE', 'Rayan', '2003-01-11', ''),
+(438, 'SAUVAN', 'Tourpalkhan', '2001-08-27', ''),
+(439, 'CICCIA', 'Ryan', '2003-10-08', ''),
+(440, 'CHIKOVANI', 'Haïfaou', '2001-12-02', ''),
+(441, 'ROUX-MELINE', 'Mohamed Rayane', '2004-02-02', ''),
+(442, 'COMMANDEUR', 'Jonathan', '2002-10-26', ''),
+(443, 'Juste', 'Juste', '2004-07-26', ''),
+(444, 'PIEJOS', 'Mohamed Ayoub', '2003-01-03', ''),
+(445, 'AIGUIER', 'Yagmur', '2002-01-05', ''),
+(446, 'GUERVILLE', 'Hassan', '2002-02-22', ''),
+(447, 'PETROSSI', 'Camille', '2002-04-14', ''),
+(448, 'COURSOL', 'Johanna', '2003-12-17', ''),
+(449, 'LEONES', 'Thomas', '2004-06-29', ''),
+(450, 'DIAS PEREIRA', 'Mathis', '1999-10-11', ''),
+(451, 'PION', 'Aïda', '2002-08-23', ''),
+(452, 'GAZZAH', 'Eva-Marie', '2004-07-10', ''),
+(453, 'BARDAI', 'Nathan', '2002-06-24', ''),
+(454, 'MILLO', 'Feryel', '2002-03-21', ''),
+(455, 'LOUTF', 'Martin', '2004-01-26', ''),
+(456, 'PHULPIN', 'Jordan', '2002-03-13', ''),
+(457, 'MENDOZA', 'Laura', '2004-06-04', ''),
+(458, 'ROBALO SEMEDO', 'Ombelline', '2004-06-26', ''),
+(459, 'TORNEL', 'Enzo', '2003-02-10', ''),
+(460, 'BAGNINI', 'Chamseddine', '2001-09-05', ''),
+(461, 'MESSAOUDENE', 'Mariam', '2004-08-02', ''),
+(462, 'KHAYAT', 'Yasmine', '2003-07-31', ''),
+(463, 'REYTINAS', 'Julie', '2003-01-20', ''),
+(464, 'OUALA', 'Jules', '2003-11-13', ''),
+(465, 'NIBA', 'Manale', '2005-06-15', ''),
+(466, 'JAQIR', 'Célenna', '2003-07-29', ''),
+(467, 'MULLER', 'Liana', '2004-01-27', ''),
+(468, 'PARANDERO', 'Lena', '2004-10-24', ''),
+(469, 'KAMEL', 'Candice', '1993-08-10', ''),
+(470, 'DALANI', 'Maëlly', '2004-02-05', ''),
+(471, 'LABATE', 'Naydine', '2004-09-03', ''),
+(472, 'DEL GIUDICE', 'Adelina', '2004-02-12', ''),
+(473, 'MASSE', 'Redouane', '2003-11-15', ''),
+(474, 'BELLEVAUX', 'Christelle', '2004-03-08', ''),
+(475, 'DEMARCO', 'Manuela', '1997-10-31', ''),
+(476, 'ALUNNO-MANCINI', 'Clement', '2004-08-08', ''),
+(477, 'BOURDEAU', 'Mathieu', '2002-12-25', ''),
+(478, 'GOUASMI', 'Linda', '2002-05-28', ''),
+(479, 'DIALLO', 'Ilyan', '2004-08-25', ''),
+(480, 'FAVALE', 'Maxime', '2004-12-23', ''),
+(481, 'DAUPHIN', 'Eva', '2003-06-23', ''),
+(482, 'MARIO', 'Roxanna', '2003-09-04', ''),
+(483, 'CERQUEIRA PETADA', 'Magalie', '2004-02-25', ''),
+(484, 'FURTADO MONTEIRO', 'Maïky', '2004-04-04', ''),
+(485, 'GUILLOU', 'Helena', '2002-10-03', ''),
+(486, 'BOURAGBA', 'Robin', '2004-06-30', ''),
+(487, 'HERELLE', 'Caroline', '2003-06-22', ''),
+(488, 'GROSCH', 'Sidlene', '2003-02-01', ''),
+(489, 'DEMOL', 'Meryam', '2002-04-30', ''),
+(490, 'BATTLE-BALESSA', 'Sofia', '2004-02-15', ''),
+(491, 'LEMOINE', 'Francesco', '2004-10-09', ''),
+(492, 'ESSEMLALI', 'Anna Rose', '2003-12-14', ''),
+(493, 'SCOTTO DI UCCIO', 'Mohamed', '2003-05-29', ''),
+(494, 'KIFAJI', 'Mélanie', '2002-02-07', ''),
+(495, 'TOUIL', 'Mayreau', '2004-04-15', ''),
+(496, 'GUEZ GUEZ', 'Myriam', '2003-11-13', ''),
+(497, 'BELLONE', 'Angelina', '2003-12-23', ''),
+(498, 'RESTANO', 'Marie', '2002-12-30', ''),
+(499, 'HOUKI', 'Caroline', '2004-05-28', ''),
+(500, 'SPAHIU', 'Vincent', '2003-02-08', ''),
+(501, 'BEDROSSIAN', 'Lily', '2003-09-09', ''),
+(502, 'BENSADON', 'Sacha', '2000-07-17', ''),
+(503, 'FERRER', 'Hajar', '2004-12-14', ''),
+(504, 'MATUSIAK', 'Fabien', '2004-03-11', ''),
+(505, 'BOURKAB', 'Clarisse', '2004-07-20', ''),
+(506, 'AROUTUNIAN', 'Dan', '2004-10-20', ''),
+(507, 'HAMILA', 'Sofia', '2004-01-04', ''),
+(508, 'GONCALVES DE OLIVEIRA', 'Valentina', '2003-07-31', ''),
+(509, 'CORONADO-CHAMOUARD', 'Fatima', '2002-10-30', ''),
+(510, 'SOYER', 'Pauline', '2003-05-06', ''),
+(511, 'ABDOU HOUMADI', 'Paul', '2003-06-16', ''),
+(512, 'AJROUD', 'Sebastiano', '2003-09-08', ''),
+(513, 'GOJNETE', 'Noah', '2003-08-10', ''),
+(514, 'MOSER-VERCHOT', 'Lana', '2004-12-06', ''),
+(515, 'TEBOURBI', 'Oceane', '2004-09-12', ''),
+(516, 'ATTIA', 'Amira', '2003-01-11', ''),
+(517, 'LELOUP-PUCHAUX', 'Olivier', '2002-03-31', ''),
+(518, 'PEY', 'Oumeima', '1999-11-13', ''),
+(519, 'BARGAOUI', 'Maelys', '2003-11-15', ''),
+(520, 'HLIAL', 'Elida', '2003-07-25', ''),
+(521, 'MESBAH', 'Éléa', '2003-07-30', ''),
+(522, 'CARIBA', 'Naïm', '2001-06-16', ''),
+(523, 'FOURNIER', 'Sofiane', '2000-11-17', ''),
+(524, 'PATRICO', 'Rayane', '2003-04-05', ''),
+(525, 'ARFAOUI', 'Florian', '2004-10-23', ''),
+(526, 'BALHARI', 'Naima', '2003-03-22', ''),
+(527, 'DAKKOURI', 'Tom', '2004-12-11', ''),
+(528, 'SBAI', 'Saad', '2003-09-03', ''),
+(529, 'BARONE', 'Jason', '2002-12-16', ''),
+(530, 'COSTE', 'Aliénor', '2000-04-11', ''),
+(531, 'GARNERO KUBLER', 'Emilie', '2003-11-11', ''),
+(532, 'HEIDET', 'Emma', '2001-01-11', ''),
+(533, 'TORRE', 'Aymen', '2004-05-03', ''),
+(534, 'BRISSAC', 'Ikram', '2002-03-20', ''),
+(535, 'VARELA TAVARES', 'Reda', '2004-03-06', ''),
+(536, 'DARWICHE', 'Marwa', '2003-09-03', ''),
+(537, 'KERMICHE', 'Soufiane', '2004-03-09', ''),
+(538, 'REOULET', 'Mohamed', '2003-10-29', ''),
+(539, 'BEN TAHAR', 'Emilie', '2003-10-16', ''),
+(540, 'BELHAJ', 'Ines', '2004-09-20', ''),
+(541, 'CHERUEL', 'Oscar', '2000-05-20', ''),
+(542, 'MANA NSIMBA', 'Terry', '2004-02-20', ''),
+(543, 'BONI', 'Arman', '2004-01-22', ''),
+(544, 'LACHHAB', 'Eva Claudia', '2004-04-29', ''),
+(545, 'TAHIRI', 'Manon', '2003-09-25', ''),
+(546, 'SALUSSOLIA', 'Sarah', '2004-05-13', ''),
+(547, 'VAILLANT', 'Dylan', '2002-09-01', ''),
+(548, 'MMADI', 'Jean-Patrick', '2002-07-12', ''),
+(549, 'BOUSMAHA', 'Lauryane', '2002-03-24', ''),
+(550, 'THIRIET', 'Djibril', '2002-01-30', ''),
+(551, 'DA COSTA VINHAS', 'Reda', '2001-06-14', ''),
+(552, 'PEREZ MOVILLA', 'Aline', '2002-08-27', ''),
+(553, 'BZIOUECH', 'Déborah', '2003-08-07', ''),
+(554, 'YUSOUPOV', 'Youssef', '2001-10-27', ''),
+(555, 'MOKADDEM', 'Manon', '2000-12-11', ''),
+(556, 'OUABOU', 'Imène', '2004-02-12', ''),
+(557, 'LEVENT', 'Jade', '2004-10-20', ''),
+(558, 'DRAPERI', 'Léane', '2004-05-03', ''),
+(559, 'CUARES', 'Ebtissem', '2004-10-05', ''),
+(560, 'CHAREYRON', 'Chiara', '2003-04-13', ''),
+(561, 'VALLIERES', 'Sirine', '2004-07-25', ''),
+(562, 'CARATINI', 'Evan', '2003-09-10', ''),
+(563, 'HOUBERDON', 'Eya', '2002-07-10', ''),
+(564, 'GUTHMANN - PANZER', 'Charlène', '2004-05-23', ''),
+(565, 'EL DJENDOUBI', 'Schadrac', '2005-06-10', ''),
+(566, 'KHALFALLAH', 'Ines', '2003-03-05', ''),
+(567, 'JANATI', 'Yanis', '2003-11-28', ''),
+(568, 'AKEB', 'Sofia', '2003-07-31', ''),
+(569, 'JELLOUL', 'Maéva', '2003-06-08', ''),
+(570, 'MONTERO', 'Samantha', '1999-04-04', ''),
+(571, 'BELLAGRA', 'Noah', '2002-08-19', ''),
+(572, 'SALEM', 'Shérine', '2003-09-13', ''),
+(573, 'KEDDACHE', 'Maxime', '2002-07-31', ''),
+(574, 'BOXBERGER', 'Anaïs', '2003-09-21', ''),
+(575, 'KHADRAOUI', 'Lyes', '2003-04-20', ''),
+(576, 'GAALOUL', 'Linda', '2004-02-29', ''),
+(577, 'KAZANJIAN', 'Carlo', '2004-05-24', ''),
+(578, 'TCHERMUIKHANOV', 'Omaima', '2004-11-30', ''),
+(579, 'KACZMAREK', 'Quentin', '2004-10-15', ''),
+(580, 'M\'CHETTI', 'Israa', '2003-01-02', ''),
+(581, 'SAURIAT', 'Véronica', '2003-08-04', ''),
+(582, 'FARAJI', 'Amine', '2001-08-26', ''),
+(583, 'TOSKA', 'Yanis', '1994-04-21', ''),
+(584, 'GHEZELANI', 'Rabia', '2004-06-19', ''),
+(585, 'SCIE', 'Sabrina', '2003-03-28', ''),
+(586, 'NAÂMANE', 'Davit', '2002-08-19', ''),
+(587, 'LACAY - PASQUALI', 'Soane', '2003-09-08', ''),
+(588, 'CHAEHOI', 'Pauline', '1999-12-07', ''),
+(589, 'AECK', 'Maïwenn', '2002-01-30', ''),
+(590, 'CHELLALI', 'Mehdi', '2003-03-17', ''),
+(591, 'TLILI', 'Manal', '2003-10-28', ''),
+(592, 'BARTHELMEBS', 'Louane', '2002-06-12', ''),
+(593, 'BOURASSIN', 'Clara', '2003-11-28', ''),
+(594, 'HOFFMANN', 'Alain', '2004-05-09', ''),
+(595, 'NIX', 'Anaïs', '2004-10-01', ''),
+(596, 'GUTH', 'Nadim', '2002-12-10', ''),
+(597, 'HASSANI', 'Océane', '2003-09-25', ''),
+(598, 'GHIRO', 'Mathias', '2003-11-19', ''),
+(599, 'SEMEDO PEREIRA', 'Eva', '2003-02-04', ''),
+(600, 'RICHARDIN', 'Valentine', '2004-05-13', ''),
+(601, 'IGNATOWICZ', 'Lea', '2002-12-20', ''),
+(602, 'FOUCHER', 'Sakira', '2002-07-22', ''),
+(603, 'DELARUE', 'Colleen', '2003-04-25', ''),
+(604, 'BEN HASSINE', 'Jade', '2003-12-01', ''),
+(605, 'CHARIBA', 'Baptiste', '2003-02-26', ''),
+(606, 'EL AYADI', 'Laëtitia', '2004-06-08', ''),
+(607, 'CIOBANU', 'Manar', '2003-11-29', ''),
+(608, 'HOLLVILLE', 'Maëlly', '2004-11-15', ''),
+(609, 'BARAS', 'Nuno Evaristo', '2003-03-13', ''),
+(610, 'MOUGARI', 'Ruben', '2004-01-19', ''),
+(611, 'MANDI', 'Liliana', '2004-01-27', ''),
+(612, 'TRUCCO', 'Olivia', '2002-07-20', ''),
+(613, 'POURTIER', 'Lilou', '2003-07-05', ''),
+(614, 'LUPPINO', 'Mathis', '2001-07-05', ''),
+(615, 'HOUSSAINI', 'Ibrahima', '2004-04-20', ''),
+(616, 'STA', 'Arthur', '2000-06-02', ''),
+(617, 'DA SILVA BORGES', 'Imène', '2003-11-26', ''),
+(618, 'RAVARY', 'Matt', '2003-09-10', ''),
+(619, 'CAYUELA', 'Lina', '2000-04-26', ''),
+(620, 'ES-SYAD', 'Manon', '2004-10-10', ''),
+(621, 'VACCHIO-PEZZOTTA', 'Thémis', '2004-05-30', ''),
+(622, 'GRISON', 'Zineb', '2002-01-06', ''),
+(623, 'GALLOT', 'Sarah', '2004-01-16', ''),
+(624, 'BEN REDJEB', 'Lilia', '2003-08-14', ''),
+(625, 'DE JESUS', 'Nicolas', '2004-02-21', ''),
+(626, 'LOUBELO HOUNOUNOU', 'Angela', '2003-05-22', ''),
+(627, 'HILALI', 'Sirine', '2003-05-04', ''),
+(628, 'WARRAND', 'Jules', '2004-04-16', ''),
+(629, 'CERANA', 'Souhail', '2000-02-05', ''),
+(630, 'RAOUAFI', 'Kostadin', '2003-06-09', ''),
+(631, 'OLIVIER', 'Aya Nada', '2002-01-28', ''),
+(632, 'BODDAERT', 'Mikaël', '2003-06-14', ''),
+(633, 'PRIETO', 'Beatriz', '2004-10-15', ''),
+(634, 'SALL', 'Manon', '2002-10-11', ''),
+(635, 'EL BAROUDI EL KHATTABI', 'Léna', '2001-10-30', ''),
+(636, 'MIJATOVIC', 'Taïssir', '2004-03-05', ''),
+(637, 'LAMACHE', 'Rafaël', '2002-09-28', ''),
+(638, 'MARQUES SOUSA', 'Lana', '2003-09-21', ''),
+(639, 'MOUSSALIK', 'Océane', '2004-12-03', ''),
+(640, 'DAQUIN', 'Célia', '2004-09-23', ''),
+(641, 'GOFFREDO', 'Ophélie', '2003-12-08', ''),
+(642, 'CAPELLE DRAU', 'Erica Oceane', '2001-08-13', ''),
+(643, 'MENKOUCH', 'Léa', '2000-12-31', ''),
+(644, 'ABOULKACEM', 'Cyrille', '2003-10-25', ''),
+(645, 'ROUGEMONT', 'Paola', '2003-07-30', ''),
+(646, 'SELCUK', 'Evaëlle', '2004-11-10', ''),
+(647, 'PERILLAT', 'Carla', '2004-04-08', ''),
+(648, 'SAUNIER', 'Eva', '2003-07-21', ''),
+(649, 'JEBALI', 'Hajar', '2003-08-10', ''),
+(650, 'TITTON', 'Ouiam', '2004-08-11', ''),
+(651, 'PELLETIER', 'Malek', '2004-07-31', ''),
+(652, 'BENAUD', 'Raja', '2004-09-12', ''),
+(653, 'NEUMANN', 'Anwar', '2004-10-04', ''),
+(654, 'GRIMAUD', 'Baptiste', '2003-10-16', ''),
+(655, 'MANUNTA', 'Donovan', '2004-12-13', ''),
+(656, 'ESSAIES', 'Cherok', '2003-04-08', ''),
+(657, 'ANOUZET', 'Amandine', '2004-09-30', ''),
+(658, 'ORDRONNEAU', 'Michael', '2003-01-12', ''),
+(659, 'SCHNITZENBAUMER', 'Ibeao', '2002-02-21', ''),
+(660, 'BARELLI-DOZOL', 'Melissa', '2003-05-28', ''),
+(661, 'LASSERRE', 'Enzo', '2001-09-28', ''),
+(662, 'MAJOURI', 'Lobna', '2004-07-26', ''),
+(663, 'BOUKADIDA', 'Jade', '2004-05-31', ''),
+(664, 'GLIN', 'Ornella', '2003-03-23', ''),
+(665, 'CAMBON', 'Islem', '2003-02-14', ''),
+(666, 'GRAVE', 'Elidjah', '2003-11-24', ''),
+(667, 'DHIFALLAH', 'Alexandre', '2002-11-22', ''),
+(668, 'BOUAZZI', 'Annelou', '2004-07-01', ''),
+(669, 'BOUKOUM', 'Estelle', '2004-07-05', ''),
+(670, 'DE KEYSER', 'Hedi', '2003-07-17', ''),
+(671, 'BEN NEJMA', 'Lila', '2003-01-17', ''),
+(672, 'TRIPAULT', 'Melia', '2002-11-07', ''),
+(673, 'VELINOV', 'Anaëlle', '2003-11-26', ''),
+(674, 'CHAKHARI', 'Deborah', '2003-06-06', ''),
+(675, 'BORSLA', 'Océane', '2004-11-30', ''),
+(676, 'BENIHICH', 'Malik', '2002-10-02', ''),
+(677, 'LAHORE-LAHITTE', 'Julien', '2003-06-14', ''),
+(678, 'LACHHAB', 'François', '2003-05-21', ''),
+(679, 'KECHICHE', 'Loris', '2003-07-26', ''),
+(680, 'DOUKHA', 'Manon', '2004-06-24', ''),
+(681, 'SOARES TAVARES', 'Auriane', '2001-07-12', ''),
+(682, 'YOUSSEF', 'Rahma', '2003-02-28', ''),
+(683, 'DRYJARD DES GARNIERS', 'Reda', '2003-03-29', ''),
+(684, 'CARZO', 'Pauline', '2002-08-05', ''),
+(685, 'LANCINOT', 'Martin', '2004-09-20', ''),
+(686, 'BARREIRA DE OLIVEIRA', 'Nawel', '2003-09-07', ''),
+(687, 'VAN DEN BERG', 'Charlotte', '2004-10-16', ''),
+(688, 'ARANGIA', 'Cassie', '2003-02-04', ''),
+(689, 'SIMANIVA', 'Mirselda', '2004-03-31', ''),
+(690, 'BENAMARA', 'Léa', '2003-05-14', ''),
+(691, 'BARROS GOMES', 'Angelina', '2003-03-11', ''),
+(692, 'SAADANA', 'Gaspard', '2004-02-16', ''),
+(693, 'DAU', 'Amandine', '2000-12-21', ''),
+(694, 'MOUTY', 'Quentin', '2001-12-05', ''),
+(695, 'BOUROUROU', 'Amir', '2001-01-14', ''),
+(696, 'BESHAY', 'Apolline', '2002-07-01', ''),
+(697, 'BEITES--FERNANDES', 'Jade', '2004-06-13', ''),
+(698, 'CAMPO', 'Alain', '2002-11-14', ''),
+(699, 'MONTEIRO CORREIA', 'Rayane', '2000-11-15', ''),
+(700, 'MARCHAL', 'Kathleen', '2003-08-24', ''),
+(701, 'REMY', 'Clara', '2004-07-20', ''),
+(702, 'BOCCHETTI', 'Nicolas', '2003-09-12', ''),
+(703, 'DUBRAY-TARTARELLI', 'Zoé', '2004-04-01', ''),
+(704, 'PIERSON', 'Ness', '2003-09-07', ''),
+(705, 'MUSSO', 'Zaccharia', '2004-07-29', ''),
+(706, 'RAHOU', 'Solène', '2004-10-14', ''),
+(707, 'OURGUIG', 'Karim', '2004-12-04', ''),
+(708, 'FRACHISSE', 'Khava', '2003-07-26', ''),
+(709, 'EL GOURARI', 'Nicolas', '2002-01-10', ''),
+(710, 'SALLABERRY', 'Zoé', '2002-04-01', ''),
+(711, 'LOMBARD', 'Julien', '2003-10-03', ''),
+(712, 'NERI', 'Edelvira', '2001-04-01', ''),
+(713, 'BELTRAND-CANONICI', 'Lyna', '2003-03-09', ''),
+(714, 'GONZALEZ', 'Nicolas', '2003-09-05', ''),
+(715, 'GHOZAYEL', 'Marion', '2000-01-01', ''),
+(716, 'TRIFI', 'Anna', '2003-11-08', ''),
+(717, 'PATAUD', 'Thi Mai', '2003-03-02', ''),
+(718, 'MOLINARI', 'Alexis', '2004-06-03', ''),
+(732, 'mouty', 'theo', '2002-01-05', ''),
+(733, 'CABRINO', 'Nolan', '2004-01-12', ''),
+(734, 'CABAYE', 'Nadjima', '2004-10-01', ''),
+(735, 'PHULPIN', 'Don Harold', '2002-02-07', ''),
+(736, 'DIMEGLIO', 'Tonik', '2002-05-11', ''),
+(737, 'MAOULIDA', 'Tea', '2003-01-16', ''),
+(738, 'GRAIET', 'Ouassila', '2004-08-05', ''),
+(739, 'DAKI', 'Maël', '2001-06-03', ''),
+(740, 'SACHETTO', 'Yoan', '2003-11-16', ''),
+(741, 'RICCA', 'Dana', '2004-12-03', ''),
+(742, 'BEN SETHOUM', 'Eya', '2004-08-18', ''),
+(743, 'NAAMANE', 'André', '2004-11-10', ''),
+(744, 'TRIKI', 'Aurélie', '2001-08-16', ''),
+(745, 'ESSALAH', 'Méric', '2003-02-22', ''),
+(746, 'ANANI', 'Mathilda', '2004-03-26', ''),
+(747, 'SOILIHI HAMADI', 'Sofien', '2004-05-18', ''),
+(748, 'MENASRI', 'Nour', '2001-11-30', ''),
+(749, 'EL ABIDI', 'Yousra', '2003-02-20', ''),
+(750, 'CHARTON', 'Yanis', '2004-05-04', ''),
+(751, 'DE PINA FERNANDES', 'Omar', '2004-05-28', ''),
+(752, 'SCHIAVO', 'Aminat', '2003-06-24', ''),
+(753, 'FTISSA', 'Maelly', '2002-04-23', ''),
+(754, 'MINEUR', 'Jihen', '2003-08-12', ''),
+(755, 'BAHADI', 'Souloumbeck', '2002-07-08', ''),
+(756, 'KECHIDA', 'Julia', '2002-06-07', ''),
+(757, 'PRONEUR', 'Laura', '2004-12-16', ''),
+(758, 'MASSIERA', 'Norhène', '2002-10-14', ''),
+(759, 'ALIU', 'Illona', '2003-01-10', ''),
+(760, 'BULANADI', 'Cristina', '2004-02-12', ''),
+(761, 'DAURIN', 'Farrah', '2000-07-05', ''),
+(762, 'RIZ', 'Emma', '2004-05-19', ''),
+(763, 'MARINO', 'Titouan', '2003-11-08', ''),
+(764, 'DOS REIS DECORNOY', 'Edmylson', '2004-01-18', ''),
+(765, 'GUIRO', 'Bastien', '2004-04-25', ''),
+(766, 'PONS', 'Veronica', '2004-12-15', ''),
+(767, 'BOUHLEL', 'Mathéo', '2004-07-30', ''),
+(768, 'COSTA', 'Sarah', '2003-05-02', ''),
+(769, 'COSTA NOVAIS', 'Lisa', '2000-06-15', ''),
+(770, 'DANIEL', 'Naël', '2004-10-13', ''),
+(771, 'SOLAMITO', 'Aya', '2004-10-06', ''),
+(772, 'RALIMASON', 'Nina', '2003-11-13', ''),
+(773, 'SCHWANDER', 'Elisa', '2003-08-14', ''),
+(774, 'POMPEE', 'Fouad', '2002-10-01', ''),
+(775, 'FENOT', 'Charlotte', '2003-02-13', ''),
+(776, 'BLETTERY', 'Raphaël', '2004-10-15', ''),
+(777, 'VARELA TAVARES', 'Yasmine', '2004-10-24', ''),
+(778, 'ABDALLAH', 'Julia', '2004-08-16', ''),
+(779, 'DA SILVA', 'Johan', '2000-11-10', ''),
+(780, 'BOUCHAREB', 'Camille', '2003-11-12', ''),
+(781, 'RAISS', 'Nizar', '2004-12-28', ''),
+(782, 'ALBA', 'Islame', '2004-10-14', ''),
+(783, 'OULEKHIARI', 'Emma', '2004-12-01', ''),
+(784, 'STUBER', 'Sondes', '2003-07-07', ''),
+(785, 'EL MOUSTAID', 'Phoebe', '2002-11-05', ''),
+(786, 'CHOUCHANE', 'Hannah Jade', '2003-05-10', ''),
+(787, 'AYARI', 'Nahimane', '2003-07-15', ''),
+(788, 'MEDDAH', 'Océane', '2002-01-30', ''),
+(789, 'MANTERO', 'Florian', '2004-10-24', ''),
+(790, 'RERIOUEDJ', 'Fabien', '2004-07-20', ''),
+(791, 'FERRARA', 'Lucile', '2004-02-08', ''),
+(792, 'DROUVIN', 'Karl', '2000-06-18', ''),
+(793, 'KOREN', 'Sarah', '2004-08-07', ''),
+(794, 'HENNI MANSOUR', 'Florian', '2003-08-05', ''),
+(795, 'ENNAJI', 'Iman', '2002-11-06', ''),
+(796, 'DECOSTA', 'Célia', '2003-08-06', ''),
+(797, 'ZAATOUT M\'KHININI', 'Nils', '2004-10-28', ''),
+(798, 'GADIO', 'Léa', '2003-11-28', ''),
+(799, 'SERRAF', 'Erik', '2001-02-27', ''),
+(800, 'BOUKOUM', 'Souhyre', '2004-09-28', ''),
+(801, 'BAGUIRIAN', 'Theo', '2000-10-25', ''),
+(802, 'CHIKHAOUI', 'Lina', '2003-11-06', ''),
+(803, 'LAARAJ', 'Amelie', '2003-06-23', ''),
+(804, 'ROUSIER-AGOSTINELLI', 'Fleur', '2002-06-06', ''),
+(805, 'DZUHO', 'Theo', '2003-10-01', ''),
+(806, 'PONS', 'Rayane', '2002-05-15', ''),
+(807, 'LAVOISIER', 'Younes', '2002-12-20', ''),
+(808, 'GARNIER', 'Emilie', '2003-05-21', ''),
+(809, 'GAUCIN OVIEDO', 'Laura', '2002-05-04', ''),
+(810, 'CARNI-LAGARDE', 'Rayan', '2003-01-11', ''),
+(811, 'SAUVAN', 'Tourpalkhan', '2001-08-27', ''),
+(812, 'CICCIA', 'Ryan', '2003-10-08', ''),
+(813, 'CHIKOVANI', 'Haïfaou', '2001-12-02', ''),
+(814, 'ROUX-MELINE', 'Mohamed Rayane', '2004-02-02', ''),
+(815, 'COMMANDEUR', 'Jonathan', '2002-10-26', ''),
+(816, 'Juste', 'Juste', '2004-07-26', ''),
+(817, 'PIEJOS', 'Mohamed Ayoub', '2003-01-03', ''),
+(818, 'AIGUIER', 'Yagmur', '2002-01-05', ''),
+(819, 'GUERVILLE', 'Hassan', '2002-02-22', ''),
+(820, 'PETROSSI', 'Camille', '2002-04-14', ''),
+(821, 'COURSOL', 'Johanna', '2003-12-17', ''),
+(822, 'LEONES', 'Thomas', '2004-06-29', ''),
+(823, 'DIAS PEREIRA', 'Mathis', '1999-10-11', ''),
+(824, 'PION', 'Aïda', '2002-08-23', ''),
+(825, 'GAZZAH', 'Eva-Marie', '2004-07-10', ''),
+(826, 'BARDAI', 'Nathan', '2002-06-24', ''),
+(827, 'MILLO', 'Feryel', '2002-03-21', ''),
+(828, 'LOUTF', 'Martin', '2004-01-26', ''),
+(829, 'PHULPIN', 'Jordan', '2002-03-13', ''),
+(830, 'MENDOZA', 'Laura', '2004-06-04', ''),
+(831, 'ROBALO SEMEDO', 'Ombelline', '2004-06-26', ''),
+(832, 'TORNEL', 'Enzo', '2003-02-10', ''),
+(833, 'BAGNINI', 'Chamseddine', '2001-09-05', ''),
+(834, 'MESSAOUDENE', 'Mariam', '2004-08-02', ''),
+(835, 'KHAYAT', 'Yasmine', '2003-07-31', ''),
+(836, 'REYTINAS', 'Julie', '2003-01-20', ''),
+(837, 'OUALA', 'Jules', '2003-11-13', ''),
+(838, 'NIBA', 'Manale', '2005-06-15', ''),
+(839, 'JAQIR', 'Célenna', '2003-07-29', ''),
+(840, 'MULLER', 'Liana', '2004-01-27', ''),
+(841, 'PARANDERO', 'Lena', '2004-10-24', ''),
+(842, 'KAMEL', 'Candice', '1993-08-10', ''),
+(843, 'DALANI', 'Maëlly', '2004-02-05', ''),
+(844, 'LABATE', 'Naydine', '2004-09-03', ''),
+(845, 'DEL GIUDICE', 'Adelina', '2004-02-12', ''),
+(846, 'MASSE', 'Redouane', '2003-11-15', ''),
+(847, 'BELLEVAUX', 'Christelle', '2004-03-08', ''),
+(848, 'DEMARCO', 'Manuela', '1997-10-31', ''),
+(849, 'ALUNNO-MANCINI', 'Clement', '2004-08-08', ''),
+(850, 'BOURDEAU', 'Mathieu', '2002-12-25', ''),
+(851, 'GOUASMI', 'Linda', '2002-05-28', ''),
+(852, 'DIALLO', 'Ilyan', '2004-08-25', ''),
+(853, 'FAVALE', 'Maxime', '2004-12-23', ''),
+(854, 'DAUPHIN', 'Eva', '2003-06-23', ''),
+(855, 'MARIO', 'Roxanna', '2003-09-04', ''),
+(856, 'CERQUEIRA PETADA', 'Magalie', '2004-02-25', ''),
+(857, 'FURTADO MONTEIRO', 'Maïky', '2004-04-04', ''),
+(858, 'GUILLOU', 'Helena', '2002-10-03', ''),
+(859, 'BOURAGBA', 'Robin', '2004-06-30', ''),
+(860, 'HERELLE', 'Caroline', '2003-06-22', ''),
+(861, 'GROSCH', 'Sidlene', '2003-02-01', ''),
+(862, 'DEMOL', 'Meryam', '2002-04-30', ''),
+(863, 'BATTLE-BALESSA', 'Sofia', '2004-02-15', ''),
+(864, 'LEMOINE', 'Francesco', '2004-10-09', ''),
+(865, 'ESSEMLALI', 'Anna Rose', '2003-12-14', ''),
+(866, 'SCOTTO DI UCCIO', 'Mohamed', '2003-05-29', ''),
+(867, 'KIFAJI', 'Mélanie', '2002-02-07', ''),
+(868, 'TOUIL', 'Mayreau', '2004-04-15', ''),
+(869, 'GUEZ GUEZ', 'Myriam', '2003-11-13', ''),
+(870, 'BELLONE', 'Angelina', '2003-12-23', ''),
+(871, 'RESTANO', 'Marie', '2002-12-30', ''),
+(872, 'HOUKI', 'Caroline', '2004-05-28', ''),
+(873, 'SPAHIU', 'Vincent', '2003-02-08', ''),
+(874, 'BEDROSSIAN', 'Lily', '2003-09-09', ''),
+(875, 'BENSADON', 'Sacha', '2000-07-17', ''),
+(876, 'FERRER', 'Hajar', '2004-12-14', ''),
+(877, 'MATUSIAK', 'Fabien', '2004-03-11', ''),
+(878, 'BOURKAB', 'Clarisse', '2004-07-20', ''),
+(879, 'AROUTUNIAN', 'Dan', '2004-10-20', ''),
+(880, 'HAMILA', 'Sofia', '2004-01-04', ''),
+(881, 'GONCALVES DE OLIVEIRA', 'Valentina', '2003-07-31', ''),
+(882, 'CORONADO-CHAMOUARD', 'Fatima', '2002-10-30', ''),
+(883, 'SOYER', 'Pauline', '2003-05-06', ''),
+(884, 'ABDOU HOUMADI', 'Paul', '2003-06-16', ''),
+(885, 'AJROUD', 'Sebastiano', '2003-09-08', ''),
+(886, 'GOJNETE', 'Noah', '2003-08-10', ''),
+(887, 'MOSER-VERCHOT', 'Lana', '2004-12-06', ''),
+(888, 'TEBOURBI', 'Oceane', '2004-09-12', ''),
+(894, 'aaaaaabbe', 'aaaaaeeee', '2023-02-27', '');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `ETUDIANT_CLASSE`
+--
+
 CREATE TABLE `ETUDIANT_CLASSE` (
   `codeetudiant` int(5) NOT NULL,
-  `classecode` int(5) NOT NULL,
-  PRIMARY KEY (`codeetudiant`,`classecode`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `classecode` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `ETUDIANT_CLASSE`
+-- Déchargement des données de la table `ETUDIANT_CLASSE`
 --
 
-LOCK TABLES `ETUDIANT_CLASSE` WRITE;
-/*!40000 ALTER TABLE `ETUDIANT_CLASSE` DISABLE KEYS */;
-INSERT INTO `ETUDIANT_CLASSE` VALUES (1,4),(2,6),(3,12),(4,3),(5,9),(8,7),(9,13),(10,5),(11,16),(12,17),(13,12),(14,18),(16,1);
-/*!40000 ALTER TABLE `ETUDIANT_CLASSE` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `ETUDIANT_CLASSE` (`codeetudiant`, `classecode`) VALUES
+(1, 5),
+(2, 4),
+(3, 11),
+(4, 11),
+(5, 11),
+(6, 13),
+(7, 11),
+(8, 17),
+(9, 16),
+(10, 9),
+(11, 17),
+(12, 16),
+(13, 9),
+(14, 18),
+(15, 13),
+(16, 5),
+(17, 13),
+(18, 5),
+(19, 15),
+(20, 4),
+(21, 16),
+(22, 14),
+(23, 12),
+(24, 11),
+(25, 16),
+(26, 13),
+(27, 13),
+(28, 13),
+(29, 4),
+(30, 9),
+(31, 9),
+(32, 14),
+(33, 11),
+(34, 12),
+(35, 11),
+(36, 15),
+(37, 9),
+(38, 16),
+(39, 9),
+(40, 17),
+(41, 12),
+(42, 15),
+(43, 18),
+(44, 16),
+(45, 17),
+(46, 17),
+(47, 15),
+(48, 11),
+(49, 16),
+(50, 18),
+(51, 11),
+(52, 12),
+(53, 6),
+(54, 9),
+(55, 7),
+(56, 14),
+(57, 17),
+(58, 16),
+(59, 17),
+(60, 18),
+(61, 7),
+(62, 14),
+(63, 7),
+(64, 5),
+(66, 16),
+(67, 7),
+(68, 13),
+(69, 5),
+(70, 15),
+(71, 11),
+(72, 16),
+(73, 5),
+(74, 5),
+(75, 16),
+(76, 4),
+(77, 15),
+(78, 11),
+(79, 6),
+(80, 6),
+(81, 18),
+(82, 18),
+(83, 5),
+(84, 9),
+(85, 9),
+(86, 6),
+(87, 11),
+(88, 17),
+(89, 6),
+(90, 18),
+(91, 14),
+(92, 4),
+(93, 17),
+(94, 5),
+(95, 17),
+(96, 11),
+(97, 5),
+(98, 6),
+(99, 16),
+(100, 12),
+(101, 14),
+(102, 9),
+(103, 5),
+(104, 6),
+(105, 6),
+(106, 12),
+(107, 9),
+(108, 7),
+(109, 18),
+(110, 13),
+(111, 16),
+(112, 15),
+(113, 15),
+(114, 4),
+(115, 9),
+(116, 17),
+(117, 6),
+(118, 6),
+(119, 17),
+(120, 9),
+(121, 9),
+(122, 14),
+(123, 9),
+(124, 6),
+(125, 14),
+(126, 16),
+(127, 11),
+(128, 18),
+(129, 13),
+(130, 13),
+(131, 18),
+(132, 15),
+(133, 16),
+(134, 5),
+(135, 18),
+(136, 16),
+(137, 15),
+(138, 9),
+(139, 4),
+(140, 7),
+(141, 9),
+(142, 13),
+(143, 6),
+(144, 12),
+(145, 6),
+(146, 16),
+(147, 13),
+(148, 14),
+(149, 13),
+(150, 16),
+(151, 18),
+(152, 17),
+(153, 7),
+(154, 5),
+(155, 4),
+(156, 14),
+(157, 18),
+(158, 11),
+(159, 17),
+(160, 6),
+(161, 16),
+(162, 5),
+(163, 17),
+(164, 9),
+(165, 11),
+(166, 5),
+(167, 14),
+(168, 6),
+(169, 6),
+(170, 7),
+(171, 6),
+(172, 9),
+(173, 15),
+(174, 17),
+(175, 9),
+(176, 9),
+(177, 6),
+(178, 15),
+(179, 16),
+(180, 12),
+(181, 7),
+(182, 16),
+(183, 13),
+(184, 7),
+(185, 12),
+(186, 15),
+(187, 16),
+(188, 11),
+(189, 9),
+(190, 6),
+(191, 13),
+(192, 16),
+(193, 17),
+(194, 17),
+(195, 15),
+(196, 13),
+(197, 9),
+(198, 17),
+(199, 6),
+(200, 5),
+(201, 6),
+(202, 16),
+(203, 6),
+(204, 14),
+(205, 15),
+(206, 13),
+(207, 13),
+(208, 17),
+(209, 17),
+(210, 11),
+(211, 6),
+(212, 16),
+(213, 4),
+(214, 6),
+(215, 9),
+(216, 12),
+(217, 17),
+(218, 18),
+(219, 7),
+(220, 6),
+(221, 14),
+(222, 16),
+(223, 5),
+(224, 16),
+(225, 16),
+(226, 18),
+(227, 11),
+(228, 13),
+(229, 5),
+(230, 4),
+(231, 18),
+(232, 13),
+(233, 14),
+(234, 18),
+(235, 9),
+(236, 18),
+(237, 14),
+(238, 9),
+(239, 6),
+(240, 14),
+(241, 14),
+(242, 17),
+(243, 17),
+(244, 11),
+(245, 18),
+(246, 16),
+(247, 9),
+(248, 4),
+(249, 18),
+(250, 6),
+(251, 11),
+(252, 15),
+(253, 9),
+(254, 9),
+(255, 4),
+(256, 4),
+(257, 13),
+(258, 18),
+(259, 17),
+(260, 7),
+(261, 6),
+(262, 11),
+(263, 9),
+(264, 13),
+(265, 16),
+(266, 4),
+(267, 14),
+(268, 11),
+(269, 9),
+(270, 9),
+(271, 17),
+(272, 15),
+(273, 6),
+(274, 17),
+(275, 12),
+(276, 12),
+(277, 4),
+(278, 16),
+(279, 14),
+(280, 18),
+(281, 14),
+(282, 15),
+(283, 15),
+(284, 18),
+(285, 12),
+(286, 16),
+(287, 9),
+(288, 6),
+(289, 17),
+(290, 13),
+(291, 13),
+(292, 5),
+(293, 4),
+(294, 9),
+(295, 14),
+(296, 12),
+(297, 4),
+(298, 17),
+(299, 13),
+(300, 13),
+(301, 16),
+(302, 14),
+(303, 12),
+(304, 18),
+(305, 4),
+(306, 13),
+(307, 4),
+(308, 12),
+(309, 6),
+(310, 15),
+(311, 13),
+(312, 15),
+(313, 18),
+(314, 13),
+(315, 11),
+(316, 5),
+(317, 11),
+(318, 16),
+(319, 7),
+(320, 12),
+(321, 17),
+(322, 12),
+(323, 11),
+(324, 12),
+(325, 14),
+(326, 9),
+(327, 11),
+(328, 13),
+(329, 15),
+(330, 7),
+(331, 13),
+(332, 15),
+(333, 11),
+(334, 4),
+(335, 6),
+(336, 6),
+(337, 15),
+(338, 14),
+(339, 4),
+(340, 9),
+(341, 11),
+(342, 1),
+(343, 18),
+(344, 18),
+(345, 14),
+(346, 15),
+(347, 18),
+(348, 13),
+(349, 14),
+(350, 14),
+(351, 13),
+(352, 7),
+(353, 13),
+(354, 16),
+(355, 14),
+(356, 4),
+(357, 16),
+(358, 16),
+(359, 16),
+(360, 5),
+(361, 4),
+(362, 11),
+(363, 11),
+(364, 11),
+(365, 13),
+(366, 11),
+(367, 17),
+(368, 16),
+(369, 9),
+(370, 17),
+(371, 16),
+(372, 9),
+(373, 18),
+(374, 13),
+(375, 5),
+(376, 13),
+(377, 5),
+(378, 15),
+(379, 4),
+(380, 16),
+(381, 14),
+(382, 12),
+(383, 11),
+(384, 16),
+(385, 13),
+(386, 13),
+(387, 13),
+(388, 4),
+(389, 9),
+(390, 9),
+(391, 14),
+(392, 11),
+(393, 12),
+(394, 11),
+(395, 15),
+(396, 9),
+(397, 16),
+(398, 9),
+(399, 17),
+(400, 12),
+(401, 15),
+(402, 18),
+(403, 16),
+(404, 17),
+(405, 17),
+(406, 15),
+(407, 11),
+(408, 16),
+(409, 18),
+(410, 11),
+(411, 12),
+(412, 6),
+(413, 9),
+(414, 7),
+(415, 14),
+(416, 17),
+(417, 16),
+(418, 17),
+(419, 18),
+(420, 7),
+(421, 14),
+(422, 7),
+(423, 5),
+(424, 9),
+(425, 16),
+(426, 7),
+(427, 13),
+(428, 5),
+(429, 15),
+(430, 11),
+(431, 16),
+(432, 5),
+(433, 5),
+(434, 16),
+(435, 4),
+(436, 15),
+(437, 11),
+(438, 6),
+(439, 6),
+(440, 18),
+(441, 18),
+(442, 5),
+(443, 9),
+(444, 9),
+(445, 6),
+(446, 11),
+(447, 17),
+(448, 6),
+(449, 18),
+(450, 14),
+(451, 4),
+(452, 17),
+(453, 5),
+(454, 17),
+(455, 11),
+(456, 5),
+(457, 6),
+(458, 16),
+(459, 12),
+(460, 14),
+(461, 9),
+(462, 5),
+(463, 6),
+(464, 6),
+(465, 12),
+(466, 9),
+(467, 7),
+(468, 18),
+(469, 13),
+(470, 16),
+(471, 15),
+(472, 15),
+(473, 4),
+(474, 9),
+(475, 17),
+(476, 6),
+(477, 6),
+(478, 17),
+(479, 9),
+(480, 9),
+(481, 14),
+(482, 9),
+(483, 6),
+(484, 14),
+(485, 16),
+(486, 11),
+(487, 18),
+(488, 13),
+(489, 13),
+(490, 18),
+(491, 15),
+(492, 16),
+(493, 5),
+(494, 18),
+(495, 16),
+(496, 15),
+(497, 9),
+(498, 4),
+(499, 7),
+(500, 9),
+(501, 13),
+(502, 6),
+(503, 12),
+(504, 6),
+(505, 16),
+(506, 13),
+(507, 14),
+(508, 13),
+(509, 16),
+(510, 18),
+(511, 17),
+(512, 7),
+(513, 5),
+(514, 4),
+(515, 14),
+(516, 18),
+(517, 11),
+(518, 17),
+(519, 6),
+(520, 16),
+(521, 5),
+(522, 17),
+(523, 9),
+(524, 11),
+(525, 5),
+(526, 14),
+(527, 6),
+(528, 6),
+(529, 7),
+(530, 6),
+(531, 9),
+(532, 15),
+(533, 17),
+(534, 9),
+(535, 9),
+(536, 6),
+(537, 15),
+(538, 16),
+(539, 12),
+(540, 7),
+(541, 16),
+(542, 13),
+(543, 7),
+(544, 12),
+(545, 15),
+(546, 16),
+(547, 11),
+(548, 9),
+(549, 6),
+(550, 13),
+(551, 16),
+(552, 17),
+(553, 17),
+(554, 15),
+(555, 13),
+(556, 9),
+(557, 17),
+(558, 6),
+(559, 5),
+(560, 6),
+(561, 16),
+(562, 6),
+(563, 14),
+(564, 15),
+(565, 13),
+(566, 13),
+(567, 17),
+(568, 17),
+(569, 11),
+(570, 6),
+(571, 16),
+(572, 4),
+(573, 6),
+(574, 9),
+(575, 12),
+(576, 17),
+(577, 18),
+(578, 7),
+(579, 6),
+(580, 14),
+(581, 16),
+(582, 5),
+(583, 16),
+(584, 16),
+(585, 18),
+(586, 11),
+(587, 13),
+(588, 5),
+(589, 4),
+(590, 18),
+(591, 13),
+(592, 14),
+(593, 18),
+(594, 9),
+(595, 18),
+(596, 14),
+(597, 9),
+(598, 6),
+(599, 14),
+(600, 14),
+(601, 17),
+(602, 17),
+(603, 11),
+(604, 18),
+(605, 16),
+(606, 9),
+(607, 4),
+(608, 18),
+(609, 6),
+(610, 11),
+(611, 15),
+(612, 9),
+(613, 9),
+(614, 4),
+(615, 4),
+(616, 13),
+(617, 18),
+(618, 17),
+(619, 7),
+(620, 6),
+(621, 11),
+(622, 9),
+(623, 13),
+(624, 16),
+(625, 4),
+(626, 14),
+(627, 11),
+(628, 9),
+(629, 9),
+(630, 17),
+(631, 15),
+(632, 6),
+(633, 17),
+(634, 12),
+(635, 12),
+(636, 4),
+(637, 16),
+(638, 14),
+(639, 18),
+(640, 14),
+(641, 15),
+(642, 15),
+(643, 18),
+(644, 12),
+(645, 16),
+(646, 9),
+(647, 6),
+(648, 17),
+(649, 13),
+(650, 13),
+(651, 5),
+(652, 4),
+(653, 9),
+(654, 14),
+(655, 12),
+(656, 4),
+(657, 17),
+(658, 13),
+(659, 13),
+(660, 16),
+(661, 14),
+(662, 12),
+(663, 18),
+(664, 4),
+(665, 13),
+(666, 4),
+(667, 12),
+(668, 6),
+(669, 15),
+(670, 13),
+(671, 15),
+(672, 18),
+(673, 13),
+(674, 11),
+(675, 5),
+(676, 11),
+(677, 16),
+(678, 7),
+(679, 12),
+(680, 17),
+(681, 12),
+(682, 11),
+(683, 12),
+(684, 14),
+(685, 9),
+(686, 11),
+(687, 13),
+(688, 15),
+(689, 7),
+(690, 13),
+(691, 15),
+(692, 11),
+(693, 4),
+(694, 6),
+(695, 6),
+(696, 15),
+(697, 14),
+(698, 4),
+(699, 9),
+(700, 11),
+(701, 4),
+(702, 18),
+(703, 18),
+(704, 14),
+(705, 15),
+(706, 18),
+(707, 13),
+(708, 14),
+(709, 14),
+(710, 13),
+(711, 7),
+(712, 13),
+(713, 16),
+(714, 14),
+(715, 4),
+(716, 16),
+(717, 16),
+(718, 16),
+(732, 1),
+(733, 5),
+(734, 4),
+(735, 11),
+(736, 11),
+(737, 11),
+(738, 13),
+(739, 11),
+(740, 17),
+(741, 16),
+(742, 9),
+(743, 17),
+(744, 16),
+(745, 9),
+(746, 18),
+(747, 13),
+(748, 5),
+(749, 13),
+(750, 5),
+(751, 15),
+(752, 4),
+(753, 16),
+(754, 14),
+(755, 12),
+(756, 11),
+(757, 16),
+(758, 13),
+(759, 13),
+(760, 13),
+(761, 4),
+(762, 9),
+(763, 9),
+(764, 14),
+(765, 11),
+(766, 12),
+(767, 11),
+(768, 15),
+(769, 9),
+(770, 16),
+(771, 9),
+(772, 17),
+(773, 12),
+(774, 15),
+(775, 18),
+(776, 16),
+(777, 17),
+(778, 17),
+(779, 15),
+(780, 11),
+(781, 16),
+(782, 18),
+(783, 11),
+(784, 12),
+(785, 6),
+(786, 9),
+(787, 7),
+(788, 14),
+(789, 17),
+(790, 16),
+(791, 17),
+(792, 18),
+(793, 7),
+(794, 14),
+(795, 7),
+(796, 5),
+(797, 9),
+(798, 16),
+(799, 7),
+(800, 13),
+(801, 5),
+(802, 15),
+(803, 11),
+(804, 16),
+(805, 5),
+(806, 5),
+(807, 16),
+(808, 4),
+(809, 15),
+(810, 11),
+(811, 6),
+(812, 6),
+(813, 18),
+(814, 18),
+(815, 5),
+(816, 9),
+(817, 9),
+(818, 6),
+(819, 11),
+(820, 17),
+(821, 6),
+(822, 18),
+(823, 14),
+(824, 4),
+(825, 17),
+(826, 5),
+(827, 17),
+(828, 11),
+(829, 5),
+(830, 6),
+(831, 16),
+(832, 12),
+(833, 14),
+(834, 9),
+(835, 5),
+(836, 6),
+(837, 6),
+(838, 12),
+(839, 9),
+(840, 7),
+(841, 18),
+(842, 13),
+(843, 16),
+(844, 15),
+(845, 15),
+(846, 4),
+(847, 9),
+(848, 17),
+(849, 6),
+(850, 6),
+(851, 17),
+(852, 9),
+(853, 9),
+(854, 14),
+(855, 9),
+(856, 6),
+(857, 14),
+(858, 16),
+(859, 11),
+(860, 18),
+(861, 13),
+(862, 13),
+(863, 18),
+(864, 15),
+(865, 16),
+(866, 5),
+(867, 18),
+(868, 16),
+(869, 15),
+(870, 9),
+(871, 4),
+(872, 7),
+(873, 9),
+(874, 13),
+(875, 6),
+(876, 12),
+(877, 6),
+(878, 16),
+(879, 13),
+(880, 14),
+(881, 13),
+(882, 16),
+(883, 18),
+(884, 17),
+(885, 7),
+(886, 5),
+(887, 4),
+(888, 14),
+(894, 1);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `classe`
+-- Structure de la table `MATIERE`
 --
 
-DROP TABLE IF EXISTS `classe`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `classe` (
-  `classecode` int(5) NOT NULL,
-  `Libelleclasse` varchar(35) DEFAULT NULL,
-  `specialite` varchar(100) DEFAULT NULL,
-  `Annee` int(11) DEFAULT NULL CHECK (`Annee` between 1 and 3),
-  `Libellecourt` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`classecode`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `classe`
---
-
-LOCK TABLES `classe` WRITE;
-/*!40000 ALTER TABLE `classe` DISABLE KEYS */;
-INSERT INTO `classe` VALUES (1,'Brevet de technicien superieur','Services informatiques aux organisations',1,'BTS1SIO1'),(2,'Brevet de technicien superieur','Notariat',1,'BTS1NOT1'),(3,'Brevet de technicien superieur','Services informatiques aux organisations',2,'BTS2SIO'),(4,'Brevet de technicien superieur','Notariat',2,'BTS2NOT'),(5,'Brevet de technicien superieur','Support a l\'Action Manageriale',1,'BTS1SAM1'),(6,'Brevet de technicien superieur','Support a l\'Action Manageriale',2,'BTS2SAM'),(7,'Brevet de technicien superieur','Services et prestations des secteurs sanitaire et social',2,'BTS2SP3S'),(8,'Brevet de technicien superieur','Services et prestations des secteurs sanitaire et social',1,'BTS1SP3S1'),(9,'Brevet de technicien superieur','Comptabilite et gestion',1,'BTS1CG1'),(10,'Brevet de technicien superieur','Comptabilite et gestion',2,'BTS2CG'),(11,'Classe preparatoire','Economique et commerciale technologique',1,'ECT1'),(12,'Classe preparatoire','Economique et commerciale technologique',2,'ECT2'),(13,'DTS','Imagerie medicale',1,'DTS1'),(14,'DTS','Imagerie medicale',2,'DTS2'),(15,'DTS','Imagerie medicale',3,'DTS3'),(16,'Diplome','Comptabilite et Gestion',1,'DCG1'),(17,'Diplome','Comptabilite et Gestion',2,'DCG2'),(18,'Diplome','Comptabilite et Gestion',3,'DCG3');
-/*!40000 ALTER TABLE `classe` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `enseignant`
---
-
-DROP TABLE IF EXISTS `enseignant`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `enseignant` (
-  `CodeEnseignant` int(11) NOT NULL AUTO_INCREMENT,
-  `NOMENSEIGNANT` char(32) DEFAULT NULL,
-  `PRENOMENSEIGNANT` char(32) DEFAULT NULL,
-  PRIMARY KEY (`CodeEnseignant`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `enseignant`
---
-
-LOCK TABLES `enseignant` WRITE;
-/*!40000 ALTER TABLE `enseignant` DISABLE KEYS */;
-INSERT INTO `enseignant` VALUES (1,'NOVALES','Corinne'),(2,'SAINSOULIEU','Stephane'),(3,'NOM_enseignant','Prenom_enseignant'),(4,'nom','prenom');
-/*!40000 ALTER TABLE `enseignant` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `enseigner`
---
-
-DROP TABLE IF EXISTS `enseigner`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `enseigner` (
-  `classecode` int(11) NOT NULL,
-  `CodeEnseignant` int(11) NOT NULL,
+CREATE TABLE `MATIERE` (
   `CodeMatiere` int(11) NOT NULL,
-  PRIMARY KEY (`classecode`,`CodeEnseignant`,`CodeMatiere`),
-  KEY `FK_ENSEIGNER_ENSEIGNANT` (`CodeEnseignant`),
-  KEY `FK_ENSEIGNER_MATIERE` (`CodeMatiere`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `LibMatiere` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `enseigner`
+-- Déchargement des données de la table `MATIERE`
 --
 
-LOCK TABLES `enseigner` WRITE;
-/*!40000 ALTER TABLE `enseigner` DISABLE KEYS */;
-INSERT INTO `enseigner` VALUES (1,1,1),(1,1,2),(1,1,4),(1,1,6),(1,1,10),(1,2,5),(1,2,7),(1,2,8),(2,1,10),(2,2,2),(2,2,4),(3,1,6),(3,2,1),(3,2,2),(3,2,4),(3,2,5),(3,2,7),(3,2,8),(4,1,10),(4,2,2),(4,2,4),(5,2,2),(5,2,4),(5,2,5),(6,2,2),(6,2,4),(6,2,5),(7,2,2),(7,2,4),(8,2,2),(8,2,4),(9,2,1),(9,2,5),(14,2,1),(18,2,3);
-/*!40000 ALTER TABLE `enseigner` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `MATIERE` (`CodeMatiere`, `LibMatiere`) VALUES
+(1, 'Mathématiques'),
+(2, 'Langue vivante1'),
+(3, 'Comptabilite et audit'),
+(4, 'Culture G'),
+(5, 'Culture economique juridique et manageriale'),
+(6, 'Bloc 1'),
+(7, 'Bloc 2: SLAM/SISR'),
+(8, 'Bloc 3: Cybersecurite'),
+(9, 'Droit general et droit notarial'),
+(10, 'CEJM Appliquee'),
+(11, 'Langue vivante 2');
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `etudiant`
+-- Structure de la table `MOYENNE`
 --
 
-DROP TABLE IF EXISTS `etudiant`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `etudiant` (
+CREATE TABLE `MOYENNE` (
   `codeetudiant` int(11) NOT NULL,
-  `NOMETUDIANT` char(32) DEFAULT NULL,
-  `PRENOMETUDIANT` char(32) DEFAULT NULL,
-  `datedenaissance` char(32) DEFAULT NULL,
-  `Numeronational` varchar(32) DEFAULT NULL,
-  `Classe` char(32) DEFAULT NULL,
-  PRIMARY KEY (`codeetudiant`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `CodeMatiere` int(11) NOT NULL,
+  `Moyenne` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `etudiant`
+-- Structure de la table `NOTE_ETUDIANT`
 --
 
-LOCK TABLES `etudiant` WRITE;
-/*!40000 ALTER TABLE `etudiant` DISABLE KEYS */;
-INSERT INTO `etudiant` VALUES (1,'TEST1','PRENOM1','06/07/2000','080222882ZC','BTS2NOT'),(2,'TEST2','PRENOM2','26/06/2000','080222228JR','BTS2SAM'),(3,'TEST3','PRENOM3','24/05/2002','082080629RK','ECT2'),(4,'TEST4','PRENOM4','24/01/2002','220020064BD','BTS2SIO'),(5,'TEST5','PRENOM5','24/05/2002','244288244KD','BTS1CG1'),(6,'TEST6','PRENOM6','24/05/2002','080200060HC',''),(7,'TEST7','PRENOM7','24/05/2002','',''),(8,'TEST8','PRENOM8','24/05/2002','080222042EF','BTS2SP3S'),(9,'TEST9','PRENOM9','24/05/2002','062202462JK','DTS1'),(10,'TEST10','PRENOM10','24/05/2002','080464004DJ','BTS1SAM1'),(11,'TEST11','PRENOM11','24/05/2002','080642004BD','DCG1'),(12,'TEST12','PRENOM12','24/05/2002','060644840GH','DCG2'),(13,'TEST13','PRENOM13','24/05/2002','204060288CK','ECT2'),(14,'TEST14','PRENOM14','24/05/2002','080648680BK','DCG3'),(15,'TEST15','PRENOM15','24/05/2002','082022622EJ','PPPE1'),(16,'TEST16','PRENOM16','24/05/2002','264022260DF','BTS1SIO1'),(17,'TEST17','PRENOM17','24/05/2002','080480868FC','1TSCA');
-/*!40000 ALTER TABLE `etudiant` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `matiere`
---
-
-DROP TABLE IF EXISTS `matiere`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `matiere` (
-  `CodeMatiere` int(11) NOT NULL AUTO_INCREMENT,
-  `LibMatiere` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`CodeMatiere`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `matiere`
---
-
-LOCK TABLES `matiere` WRITE;
-/*!40000 ALTER TABLE `matiere` DISABLE KEYS */;
-INSERT INTO `matiere` VALUES (1,'Mathematiques'),(2,'Langue vivante1'),(3,'Comptabilite et audit'),(4,'Culture G'),(5,'Culture economique juridique et manageriale'),(6,'Bloc 1'),(7,'Bloc 2: SLAM/SISR'),(8,'Bloc 3: Cybersecurite'),(9,'Droit general et droit notarial'),(10,'CEJM Appliquee'),(11,'Langue vivante 2');
-/*!40000 ALTER TABLE `matiere` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `note_etudiant`
---
-
-DROP TABLE IF EXISTS `note_etudiant`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `note_etudiant` (
-  `NoteCode` int(11) NOT NULL AUTO_INCREMENT,
-  `Semestre1` varchar(5) DEFAULT NULL,
-  `Semestre2` varchar(5) DEFAULT NULL,
-  `Moyenne` varchar(5) DEFAULT NULL,
+CREATE TABLE `NOTE_ETUDIANT` (
+  `NoteCode` int(11) NOT NULL,
+  `Semestre1` int(2) DEFAULT NULL,
+  `Semestre2` int(2) DEFAULT NULL,
   `Appreciation` varchar(1000) DEFAULT NULL,
   `Semestre3` varchar(5) DEFAULT NULL,
   `Semestre4` varchar(5) DEFAULT NULL,
-  `codeetudiant` int(11) DEFAULT NULL,
-  `codematiere` int(11) DEFAULT NULL,
-  `classecode` int(11) DEFAULT NULL,
-  PRIMARY KEY (`NoteCode`),
-  UNIQUE KEY `Unote` (`codeetudiant`,`codematiere`,`classecode`)
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `codeetudiant` int(5) NOT NULL,
+  `codematiere` int(5) DEFAULT NULL,
+  `classecode` int(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data for table `note_etudiant`
+-- Déchargement des données de la table `NOTE_ETUDIANT`
 --
 
-LOCK TABLES `note_etudiant` WRITE;
-/*!40000 ALTER TABLE `note_etudiant` DISABLE KEYS */;
-INSERT INTO `note_etudiant` VALUES (1,'9.5','15.7','12.6',NULL,NULL,NULL,16,10,1),(2,'15','12','13.5',NULL,NULL,NULL,16,7,1),(3,'14','18','16',NULL,NULL,NULL,1,10,4),(4,'12','16','14',NULL,NULL,NULL,1,4,4),(5,'11','12','11.5',NULL,NULL,NULL,2,5,6),(6,'11','3','7',NULL,NULL,NULL,5,1,9),(7,'','','15','',NULL,NULL,16,8,1),(8,'14.5','12','13.25','Bien',NULL,NULL,16,1,1),(9,'13','11','12',NULL,NULL,NULL,1,2,4),(10,'1.3','5.6','3.45','',NULL,NULL,16,4,1),(11,'18','11','14.5','Bien.',NULL,NULL,16,2,1),(12,'10','11','10.5',NULL,NULL,NULL,16,6,1),(13,'1','2','1.5',NULL,NULL,NULL,16,5,1);
-/*!40000 ALTER TABLE `note_etudiant` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `NOTE_ETUDIANT` (`NoteCode`, `Semestre1`, `Semestre2`, `Appreciation`, `Semestre3`, `Semestre4`, `codeetudiant`, `codematiere`, `classecode`) VALUES
+(93, 12, 9, 'test app 1', '17', '10', 732, 1, 1),
+(94, 12, 9, 'test app 1', '17', '4.75', 732, 2, 1),
+(95, 12, 9, 'test app 1', '17', '4.75', 732, 4, 1),
+(96, 12, 9, 'test app 1', '17', '4.75', 732, 5, 1),
+(97, 12, 9, 'test app 1', '17', '4.75', 732, 6, 1),
+(98, 12, 9, 'test app 1', '17', '4.75', 732, 7, 1),
+(99, 12, 9, 'test app 1', '17', '4.75', 732, 8, 1),
+(100, NULL, NULL, NULL, '14', '12', 342, 1, 1),
+(102, NULL, NULL, NULL, '12', '14', 2, 1, 4),
+(103, NULL, NULL, NULL, '18', '12', 2, 2, 4);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `UTILISATEUR`
+--
+
+CREATE TABLE `UTILISATEUR` (
+  `ID` int(11) NOT NULL,
+  `EMAIL` varchar(50) NOT NULL,
+  `NOM` varchar(15) NOT NULL,
+  `PRENOM` varchar(15) NOT NULL,
+  `MDP` varchar(15) NOT NULL,
+  `Permission` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Déchargement des données de la table `UTILISATEUR`
+--
+
+INSERT INTO `UTILISATEUR` (`ID`, `EMAIL`, `NOM`, `PRENOM`, `MDP`, `Permission`) VALUES
+(1, 'jelloulyoan@gmail.com', 'root', 'root', 'root', '100'),
+(3, 'zefzef@hotmail.fr', 'erererg', 'ergerg', '$2y$10$lL0XPwRV', '');
+
+-- --------------------------------------------------------
+
+--
+-- Doublure de structure pour la vue `vnote`
+-- (Voir ci-dessous la vue réelle)
+--
+CREATE TABLE `vnote` (
+`codematiere` int(5)
+,`total` double
+,`nbNote` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Doublure de structure pour la vue `vtotNoteParClasseEtMatiere`
+-- (Voir ci-dessous la vue réelle)
+--
+CREATE TABLE `vtotNoteParClasseEtMatiere` (
+`classecode` int(5)
+,`codematiere` int(5)
+,`TOTAL` double
+,`nbNote` bigint(21)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la vue `vnote`
+--
+DROP TABLE IF EXISTS `vnote`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`fiche_annee`@`%` SQL SECURITY DEFINER VIEW `vnote`  AS SELECT `NOTE_ETUDIANT`.`codematiere` AS `codematiere`, sum(`NOTE_ETUDIANT`.`Semestre3` + `NOTE_ETUDIANT`.`Semestre4`) AS `total`, count(0) AS `nbNote` FROM `NOTE_ETUDIANT` WHERE `NOTE_ETUDIANT`.`classecode` = 1 GROUP BY `NOTE_ETUDIANT`.`codematiere``codematiere`  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la vue `vtotNoteParClasseEtMatiere`
+--
+DROP TABLE IF EXISTS `vtotNoteParClasseEtMatiere`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`fiche_annee`@`%` SQL SECURITY DEFINER VIEW `vtotNoteParClasseEtMatiere`  AS SELECT `NOTE_ETUDIANT`.`classecode` AS `classecode`, `NOTE_ETUDIANT`.`codematiere` AS `codematiere`, sum(`NOTE_ETUDIANT`.`Semestre3` + `NOTE_ETUDIANT`.`Semestre4`) / 2 AS `TOTAL`, count(0) AS `nbNote` FROM `NOTE_ETUDIANT` GROUP BY `NOTE_ETUDIANT`.`classecode`, `NOTE_ETUDIANT`.`codematiere``codematiere`  ;
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `CLASSE`
+--
+ALTER TABLE `CLASSE`
+  ADD PRIMARY KEY (`classecode`);
+
+--
+-- Index pour la table `ENSEIGNANT`
+--
+ALTER TABLE `ENSEIGNANT`
+  ADD PRIMARY KEY (`CodeEnseignant`);
+
+--
+-- Index pour la table `ENSEIGNER`
+--
+ALTER TABLE `ENSEIGNER`
+  ADD PRIMARY KEY (`classecode`,`CodeEnseignant`,`CodeMatiere`),
+  ADD KEY `FK_ENSEIGNER_ENSEIGNANT` (`CodeEnseignant`),
+  ADD KEY `FK_ENSEIGNER_MATIERE` (`CodeMatiere`);
+
+--
+-- Index pour la table `ETUDIANT`
+--
+ALTER TABLE `ETUDIANT`
+  ADD PRIMARY KEY (`codeetudiant`);
+
+--
+-- Index pour la table `ETUDIANT_CLASSE`
+--
+ALTER TABLE `ETUDIANT_CLASSE`
+  ADD PRIMARY KEY (`codeetudiant`,`classecode`);
+
+--
+-- Index pour la table `MATIERE`
+--
+ALTER TABLE `MATIERE`
+  ADD PRIMARY KEY (`CodeMatiere`);
+
+--
+-- Index pour la table `MOYENNE`
+--
+ALTER TABLE `MOYENNE`
+  ADD PRIMARY KEY (`codeetudiant`,`CodeMatiere`);
+
+--
+-- Index pour la table `NOTE_ETUDIANT`
+--
+ALTER TABLE `NOTE_ETUDIANT`
+  ADD PRIMARY KEY (`NoteCode`),
+  ADD UNIQUE KEY `Unote` (`codeetudiant`,`codematiere`,`classecode`);
+
+--
+-- Index pour la table `UTILISATEUR`
+--
+ALTER TABLE `UTILISATEUR`
+  ADD PRIMARY KEY (`ID`,`EMAIL`) USING BTREE;
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `CLASSE`
+--
+ALTER TABLE `CLASSE`
+  MODIFY `classecode` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT pour la table `ENSEIGNANT`
+--
+ALTER TABLE `ENSEIGNANT`
+  MODIFY `CodeEnseignant` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+
+--
+-- AUTO_INCREMENT pour la table `ETUDIANT`
+--
+ALTER TABLE `ETUDIANT`
+  MODIFY `codeetudiant` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=895;
+
+--
+-- AUTO_INCREMENT pour la table `MATIERE`
+--
+ALTER TABLE `MATIERE`
+  MODIFY `CodeMatiere` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT pour la table `NOTE_ETUDIANT`
+--
+ALTER TABLE `NOTE_ETUDIANT`
+  MODIFY `NoteCode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+
+--
+-- AUTO_INCREMENT pour la table `UTILISATEUR`
+--
+ALTER TABLE `UTILISATEUR`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `ENSEIGNER`
+--
+ALTER TABLE `ENSEIGNER`
+  ADD CONSTRAINT `suppresion_mat_prof` FOREIGN KEY (`CodeEnseignant`) REFERENCES `ENSEIGNANT` (`CodeEnseignant`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `ETUDIANT_CLASSE`
+--
+ALTER TABLE `ETUDIANT_CLASSE`
+  ADD CONSTRAINT `delete_user` FOREIGN KEY (`codeetudiant`) REFERENCES `ETUDIANT` (`codeetudiant`) ON DELETE CASCADE ON UPDATE NO ACTION;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2022-07-05 15:44:33
