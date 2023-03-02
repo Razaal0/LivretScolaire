@@ -423,3 +423,20 @@ function email_exist($email) {
         return False;
     }
 }
+
+function update_pw($mdp, $email) {
+    $us = connexion()->prepare("UPDATE UTILISATEUR set MDP = :password WHERE EMAIL = :email");
+    $us->bindParam(':password', $mdp, PDO::PARAM_STR);
+    $us->bindParam(':email', $email, PDO::PARAM_STR);
+    $us->execute();
+    return $us;
+}
+
+function kodex_random_string($length=6){
+    $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $string = '';
+    for($i=0; $i<$length; $i++){
+        $string .= $chars[rand(0, strlen($chars)-1)];
+    }
+    return $string;
+}

@@ -48,6 +48,8 @@ if (UserConnected()) {
                     <label for="password" class="form-label">Mot de passe</label>
                     <input type="password" name="password" class="form-control" id="password" required>
                     <div class="invalid-feedback">Veuillez entrer votre mot de passe.</div>
+                    <p class="small mb-0">Mot de passe oublié ? <a href="edit-password.php">Modifier le mot de passe</a></p>
+                    <br>
                   </div>
 
                   <div class="col-12">
