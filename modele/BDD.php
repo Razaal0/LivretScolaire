@@ -392,7 +392,7 @@ function ajouter_etudiant_csv($NOMETUDIANT, $PRENOMETUDIANT, $datedenaissance, $
 }
 
 function recupere_user($user,$password) {
-    $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE NOM = :username OR EMAIL = :username and MDP = :password");
+    $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE NOM = :username and MDP = :password OR EMAIL = :username and MDP = :password");
     $us->bindParam(':username', $user, PDO::PARAM_STR);
     $us->bindParam(':password', $password, PDO::PARAM_STR);
     $us->execute();

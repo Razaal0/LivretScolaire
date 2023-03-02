@@ -124,7 +124,7 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
         if (hasAccess(100)) {
         ?>
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+                <a id="menu_administration" class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-wrench"></i><span>Administration</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
             </li>
