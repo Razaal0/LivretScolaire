@@ -17,9 +17,11 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     $remember = isset($_POST['remember']) ? true : false;
 
     // récupérer le compte
-    $account = recupere_user($username, $password);
+    $account = recupere_user($username);
+
+    // vérifier si le mot de passe est correct
     // si le compte existe
-    if ($account) {
+    if (password_verify($password, $account['MDP'])) {
         // si on a coché la case "se souvenir de moi", ne pas expirer la session
         if ($remember) {
             // créer le remember me

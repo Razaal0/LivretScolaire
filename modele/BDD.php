@@ -391,15 +391,23 @@ function ajouter_etudiant_csv($NOMETUDIANT, $PRENOMETUDIANT, $datedenaissance, $
     return $note;
 }
 
-function recupere_user($user,$password) {
-    $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE NOM = :username and MDP = :password OR EMAIL = :username and MDP = :password");
-    $us->bindParam(':username', $user, PDO::PARAM_STR);
-    $us->bindParam(':password', $password, PDO::PARAM_STR);
+function recupere_user($email) {
+    $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE EMAIL = :username");
+    $us->bindParam(':username', $email, PDO::PARAM_STR);
     $us->execute();
     $m = $us->fetch(PDO::FETCH_ASSOC);
     if (!empty($m)) {
         return $m;
     }
+    // return : Array ( [ID] => 6 [EMAIL] => test@test.fr [NOM] => root [PRENOM] => root [MDP] => $2y$10$lwlgaraStCBYrHzgpeJLOeZIQnxk2NKqrh9WjS5P.vbgRLOBGgnB2 [Permission] => 0 )
+    return array(
+        "ID" => 0,
+        "EMAIL" => "",
+        "NOM" => "",
+        "PRENOM" => "",
+        "MDP" => '',
+        "Permission" => 0
+    );
 }
 
 function insert_user($email,$nom,$prenom,$password) {

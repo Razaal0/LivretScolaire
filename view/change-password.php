@@ -13,7 +13,7 @@ require_once('includes/nav.php');
 <main id="main" class="main">
   <div class="container">
 
-    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+    <section class="section register d-flex flex-column align-items-center justify-content-center py-4">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
@@ -21,7 +21,7 @@ require_once('includes/nav.php');
             <div class="d-flex justify-content-center py-4">
               <a href="index.html" class="logo d-flex align-items-center w-auto">
                 <img src="assets/img/logo.png" alt="">
-                <span class="d-none d-lg-block">Livret Scolaire </span>
+                <span class="d-none d-lg-block">Livret Scolaire</span>
               </a>
             </div><!-- End Logo -->
 
@@ -73,9 +73,3 @@ require_once('includes/nav.php');
 <?php
 require_once 'includes/footer.php';
 ?>
-
-<style>
-  #footer {
-    margin-left: 0px;
-}
-</style>
