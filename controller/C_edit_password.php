@@ -41,12 +41,12 @@ if (isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['email']) &&
 if (isset($_POST['code']) && !UserConnected()) {
     $verify_code = $_POST['code'];
 
-    echo $verify_code;
     if ($_SESSION['code'] === $verify_code) {
         add_notif_modal("success", "Le code inséré est bon", "Vous pouvez désormais modifier votre mot de passe");
         header('Location: ../view/change-password.php');
     } else {
         add_notif_modal("danger", "Une erreur est survenue", "Une ou plusieurs de ces informations sont incorrectes");
+        unset($_SESSION['code']); 
         header('Location: ../view/edit-password.php');
     }
 }

@@ -469,3 +469,19 @@ function kodex_random_string($length=6){
     }
     return $string;
 }
+
+function recupere_classe_enseignant($enseignant){
+    $us = connexion()->prepare("SELECT * FROM `ENSEIGNER` WHERE `CodeEnseignant` = :enseignant");
+    $us->bindParam(':enseignant', $enseignant, PDO::PARAM_INT);
+    $us->execute();
+    $m = $us->fetchAll(PDO::FETCH_ASSOC);
+    if (!empty($m)) {
+        return $m;
+    }
+    return array(
+        "CODE" => 0,
+        "NOM" => "",
+        "NIVEAU" => "",
+        "ENSEIGNANT" => 0
+    );
+}

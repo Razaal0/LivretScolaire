@@ -10,8 +10,13 @@ if (!hasAccess(100)) {
 }
 
 $enseignant = recupere_enseignants();
-$matiere = recupere_matieres();
+echo "<script>enseignant = " . json_encode($enseignant) . "</script>";
 $classe = recupere_classes();
+echo "<script>classe = " . json_encode($classe) . "</script>";
+if (isset($_POST['code_enseignant'])) {
+    $enseignant_classe = recupere_classe_enseignant(htmlspecialchars($_POST['code_enseignant']));
+    echo "<script>enseignant_classe = " . json_encode($enseignant_classe) . "</script>";
+}
 
 require_once('../view/includes/header.php');
 require_once('../view/includes/nav.php');
