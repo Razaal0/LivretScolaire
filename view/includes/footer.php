@@ -54,6 +54,7 @@ if (count($_SESSION['notif-modal']) > 0) {
     </div>
     <script>
         // id du toast
+        function AfficheNotif() {
         var toastElList = [].slice.call(document.querySelectorAll('#toast'))
         var toastList = toastElList.map(function(toastEl) {
             return new bootstrap.Toast(toastEl);
@@ -64,6 +65,8 @@ if (count($_SESSION['notif-modal']) > 0) {
         setTimeout(function() {
             toastList.forEach(toast => toast.hide());
         }, 5000);
+    }
+    AfficheNotif();
     </script>
 <?php } ?>
 </body>

@@ -58,3 +58,19 @@ if ($codeetudiant) {
     </script>
 <?php
 }
+
+
+//Affectation
+
+// Suppresion d'une affectation d'un enseignant à une classe
+if (isset($_POST['code_enseignant']) && isset($_POST['code_classe'])) {
+    $code_enseignant = htmlspecialchars($_POST['code_enseignant']);
+    $code_classe = htmlspecialchars($_POST['code_classe']);
+    $test = supprimer_affectation_enseignant_classe($code_enseignant, $code_classe);
+    if ($test){
+    echo "success";
+    } else {
+    echo $test;
+    }
+    exit();
+}

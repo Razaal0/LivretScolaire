@@ -475,13 +475,52 @@ function recupere_classe_enseignant($enseignant){
     $us->bindParam(':enseignant', $enseignant, PDO::PARAM_INT);
     $us->execute();
     $m = $us->fetchAll(PDO::FETCH_ASSOC);
-    if (!empty($m)) {
-        return $m;
+    $enseignant_classes = array();
+    foreach ($m as $element) {
+        if (count($enseignant_classes) == 0) {
+          $enseignant_classes[] = array(
+            "classecode" => $element["classecode"],
+            "CodeEnseignant" => $element["CodeEnseignant"],
+            "CodeMatiere" => array($element["CodeMatiere"])
+          );
+        } else {
+          $i = 0;
+          $trouve = false;
+          while ($i < count($enseignant_classes) && !$trouve) {
+            if ($enseignant_classes[$i]["classecode"] == $element["classecode"]) {
+              $trouve = true;
+              $enseignant_classes[$i]["CodeMatiere"][] = $element["CodeMatiere"];
+            }
+            $i++;
+          }
+          if (!$trouve) {
+            $enseignant_classes[] = array(
+              "classecode" => $element["classecode"],
+              "CodeEnseignant" => $element["CodeEnseignant"],
+              "CodeMatiere" => array($element["CodeMatiere"])
+            );
+          }
+        }
+      }
+    if (!empty($enseignant_classes)) {
+        return $enseignant_classes;
     }
     return array(
-        "CODE" => 0,
-        "NOM" => "",
-        "NIVEAU" => "",
-        "ENSEIGNANT" => 0
+        "CodeEnseignant" => 0,
+        "CodeMatiere" => [],
+        "classecode" => ""
     );
+}
+
+
+function supprimer_affectation_enseignant_classe($enseignant, $classe) {
+    try{
+    $us = connexion()->prepare("DELETE FROM `ENSEIGNER` WHERE `CodeEnseignant` = :enseignant AND `classecode` = :classe");
+    $us->bindParam(':enseignant', $enseignant, PDO::PARAM_INT);
+    $us->bindParam(':classe', $classe, PDO::PARAM_INT);
+    $us->execute();
+    return true;
+    } catch (Exception $e) {
+        return $e;
+    }
 }

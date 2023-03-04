@@ -10,17 +10,26 @@ if (!hasAccess(100)) {
 }
 
 $enseignant = recupere_enseignants();
+// On envoie les données en JSON pour pouvoir les récupérer dans le JS
 echo "<script>enseignant = " . json_encode($enseignant) . "</script>";
 $classe = recupere_classes();
+// On envoie les données en JSON pour pouvoir les récupérer dans le JS
 echo "<script>classe = " . json_encode($classe) . "</script>";
+
+// Quand on choisi un enseignant :
 if (isset($_POST['code_enseignant'])) {
     $enseignant_classe = recupere_classe_enseignant(htmlspecialchars($_POST['code_enseignant']));
-    echo "<script>enseignant_classe = " . json_encode($enseignant_classe) . "</script>";
+    // On envoie les données en JSON pour pouvoir les récupérer dans le JS
+    echo "<script>enseignant_classe = ". json_encode($enseignant_classe) .";</script>";
 }
 
 require_once('../view/includes/header.php');
 require_once('../view/includes/nav.php');
 require_once('../view/Affectation.php');
+
+
+
+
 
 if (verif_submit('sub') == 'Valider') {
     $error = 0;
