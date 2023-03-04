@@ -12,7 +12,7 @@ require_once('includes/nav.php');
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Profile</h1>
+    <h1>Profil</h1>
 
   <section class="section profile">
     <div class="row">

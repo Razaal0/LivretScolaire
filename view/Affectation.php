@@ -91,11 +91,15 @@ if (!hasAccess(100)) {
                                                         classe.forEach(element => {
                                                             // parcourir le tableau enseignant_classe et vérifier que element.CodeClasse n'est pas dedans
                                                             var classe_deja_affecte = false;
-                                                            enseignant_classe.forEach(element2 => {
-                                                                if (element.classecode == element2.classecode) {
-                                                                    classe_deja_affecte = true;
-                                                                }
-                                                            });
+                                                            // vérifier que enseignant_classe n'est pas vide
+                                                            if (enseignant_classe.length > 0) {
+                                                                enseignant_classe.forEach(element2 => {
+                                                                    if (element.classecode == element2.classecode) {
+                                                                        classe_deja_affecte = true;
+                                                                    }
+                                                                });
+                                                            }
+
                                                             if (!classe_deja_affecte) {
                                                                 document.querySelector('#classe_pas_au_prof').innerHTML += '<tr><td>' + element.Libellecourt + '</td><td><a href="/controller/C_affectation_add_mod.php?type=add&code_prof=' + <?php echo $_POST['code_enseignant']; ?> + '&code_classe=' + element.classecode + '" class="btn btn-primary">Ajouter</a></td></tr>';
                                                             }

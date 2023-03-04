@@ -11,7 +11,7 @@ if (!hasAccess(100)) {
     </div>
     <section class="section">
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <?php if ($type == 'add') { ?>
@@ -26,10 +26,11 @@ if (!hasAccess(100)) {
                                 <div class="col-sm-10">
                                     <?php
                                     // afficher la liste des matière
-                                    foreach ($matiere as $key => $value) {
+                                    foreach ($matiere_classe as $key => $value) {
                                     ?>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="matiere[]" value="<?php echo $value['CodeMatiere']; ?>" id="matiere<?php echo $value['CodeMatiere']; ?>" <label class="form-check-label" for="matiere<?php echo $value['CodeMatiere']; ?>">
+                                        <div class="form-check m-3 d-flex">
+                                            <input class="form-check-input" style="font-size:20px" type="checkbox" name="matiere[]" value="<?php echo $value['CodeMatiere']; ?>" id="matiere<?php echo $value['CodeMatiere']; ?>">
+                                            <label class="form-check-label" style="font-size:20px" for="matiere<?php echo $value['CodeMatiere']; ?>">
                                             <?php echo $value['LibMatiere']; ?>
                                             </label>
                                         </div>
@@ -43,8 +44,10 @@ if (!hasAccess(100)) {
                                             <input type="hidden" name="form_type" value="<?php echo $type; ?>">
                                         </div>  
                                     </div>
-                                    <div class="col-sm-10 d-flex justify-content-end">
+                                    <div class="col-sm-10 d-flex justify-content-start">
                                         <button type="submit" class="btn btn-primary">Modifier</button>
+                                        <button type="button" class="btn btn-danger ms-3" onclick="window.location.href = '/controller/c_Affectation.php';">Annuler</button>
+
                                     </div>
                                 </div>
                         </form>

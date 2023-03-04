@@ -137,6 +137,15 @@ function recupere_matieres_by_id($codematiere)
     return $m;
 }
 
+function recupere_matieres_by_classe($classecode)
+{
+    $matiere = connexion()->prepare("SELECT `MATIERE`.`CodeMatiere`,`MATIERE`.`LibMatiere` FROM `CLASSE_MATIERE` JOIN `MATIERE` ON `CLASSE_MATIERE`.`CodeMatiere` = `MATIERE`.`CodeMatiere` WHERE classecode = :classecode");
+    $matiere->bindParam(':classecode', $classecode, PDO::PARAM_INT);
+    $matiere->execute();
+    $m = $matiere->fetchAll(PDO::FETCH_ASSOC);
+    return $m;
+}
+
 function insert_matieres()
 {
     $matiere = filter_input(INPUT_POST, "matieres");
@@ -281,6 +290,37 @@ function insert_enseigner($classe, $matiere, $enseignant)
     $inserer->bindParam(':enseignant', $enseignant, PDO::PARAM_INT);
     $inserer->execute();
     return $inserer;
+}
+
+function supprimer_affectation_enseignant_classe($enseignant, $classe) {
+    try{
+    $us = connexion()->prepare("DELETE FROM `ENSEIGNER` WHERE `CodeEnseignant` = :enseignant AND `classecode` = :classe");
+    $us->bindParam(':enseignant', $enseignant, PDO::PARAM_INT);
+    $us->bindParam(':classe', $classe, PDO::PARAM_INT);
+    $us->execute();
+    return true;
+    } catch (Exception $e) {
+        return $e;
+    }
+}
+
+function verif_existe_affectation_enseignant_classe_matiere($classe, $matiere, $enseignant) {
+    $recup_enseigner = connexion()->prepare("SELECT * FROM `ENSEIGNER` WHERE `classecode` = :classe AND `CodeEnseignant` = :enseignant AND `CodeMatiere` = :matiere");
+    $recup_enseigner->bindParam(':classe', $classe, PDO::PARAM_INT);
+    $recup_enseigner->bindParam(':enseignant', $enseignant, PDO::PARAM_INT);
+    $recup_enseigner->bindParam(':matiere', $matiere, PDO::PARAM_INT);
+    $recup_enseigner->execute();
+    return  $recup_enseigner->fetch(PDO::FETCH_ASSOC);
+}
+
+function supprimer_affecation_enseignant_classe_matiere($classe, $matiere, $enseignant)
+{
+    $supp_affecation = connexion()->prepare("DELETE FROM `ENSEIGNER` WHERE `classecode` = :classe AND `CodeEnseignant` = :enseignant AND `CodeMatiere` = :matiere");
+    $supp_affecation->bindParam(':classe', $classe, PDO::PARAM_INT);
+    $supp_affecation->bindParam(':enseignant', $enseignant, PDO::PARAM_INT);
+    $supp_affecation->bindParam(':matiere', $matiere, PDO::PARAM_INT);
+    $supp_affecation->execute();
+    return $supp_affecation;
 }
 
 function insert_etudiant($nom, $prenom, $date, $classe, $numero_national)
@@ -510,17 +550,4 @@ function recupere_classe_enseignant($enseignant){
         "CodeMatiere" => [],
         "classecode" => ""
     );
-}
-
-
-function supprimer_affectation_enseignant_classe($enseignant, $classe) {
-    try{
-    $us = connexion()->prepare("DELETE FROM `ENSEIGNER` WHERE `CodeEnseignant` = :enseignant AND `classecode` = :classe");
-    $us->bindParam(':enseignant', $enseignant, PDO::PARAM_INT);
-    $us->bindParam(':classe', $classe, PDO::PARAM_INT);
-    $us->execute();
-    return true;
-    } catch (Exception $e) {
-        return $e;
-    }
 }
