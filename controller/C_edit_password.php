@@ -1,7 +1,14 @@
 <?php
 // post email, username and password
 require_once('../modele/BDD.php');
+require_once('../view/includes/PHPMailer/Exception.php');
+require_once('../view/includes/PHPMailer/PHPMailer.php');
+require_once('../view/includes/PHPMailer/SMTP.php');
 require_once('../view/includes/user-session.php');
+
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 // Méthode pour envoyer le code de réinitialisation par mail
 if (isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['email']) && !UserConnected()) {
@@ -15,25 +22,45 @@ if (isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['email']) &&
 
     $_SESSION['emailmdp'] = $email;
 
-    $to = $email;
-    $subject = 'Mot de passe oublié';
-    $message = '<html><body>';
-    $message .= '<h1 style="color:#00c3ff"> Mot de passe oublié </h1>';
-    $message .= '<p style="color:#000000; font-size:12px"> Voici le code permettant de réinitialiser votre mot de passe :</p>';
-    $message .= '<br />';
-    $message .= '<h2 style="color:#2657eb>' . $code . '</h2>';
-    $message .= '</body></html>';
-    $headers = 'MIME-Version: 1.0' . "\r\n";
-    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-    $headers .= 'From: Livret Scolaire' . "\r\n";
 
-    try {
-        mail($to, $subject, $message, $headers);
-        add_notif_modal("success", "Un mail vous a été envoyé.", "Veuillez vérifier votre boite mail ! $code");
-        header('Location: ../view/insert_psw_code.php');
+    $phpMailer = new PHPMailer(true);
+
+    try{
+        // Vidéo youtube pour config l'envoi de mail avec phpmailer : https://www.youtube.com/watch?v=SXKzTjxXW88&ab_channel=NouvelleTechno
+        //Configurations
+        $phpMailer->SMTPDebug = SMTP::DEBUG_SERVER;
+
+        //Connexion au serveur SMTP de gmail
+        $phpMailer->isSMTP();
+        $phpMailer->Host = 'smtp-mail.outlook.com';
+        $phpMailer->SMTPAuth = true;
+        $phpMailer->Username = 'LivretScolaire@hotmail.com';
+        $phpMailer->Password = 'b@0PQLLm5$Y&T';
+        $phpMailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $phpMailer->Port = 587;
+
+        //Charset
+        $phpMailer->CharSet = 'UTF-8';
+
+        // Destinataire
+        $phpMailer->addAddress($email);
+
+        // Contenu
+        $phpMailer->isHTML(true);
+        $phpMailer->Subject = 'Livret scolaire - Changement de votre de passe';
+        $phpMailer->Body = file_get_contents('../view/includes/PHPMailer/template/reset_password.php');
+        // modifier le template email
+        $phpMailer->Body = str_replace('{{prenom}}', $prenom, $phpMailer->Body);
+        $phpMailer->Body = str_replace('{{code}}', $code, $phpMailer->Body);
+
+        // Envoi
+        $phpMailer->send();
+        add_notif_modal("success", "Un mail vous a été envoyé.", "Veuillez vérifier votre boite mail !");
+        echo '<meta http-equiv="refresh" content="0; url=/view/insert_psw_code.php" />';
     } catch (Exception $ex) {
-        add_notif_modal("danger", "Une erreur est survenue", "Une ou plusieurs de ces informations sont incorrectes, veuillez réessayer !");
-        header('Location: ../view/edit-password.php');
+        echo "danger", "Une erreur est survenue", "Email non envoyé erreur : $ex";
+        exit();
+        echo '<meta http-equiv="refresh" content="0; url=/view/edit-password.php" />';
     }
 }
 

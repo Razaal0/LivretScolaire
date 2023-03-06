@@ -17,7 +17,7 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
 
     // récupérer la première ligne qui désignera les colonnes
     $first_line = fgetcsv($handle, 0, ";");
-    // faire un filter pour enlever les﻿
+    // faire un filter pour enlever les ﻿
     $first_line = array_map('trim', $first_line);
     // faire un filter pour enlever les espaces
     foreach ($first_line as $key => $value) {
@@ -27,6 +27,21 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
     $data = array();
     while ($row = fgetcsv($handle, 0, ";")) {
         $data[] = array_combine($first_line, $row);
+    }
+    // vérifier que les entêtes sont correctes comme dans le fichier exemple
+    // (NOM | PRENOM | SEXE | NE(E) LE | DIV. | REG. | OPT1 | OPT2 | DIV.PREC.)
+    $entete = array('NOM', 'PRENOM', 'SEXE', 'NE(E) LE', 'DIV.', 'REG.', 'OPT1', 'OPT2', 'DIV.PREC.)');
+    if ($first_line != $entete) {
+        echo '<h4>Le fichier n\'est pas au bon format.</h4>';
+        echo '<h4>Le fichier que vous avez importé est : </h4>';
+        echo '<h4>';
+        echo $first_line;
+        echo '</h4>';
+        echo '<h4>Le fichier exemple est : </h4>';
+        echo '<h4>';
+        print_r($entete);
+        echo '</h4>';
+        exit();
     }
     // initiation des tableaux d'erreur
     $eleve_error_insert_classe = array();
@@ -67,8 +82,9 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
                 // si verif_insert == False, alors 
                 if ($verif_insert == False) {
                     $eleve_error_insert_classe[] = $row;
+                    echo "<script>console.log('Impossible d'insérer l'élève : " . $row['NOM'] . " " . $row['PRENOM'] . " dans la classe : " . $classe . " avec le numéro national : " . $row['NumeroNational'] . "');
+                    </script>";
                 }
-
                 // si il y a pas de numéro national
             } else {
                 $date_naissance = explode("/", $row['NE(E) LE']);
