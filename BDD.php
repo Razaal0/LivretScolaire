@@ -1,7 +1,6 @@
 <?php
 
-function connexion()
-{
+function connexion() {
     try {
         // ip :  145.239.62.99
         $conn = new PDO('mysql:host=145.239.62.99;dbname=livret', 'fiche_annee', '^8g889Ngz');
@@ -11,22 +10,19 @@ function connexion()
     return $conn;
 }
 
-function deconnexion()
-{
+function deconnexion() {
     $conn = null;
     return $conn;
 }
 
-function verif_matiere_note($saisie)
-{
+function verif_matiere_note($saisie) {
     if (filter_has_var(INPUT_POST, $saisie)) {
         $saisie = filter_input(INPUT_POST, $saisie, FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
         return $saisie;
     }
 }
 
-function verif_saisi($saisie)
-{
+function verif_saisi($saisie) {
     if (filter_has_var(INPUT_POST, $saisie)) {
         $saisie = filter_input(INPUT_POST, $saisie, FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
         $saisi = implode($saisie);
@@ -34,16 +30,14 @@ function verif_saisi($saisie)
     }
 }
 
-function verif_submit($envoyer)
-{
+function verif_submit($envoyer) {
     if (filter_input(INPUT_POST, $envoyer) != NULL) {
         $envoyer = filter_input(INPUT_POST, $envoyer);
     }
     return $envoyer;
 }
 
-function filtrer_character($nombre)
-{
+function filtrer_character($nombre) {
     if (filter_input(INPUT_POST, $nombre) == NULL) {
         $tab = filter_input(INPUT_POST, $nombre, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
         $nombre = filter_var_array($tab);
@@ -59,35 +53,40 @@ function filtrer_character($nombre)
 //    return $dec;
 //}
 
-function recupere_enseignants()
-{
+function recupere_enseignants() {
     $enseignant = connexion()->prepare("SELECT * FROM `ENSEIGNANT`");
     $enseignant->execute();
     $profs = $enseignant->fetchAll(PDO::FETCH_ASSOC);
     return $profs;
 }
-function recupere_moy_classeMat(){
+
+function recupere_moy_classeMat() {
     $MoyClassM = connexion()->prepare("SELECT classecode, codematiere ,TOTAL/nbNote as moyenneMatiere FROM `vtotNoteParClasseEtMatiere` group by classecode, codematiere;");
     $MoyClassM->execute();
     return $MoyClassM->fetchAll(PDO::FETCH_ASSOC);
 }
-function recuperer_MoyParClasse($classecode)
-{
+
+function recuperer_MoyParClasse($classecode) {
     $recup_class = connexion()->prepare("SELECT classecode, codematiere ,TOTAL/nbNote as moyenneMatiere FROM `vtotNoteParClasseEtMatiere` WHERE classecode =:codeclass group by classecode, codematiere");
     $recup_class->bindParam(':codeclass', $classecode, PDO::PARAM_INT);
     $recup_class->execute();
     return $recup_class;
 }
 
-function procedure_NoteparClasseetMatiere($classecode){
+function procedure_NoteparClasseetMatiere($classecode) {
     $appelprocedure = connexion()->prepare("Call NoteparClasseetMatiere(:classecode)");
-    $appelprocedure ->bindParam(':classecode', $classecode);
-    $appelprocedure ->execute();
+    $appelprocedure->bindParam(':classecode', $classecode);
+    $appelprocedure->execute();
     return $appelprocedure;
 }
 
-function insert_enseignants()
-{
+function MoyenneparClasse1erAnnee() {
+    $recup_class = connexion()->prepare("select `NOTE_ETUDIANT`.`classecode` AS `classecode`,`NOTE_ETUDIANT`.`codematiere` AS `codematiere`,sum(`NOTE_ETUDIANT`.`Semestre1` + `NOTE_ETUDIANT`.`Semestre2`) / 2 AS `TOTAL`,count(0) AS `nbNote` from `NOTE_ETUDIANT` group by `NOTE_ETUDIANT`.`classecode`,`NOTE_ETUDIANT`.`codematiere`");
+    $recup_class->execute();
+    return $recup_class;
+}
+
+function insert_enseignants() {
     $name = filter_input(INPUT_POST, "nom");
     $firstname = filter_input(INPUT_POST, "prenom");
     $ens = false;
@@ -100,8 +99,7 @@ function insert_enseignants()
     return $ens;
 }
 
-function modif_ens($codeenseignant)
-{
+function modif_ens($codeenseignant) {
     $nomens = filter_input(INPUT_POST, "nomens");
     $prenomens = filter_input(INPUT_POST, "prenomens");
     if ($nomens && !empty($nomens)) {
@@ -118,40 +116,37 @@ function modif_ens($codeenseignant)
     }
 }
 
-function supprimer_enseignant($codeenseignant)
-{
+function supprimer_enseignant($codeenseignant) {
     $supp_ens = connexion()->prepare("DELETE from `ENSEIGNANT` WHERE CodeEnseignant =:codeens");
     $supp_ens->bindParam(':codeens', $codeenseignant, PDO::PARAM_INT);
     $supp_ens->execute();
     return $supp_ens;
 }
 
-function recupere_matieres()
-{
+function recupere_matieres() {
     $matiere = connexion()->prepare("SELECT * FROM `MATIERE`");
     $matiere->execute();
     $m = $matiere->fetchAll(PDO::FETCH_ASSOC);
     return $m;
 }
 
-function insert_matieres()
-{
+function insert_matieres() {
     $matiere = filter_input(INPUT_POST, "matieres");
     $ajoutmat = connexion()->prepare("INSERT INTO `MATIERE`(LibMatiere) VALUES(:matiere)");
     if (isset($matiere)) {
         $ajoutmat->bindParam(':matiere', $matiere, PDO::PARAM_STR);
         $ajoutmat->execute();
-?>
+        ?>
         <script>
             window.location.href = "../Controller/C_matiere.php ";
         </script>
-<?php
+        <?php
+
     }
     return $ajoutmat;
 }
 
-function modif_matiere($codematiere)
-{
+function modif_matiere($codematiere) {
     $matiere = filter_input(INPUT_POST, "matiere");
     if ($matiere) {
         $modifm = connexion()->prepare("UPDATE `MATIERE` SET LibMatiere ='" . $matiere . "' WHERE CodeMatiere =:codemat");
@@ -161,47 +156,42 @@ function modif_matiere($codematiere)
     }
 }
 
-function supprimer_matiere($codematiere)
-{
+function supprimer_matiere($codematiere) {
     $suppm = connexion()->prepare("DELETE from `MATIERE` WHERE CodeMatiere =:codemat");
     $suppm->bindParam(':codemat', $codematiere, PDO::PARAM_INT);
     $suppm->execute();
     return $suppm;
 }
 
-function recupere_classes()
-{
+function recupere_classes() {
     $classe = connexion()->prepare("SELECT * FROM `CLASSE`");
     $classe->execute();
     $c = $classe->fetchAll(PDO::FETCH_ASSOC);
     return $c;
 }
 
-function asso_cl_et($valeur)
-{
-    $etud = connexion()->prepare("SELECT * from `ASSO_9` join `CLASSE` on `CLASSE`.classecode = `ASSO_9`.classecode join `ETUDIANT` on `ETUDIANT`.codeetudiant = `ASSO_9`.codeetudiant where `ASSO_9`.classecode ='" . $valeur."'");
+function asso_cl_et($valeur) {
+    $etud = connexion()->prepare("SELECT * from `ASSO_9` join `CLASSE` on `CLASSE`.classecode = `ASSO_9`.classecode join `ETUDIANT` on `ETUDIANT`.codeetudiant = `ASSO_9`.codeetudiant where `ASSO_9`.classecode ='" . $valeur . "'");
     $etud->execute();
     $et = $etud->fetchAll(PDO::FETCH_ASSOC);
     return $et;
 }
 
-function asso_cl_et_un_etudiant($classe,$codeEtu)
-{
+function asso_cl_et_un_etudiant($classe, $codeEtu) {
     $etud = connexion()->prepare("SELECT * from `ASSO_9` join `CLASSE` on `CLASSE`.classecode = `ASSO_9`.classecode join `ETUDIANT` on `ETUDIANT`.codeetudiant = `ASSO_9`.codeetudiant where `ASSO_9`.classecode =" . $classe . " and `ASSO_9`.codeetudiant = " . $codeEtu);
     $etud->execute();
     $et = $etud->fetchAll(PDO::FETCH_ASSOC);
     return $et;
 }
-function recupere_etudiants()
-{
+
+function recupere_etudiants() {
     $req = connexion()->prepare("SELECT * from `ETUDIANT` join `ASSO_9` on `ASSO_9`.codeetudiant = `ETUDIANT`.codeetudiant join `CLASSE` on `CLASSE`.classecode = `ASSO_9`.classecode;");
     $req->execute();
     $r = $req->fetchAll(PDO::FETCH_ASSOC);
     return $r;
 }
 
-function modif_etud($codeetudiant)
-{
+function modif_etud($codeetudiant) {
     $nometu = filter_input(INPUT_POST, "nometu");
     $prenometu = filter_input(INPUT_POST, "prenometu");
     $datenaissance = filter_input(INPUT_POST, "date");
@@ -233,16 +223,14 @@ function modif_etud($codeetudiant)
     }
 }
 
-function supprimer_etudiant($codeetudiant)
-{
+function supprimer_etudiant($codeetudiant) {
     $supp_etud = connexion()->prepare("DELETE from `ETUDIANT` WHERE codeetudiant =:codeetud");
     $supp_etud->bindParam(':codeetud', $codeetudiant, PDO::PARAM_INT);
     $supp_etud->execute();
     return $supp_etud;
 }
 
-function recupere_enseigner($classe)
-{
+function recupere_enseigner($classe) {
     $mat = connexion()->prepare("SELECT `CodeEnseignant`, `classecode`,`ENSEIGNER`.`CodeMatiere`,`LibMatiere` FROM `ENSEIGNER` join `MATIERE` on ENSEIGNER.CodeMatiere = MATIERE.CodeMatiere where ENSEIGNER.CLASSECODE =" . $classe);
     $mat->execute();
     $m = $mat->fetchAll(PDO::FETCH_ASSOC);
@@ -252,11 +240,10 @@ function recupere_enseigner($classe)
 function verif_enseigner_existe($classe, $matiere, $enseignant) {
     $recup_enseigner = connexion()->prepare("SELECT * FROM `ENSEIGNER` WHERE `classecode` = " . $classe . " AND `CodeEnseignant` = " . $enseignant . " AND `CodeMatiere` = " . $matiere . "");
     $recup_enseigner->execute();
-    return  $recup_enseigner->fetch(PDO::FETCH_ASSOC);
+    return $recup_enseigner->fetch(PDO::FETCH_ASSOC);
 }
 
-function insert_enseigner($classe, $matiere, $enseignant)
-{
+function insert_enseigner($classe, $matiere, $enseignant) {
     $inserer = connexion()->prepare("INSERT INTO `ENSEIGNER`(classecode,CodeMatiere,CodeEnseignant) VALUES(:classe,:matiere,:enseignant)");
     $inserer->bindParam(':classe', $classe, PDO::PARAM_INT);
     $inserer->bindParam(':matiere', $matiere, PDO::PARAM_INT);
@@ -265,8 +252,7 @@ function insert_enseigner($classe, $matiere, $enseignant)
     return $inserer;
 }
 
-function insert_etudiant($nom, $prenom, $date, $classe, $numero_national)
-{
+function insert_etudiant($nom, $prenom, $date, $classe, $numero_national) {
     // insertion de l'étudiant dans la table ETUDIANT
     $ajout_etud = connexion()->prepare("INSERT INTO `ETUDIANT`(`NOMETUDIANT`, `PRENOMETUDIANT`, `datedenaissance`, `Numeronational`) VALUES (:nom,:prenom,:datee,:numero_national)");
     $ajout_etud->bindParam(':nom', $nom, PDO::PARAM_STR);
@@ -332,8 +318,7 @@ function insert_etudiant($nom, $prenom, $date, $classe, $numero_national)
     return False;
 }
 
-function recupere_notes($codeetudiant)
-{
+function recupere_notes($codeetudiant) {
     $note = connexion()->prepare("select * from `NOTE_ETUDIANT` join `ETUDIANT` on `NOTE_ETUDIANT`.Codeetudiant = `ETUDIANT`.codeetudiant 
                                   join `MATIERE` on `NOTE_ETUDIANT`.codematiere = `MATIERE`.codematiere 
                                   where `NOTE_ETUDIANT`.codeetudiant=:codeetud order by Libmatiere");
@@ -343,8 +328,7 @@ function recupere_notes($codeetudiant)
     return $note;
 }
 
-function note_saisie($semestre1, $semestre2, $appreciation, $codeetudiant, $codematiere, $codeclasse)
-{
+function note_saisie($semestre1, $semestre2, $appreciation, $codeetudiant, $codematiere, $codeclasse) {
     $note = connexion()->prepare("INSERT INTO `NOTE_ETUDIANT`(Semestre1,Semestre2,Appreciation,CodeEtudiant,CodeMatiere,Classecode) values(:S1,:S2,:app,:codeetud,:codemat,:codeclas) on duplicate key update Semestre1 = :S1, Semestre2 = :S2, Appreciation=:app");
     $note->bindParam(':S1', $semestre1, PDO::PARAM_INT);
     $note->bindParam(':S2', $semestre2, PDO::PARAM_INT);
@@ -356,15 +340,13 @@ function note_saisie($semestre1, $semestre2, $appreciation, $codeetudiant, $code
     return $note;
 }
 
-function ajouter_etudiant_csv($NOMETUDIANT, $PRENOMETUDIANT, $datedenaissance, $Numeronational)
-{
+function ajouter_etudiant_csv($NOMETUDIANT, $PRENOMETUDIANT, $datedenaissance, $Numeronational) {
     $note = connexion()->prepare("INSERT INTO `ETUDIANT`(`NOMETUDIANT`, `PRENOMETUDIANT`, `datedenaissance`, `Numeronational`) values(:NOMETUDIANT, :PRENOMETUDIANT, :datedenaissance, :Numeronational)");
     $note->bindParam(':NOMETUDIANT', $NOMETUDIANT, PDO::PARAM_STR);
     $note->bindParam(':PRENOMETUDIANT', $PRENOMETUDIANT, PDO::PARAM_STR);
     $note->bindParam(':datedenaissance', $datedenaissance, PDO::PARAM_STR);
     $note->bindParam(':Numeronational', $Numeronational, PDO::PARAM_INT);
     $note->execute();
-
 
     $ajout_etud = connexion()->prepare("INSERT INTO `ASSO_9` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
     $ajout_etud->bindParam(':code_etudiant', $id_eleve_test, PDO::PARAM_INT);
@@ -373,7 +355,7 @@ function ajouter_etudiant_csv($NOMETUDIANT, $PRENOMETUDIANT, $datedenaissance, $
     return $note;
 }
 
-function recupere_user($user,$password) {
+function recupere_user($user, $password) {
     $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE NOM = :username and MDP = :password");
     $us->bindParam(':username', $user, PDO::PARAM_STR);
     $us->bindParam(':password', $password, PDO::PARAM_STR);
@@ -395,7 +377,7 @@ function recupere_user($user,$password) {
     }
 }
 
-function insert_user($email,$nom,$prenom,$password) {
+function insert_user($email, $nom, $prenom, $password) {
     $us = connexion()->prepare("INSERT INTO UTILISATEUR (NOM,PRENOM,EMAIL,MDP) VALUES (:nom,:prenom,:email,:password)");
     $us->bindParam(':nom', $nom, PDO::PARAM_STR);
     $us->bindParam(':prenom', $prenom, PDO::PARAM_STR);
