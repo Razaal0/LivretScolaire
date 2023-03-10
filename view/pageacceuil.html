@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Credit Creator</title>
+        <style>
+            *{
+                background-color: #ffffff!important;
+            }
+            
+        </style>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="creditoption.css">
+    </head>
+    <body>
+        <script>
+            let Code = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+            let Index = 0;
+            let lastKeyTime = 0;
+
+            document.addEventListener("keydown", function(event) {
+              const now = Date.now();
+              if (event.charCode === Code[Index] || event.keyCode === Code[Index]) {
+                if (Index === 0) {
+                  lastKeyTime = now;
+                } else {
+                  const elapsed = now - lastKeyTime;
+                  lastKeyTime = now;
+                  if (elapsed > 2000) {
+                    Index = 0;
+                  }
+                }
+                Index++;
+                if (Index === Code.length) {
+                  // Rediriger l'utilisateur vers le fichier credit.html
+                  window.location = "credit.html";
+                  Index = 0;
+                }
+              } else {
+                Index = 0;
+              }
+            });
+        </script>
+        <p>
+                Il y a un secret trouve le!!!!
+            </p>
+    </body>
+</html>
