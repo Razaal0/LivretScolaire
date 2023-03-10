@@ -6,7 +6,7 @@ class TestSelenium(driver):
 
     def TestEnseignant(self):
 
-      self.Connexion_site("root", "root")
+      self.Connexion_site("test@test.fr", "root")
 
       # dérouler le menu Administration
       WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.ID, 'menu_administration'))).click()
@@ -29,7 +29,7 @@ class TestSelenium(driver):
          raise Exception("La notification d'ajoût d'enseignant n'a pas été trouvé")
 
       # vérifier que l'enseignant a été ajouté
-      ligne = self.rechercher_donnee_tableau("SeleniumTest_Nom", "SeleniumTest_Nome", "SeleniumTest_Prenom")
+      ligne = self.rechercher_donnee_tableau("SeleniumTest_Nom", "SeleniumTest_Nom", "SeleniumTest_Prenom")
       if ligne == False:
         raise Exception("L'enseignant n'a pas été trouvé dans le tableau")
 

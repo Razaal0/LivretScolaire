@@ -276,6 +276,13 @@ function recupere_enseigner($classe)
     return "SELECT `CodeEnseignant`, `classecode`,`ENSEIGNER`.`CodeMatiere`,`LibMatiere` FROM `ENSEIGNER` join `MATIERE` on ENSEIGNER.CodeMatiere = MATIERE.CodeMatiere where ENSEIGNER.CLASSECODE =" . $classe;
 }
 
+/**
+ * * Développé par : Théo mouty
+ * @param $classe
+ * @param $matiere
+ * @param $enseignant
+ * @return 
+ */
 function verif_enseigner_existe($classe, $matiere, $enseignant) {
     $recup_enseigner = connexion()->prepare("SELECT * FROM `ENSEIGNER` WHERE `classecode` = " . $classe . " AND `CodeEnseignant` = " . $enseignant . " AND `CodeMatiere` = " . $matiere . "");
     $recup_enseigner->execute();
@@ -292,6 +299,14 @@ function insert_enseigner($classe, $matiere, $enseignant)
     return $inserer;
 }
 
+/**
+ * * Créer par : Théo mouty
+ * 
+ * Méthode qui permet de supprimer toutes les affectations d'un enseignant à une classe
+ * @param $classe - Code de la classe
+ * @param $enseignant - Code de l'enseignant
+ * @return bool
+ */
 function supprimer_affectation_enseignant_classe($enseignant, $classe) {
     try{
     $us = connexion()->prepare("DELETE FROM `ENSEIGNER` WHERE `CodeEnseignant` = :enseignant AND `classecode` = :classe");
@@ -304,6 +319,15 @@ function supprimer_affectation_enseignant_classe($enseignant, $classe) {
     }
 }
 
+/**
+ * * Créer par : Théo mouty
+ * 
+ * Méthode qui permet de voir si une affectation d'un enseignant à une classe et une matière existe
+ * @param $classe - Code de la classe
+ * @param $matiere - Code de la matière
+ * @param $enseignant - Code de l'enseignant
+ * @return bool
+ */
 function verif_existe_affectation_enseignant_classe_matiere($classe, $matiere, $enseignant) {
     $recup_enseigner = connexion()->prepare("SELECT * FROM `ENSEIGNER` WHERE `classecode` = :classe AND `CodeEnseignant` = :enseignant AND `CodeMatiere` = :matiere");
     $recup_enseigner->bindParam(':classe', $classe, PDO::PARAM_INT);
@@ -313,6 +337,14 @@ function verif_existe_affectation_enseignant_classe_matiere($classe, $matiere, $
     return  $recup_enseigner->fetch(PDO::FETCH_ASSOC);
 }
 
+/**
+ *  * Créer par : Théo mouty
+ * 
+ * Méthode qui permet de supprimer une affectation d'un enseignant à une classe et une matière
+ * @param $classe - Code de la classe
+ * @param $matiere - Code de la matière
+ * @param $enseignant - Code de l'enseignant
+ */
 function supprimer_affecation_enseignant_classe_matiere($classe, $matiere, $enseignant)
 {
     $supp_affecation = connexion()->prepare("DELETE FROM `ENSEIGNER` WHERE `classecode` = :classe AND `CodeEnseignant` = :enseignant AND `CodeMatiere` = :matiere");
@@ -323,6 +355,18 @@ function supprimer_affecation_enseignant_classe_matiere($classe, $matiere, $ense
     return $supp_affecation;
 }
 
+/**
+ * Créer par : Théo mouty
+ * 
+ * Fonction qui permet d'insérer un étudiant dans la base de données
+ * @param $nom - Nom de l'étudiant
+ * @param $prenom - Prénom de l'étudiant
+ * @param $date - Date de naissance de l'étudiant
+ * @param $classe - Code de la classe de l'étudiant
+ * @param $numero_national - Numéro national de l'étudiant (pas obligatoire)
+ * @return bool true si l'insertion s'est bien passée, false sinon
+ * 
+ */
 function insert_etudiant($nom, $prenom, $date, $classe, $numero_national)
 {
     // insertion de l'étudiant dans la table ETUDIANT
@@ -369,7 +413,7 @@ function insert_etudiant($nom, $prenom, $date, $classe, $numero_national)
         }
     }
 
-    // On vérifire après
+    // On vérifire si l'insertion a bien été faite
     for ($i = $id_eleve_test - 1; $id_eleve_test < $id_eleve_test - 6; $i--) {
         // récupération de l'étudiant dans la étudiant
         $eleve_test = connexion()->prepare("SELECT * FROM `ETUDIANT` WHERE `codeetudiant` = $i");
@@ -414,23 +458,9 @@ function note_saisie($semestre1, $semestre2, $appreciation, $codeetudiant, $code
     return $note;
 }
 
-function ajouter_etudiant_csv($NOMETUDIANT, $PRENOMETUDIANT, $datedenaissance, $Numeronational)
-{
-    $note = connexion()->prepare("INSERT INTO `ETUDIANT`(`NOMETUDIANT`, `PRENOMETUDIANT`, `datedenaissance`, `Numeronational`) values(:NOMETUDIANT, :PRENOMETUDIANT, :datedenaissance, :Numeronational)");
-    $note->bindParam(':NOMETUDIANT', $NOMETUDIANT, PDO::PARAM_STR);
-    $note->bindParam(':PRENOMETUDIANT', $PRENOMETUDIANT, PDO::PARAM_STR);
-    $note->bindParam(':datedenaissance', $datedenaissance, PDO::PARAM_STR);
-    $note->bindParam(':Numeronational', $Numeronational, PDO::PARAM_INT);
-    $note->execute();
-
-
-    $ajout_etud = connexion()->prepare("INSERT INTO `ETUDIANT_CLASSE` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
-    $ajout_etud->bindParam(':code_etudiant', $id_eleve_test, PDO::PARAM_INT);
-    $ajout_etud->bindParam(':code_classe', $classe, PDO::PARAM_INT);
-    $ajout_etud->execute();
-    return $note;
-}
-
+/**
+ * D
+ */
 function recupere_user($email) {
     $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE EMAIL = :username");
     $us->bindParam(':username', $email, PDO::PARAM_STR);
@@ -450,6 +480,17 @@ function recupere_user($email) {
     );
 }
 
+
+/**
+ * Créer par : Théo mouty
+ * 
+ * Méthode qui permet de créer un utilisateur
+ * @param $email : email de l'utilisateur
+ * @param $nom : nom de l'utilisateur
+ * @param $prenom : prénom de l'utilisateur
+ * @param $password : mot de passe de l'utilisateur
+ * @return : retourne un tableau contenant les informations de l'utilisateur
+ */
 function insert_user($email,$nom,$prenom,$password) {
     $us = connexion()->prepare("INSERT INTO UTILISATEUR (NOM,PRENOM,EMAIL,MDP) VALUES (:nom,:prenom,:email,:password)");
     $us->bindParam(':nom', $nom, PDO::PARAM_STR);
@@ -460,6 +501,16 @@ function insert_user($email,$nom,$prenom,$password) {
     return $us;
 }
 
+/**
+ * Créer par : Théo mouty
+ * 
+ * Méthode qui permet de mettre à jour un utilisateur
+ * @param $email : email de l'utilisateur
+ * @param $nom : nom de l'utilisateur
+ * @param $prenom : prénom de l'utilisateur
+ * @param $ancien_email : ancien email de l'utilisateur
+ * @return : retourne un tableau contenant les informations de l'utilisateur
+ */
 function update_user($email, $prenom, $nom, $ancien_email) {
     $us = connexion()->prepare("UPDATE UTILISATEUR set NOM = :nom, PRENOM = :prenom, EMAIL = :email WHERE EMAIL = :ancien_email");
     $us->bindParam(':nom', $nom, PDO::PARAM_STR);
@@ -470,6 +521,14 @@ function update_user($email, $prenom, $nom, $ancien_email) {
     return $us;
 }
 
+/**
+ * Créer par : Théo mouty
+ *
+ * Méthode qui permet de récupérer le niveau d'un utilisateur
+ * @param $email : email de l'utilisateur
+ * @return : retourne le niveau de l'utilisateur
+ * @return : 0 si l'utilisateur n'existe pas
+ */
 function getPermission($email){
     $us = connexion()->prepare("SELECT Permission FROM UTILISATEUR WHERE EMAIL = :email");
     $us->bindParam(':email', $email, PDO::PARAM_STR);
@@ -481,6 +540,15 @@ function getPermission($email){
     return "0";
 }
 
+
+/**
+ * Créer par : Théo mouty
+ * 
+ * Méthode qui permet de vérifier si un utilisateur existe
+ * @param $email : email de l'utilisateur
+ * @return : True si l'utilisateur existe
+ * @return : False si l'utilisateur n'existe pas
+ */
 function email_exist($email) {
     $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE EMAIL = :email");
     $us->bindParam(':email', $email, PDO::PARAM_STR);
@@ -510,6 +578,12 @@ function kodex_random_string($length=6){
     return $string;
 }
 
+
+/**
+ * Créer par : Théo mouty
+ * 
+ * Méthode qui permet de récupérer toutes les associations d'un enseignant
+ */
 function recupere_classe_enseignant($enseignant){
     $us = connexion()->prepare("SELECT * FROM `ENSEIGNER` WHERE `CodeEnseignant` = :enseignant");
     $us->bindParam(':enseignant', $enseignant, PDO::PARAM_INT);

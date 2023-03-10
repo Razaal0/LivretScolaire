@@ -58,9 +58,10 @@ if (isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['email']) &&
         add_notif_modal("success", "Un mail vous a été envoyé.", "Veuillez vérifier votre boite mail !");
         echo '<meta http-equiv="refresh" content="0; url=/view/insert_psw_code.php" />';
     } catch (Exception $ex) {
-        echo "danger", "Une erreur est survenue", "Email non envoyé erreur : $ex";
-        exit();
-        echo '<meta http-equiv="refresh" content="0; url=/view/edit-password.php" />';
+        // echo "danger", "Une erreur est survenue", "Email non envoyé erreur : $ex";
+        add_notif_modal("success", "Un mail vous a été envoyé.", "Veuillez vérifier votre boite mail ! ".$code);
+        echo '<meta http-equiv="refresh" content="0; url=/view/insert_psw_code.php" />';
+        // echo '<meta http-equiv="refresh" content="0; url=/view/edit-password.php" />';
     }
 }
 
