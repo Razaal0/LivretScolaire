@@ -21,14 +21,22 @@ $classecode = $_GET['classe'];
 $codeetudiant = $_GET['codeetud'];
 $matiere = recupere_matieres_by_eleve($codeetudiant);
 $moyenne = moyenneAnnee2($codeetudiant);
+$moyennea10 = moyennea10($codeetudiant);
 $classe = procedure_NoteparClasseetMatiere($classecode);
 
 // Définir les données pour le graphique
 foreach ($matiere as $m) {
     $matieres[] = $m['LibMatiere'];
 }
-foreach ($moyenne as $moy) {
-    $notes[] = $moy['moyetudiant'];
+
+if ($classecode == 3) {
+    foreach ($moyennea10 as $moy10) {
+        $notes[] = $moy10['MoyenneFinale'];
+    }
+} else {
+    foreach ($moyenne as $moy) {
+        $notes[] = $moy['moyetudiant'];
+    }
 }
 
 foreach ($classe as $cla) {
@@ -47,7 +55,8 @@ $noir = imagecolorallocate($image, 0, 0, 0);
 $gris = imagecolorallocate($image, 200, 200, 200);
 $bleu = imagecolorallocate($image, 0, 0, 255);
 $rouge = imagecolorallocate($image, 255, 0, 0);
-$vert = imagecolorallocate($image, 0, 255, 0);
+$vert = imagecolorallocate($image, 170, 0, 170 );
+$couleurmc= imagecolorallocate($image,0, 170, 0);
 // Dessiner un rectangle blanc pour le fond
 imagefilledrectangle($image, 0, 0, $largeur, $hauteur, $blanc);
 // Déterminer les valeurs minimales et maximales des axes des abscisses et des ordonnées
@@ -95,7 +104,7 @@ for ($i = 0; $i < count($notes) - 1; $i++) {
     $y1 = $hauteur - 50 - $notes[$i] * 30;
     $x2 = 110 + ($i + 1) * 80;
     $y2 = $hauteur - 50 - $notes[$i + 1] * 30;
-    imageline($image, $x1, $y1, $x2, $y2, $noir);
+    imageline($image, $x1, $y1, $x2, $y2, $couleurmc);
 }
 // Dessiner les points pour chaque matière
 for ($i = 0; $i < count($notes1); $i++) {
@@ -125,7 +134,7 @@ imagestring($image, 5, $x_legende, $y_legende, $texte_legende, $couleur_legende)
 
 for ($i = 0; $i < count($legende); $i++) {
     $x_legende += 50;
-    $couleur_barre = imagecolorallocate($image, 0, 0, 0);
+    $couleur_barre = $couleurmc;
     imagefilledrectangle($image, $x_legende, $y_legende - 10, $x_legende + 30, $y_legende, $couleur_barre);
     imagestring($image, 5, $x_legende + 35, $y_legende - 10, $legende[$i], $couleur_legende);
 }
@@ -141,7 +150,7 @@ imagestring($image, 5, $x_legende2, $y_legende2, $texte_legende2, $couleur_legen
 
 for ($i = 0; $i < count($legende2); $i++) {
     $x_legende2 += 350;
-    $couleur_barre2 = imagecolorallocate($image, 0, 255, 0);
+    $couleur_barre2 = $vert;
     imagefilledrectangle($image, $x_legende2, $y_legende2 - 10, $x_legende2 + 30, $y_legende2, $couleur_barre2);
     imagestring($image, 5, $x_legende2 + 35, $y_legende2 - 10, $legende2[$i], $couleur_legende2);
 }
