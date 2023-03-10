@@ -26,35 +26,14 @@ if (isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['email']) &&
     $phpMailer = new PHPMailer(true);
 
     try{
-        // Vidéo youtube pour config l'envoi de mail avec phpmailer : https://www.youtube.com/watch?v=SXKzTjxXW88&ab_channel=NouvelleTechno
-        //Configurations
-        $phpMailer->SMTPDebug = SMTP::DEBUG_SERVER;
-
-        //Connexion au serveur SMTP de gmail
-        $phpMailer->isSMTP();
-        $phpMailer->Host = 'smtp-mail.outlook.com';
-        $phpMailer->SMTPAuth = true;
-        $phpMailer->Username = 'LivretScolaire@hotmail.com';
-        $phpMailer->Password = 'b@0PQLLm5$Y&T';
-        $phpMailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $phpMailer->Port = 587;
-
-        //Charset
-        $phpMailer->CharSet = 'UTF-8';
-
-        // Destinataire
-        $phpMailer->addAddress($email);
-
-        // Contenu
-        $phpMailer->isHTML(true);
-        $phpMailer->Subject = 'Livret scolaire - Changement de votre de passe';
-        $phpMailer->Body = file_get_contents('../view/includes/PHPMailer/template/reset_password.php');
-        // modifier le template email
-        $phpMailer->Body = str_replace('{{prenom}}', $prenom, $phpMailer->Body);
-        $phpMailer->Body = str_replace('{{code}}', $code, $phpMailer->Body);
-
-        // Envoi
-        $phpMailer->send();
+        $to = $email;
+        $subject = "Réinitialisation de votre mot de passe";
+        $message = "Bonjour $prenom $nom, <br> Votre code de réinitialisation est : $code";
+        
+        $headers .= "Reply-To: expéditeur@example.com\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+        
+        $mail_sent = mail($to, $subject, $message, $headers);
         add_notif_modal("success", "Un mail vous a été envoyé.", "Veuillez vérifier votre boite mail !");
         echo '<meta http-equiv="refresh" content="0; url=/view/insert_psw_code.php" />';
     } catch (Exception $ex) {
