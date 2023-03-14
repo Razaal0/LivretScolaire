@@ -273,7 +273,7 @@ function recupere_enseigner($classe)
     $mat = connexion()->prepare("SELECT `CodeEnseignant`, `classecode`,`ENSEIGNER`.`CodeMatiere`,`LibMatiere` FROM `ENSEIGNER` join `MATIERE` on ENSEIGNER.CodeMatiere = MATIERE.CodeMatiere where ENSEIGNER.CLASSECODE =" . $classe);
     $mat->execute();
     $m = $mat->fetchAll(PDO::FETCH_ASSOC);
-    return "SELECT `CodeEnseignant`, `classecode`,`ENSEIGNER`.`CodeMatiere`,`LibMatiere` FROM `ENSEIGNER` join `MATIERE` on ENSEIGNER.CodeMatiere = MATIERE.CodeMatiere where ENSEIGNER.CLASSECODE =" . $classe;
+    return $m;
 }
 
 /**
@@ -445,11 +445,13 @@ function recupere_notes($codeetudiant)
     return $note;
 }
 
-function note_saisie($semestre1, $semestre2, $appreciation, $codeetudiant, $codematiere, $codeclasse)
+function note_saisie($semestre1, $semestre2, $semestre3, $semestre4, $appreciation, $codeetudiant, $codematiere, $codeclasse)
 {
-    $note = connexion()->prepare("INSERT INTO `NOTE_ETUDIANT`(Semestre1,Semestre2,Appreciation,CodeEtudiant,CodeMatiere,Classecode) values(:S1,:S2,:app,:codeetud,:codemat,:codeclas) on duplicate key update Semestre1 = :S1, Semestre2 = :S2, Appreciation=:app");
+    $note = connexion()->prepare("INSERT INTO `NOTE_ETUDIANT`(Semestre1,Semestre2,Semestre3,Semestre4,Appreciation,CodeEtudiant,CodeMatiere,Classecode) values(:S1,:S2,:S3,:S4,:app,:codeetud,:codemat,:codeclas) on duplicate key update Semestre1 = :S1, Semestre2 = :S2, Semestre3 = :S3 , Semestre4 = :S4, Appreciation=:app");
     $note->bindParam(':S1', $semestre1, PDO::PARAM_INT);
     $note->bindParam(':S2', $semestre2, PDO::PARAM_INT);
+    $note->bindParam(':S3', $semestre3, PDO::PARAM_INT);
+    $note->bindParam(':S4', $semestre4, PDO::PARAM_INT);
     $note->bindParam(':app', $appreciation, PDO::PARAM_STR);
     $note->bindParam(':codeetud', $codeetudiant, PDO::PARAM_INT);
     $note->bindParam(':codemat', $codematiere, PDO::PARAM_INT);

@@ -13,30 +13,43 @@ require_once('../view/includes/header.php');
 require_once('../view/includes/nav.php');
 
 $cla = filter_var(htmlspecialchars($_GET['classe']));
-$etud = asso_cl_et($cla);
+$etudiant = filter_var(htmlspecialchars($_GET['codeetud']));
+$asso = asso_cl_et_un_etudiant($cla, $etudiant);
+$noteetudiant = recupere_notes($etudiant);
+echo "<script>classe = " . json_encode($noteetudiant) . "</script>";
 $matiere = recupere_enseigner($cla);
-print_r($matiere);
-exit();
-require_once '../view/Note.php';
+
 ?>
 
-<!--A résoudre : Ne fonctionne seulement si on coche à partir de la première matière jusqu'à celle souhaitée -->
 <?php
-
-if (verif_submit('saisie_n') == 'Valider') {
-    for ($i = 0; $i < count($nb_matiere); $i++) {
-        $sem1 = filtrer_character('S1,'.$nb_matiere[$i]);
-        $sem2 = filtrer_character('S2,'.$nb_matiere[$i]);
-        $checkmat = verif_matiere_note('matiere,'.$nb_matiere[$i]);
-        $appreciation = filtrer_character('appreciations,'.$nb_matiere[$i]);
-        for ($j = 0; $j < count($sem1); $j++) {
-            echo $checkmat[$j] . ' ';
-            echo $sem1[$j] . ' ';
-            echo $sem2[$j] . ' ';
-            echo $appreciation[$j] . '<br>';
-            note_saisie($sem1[$i], $sem2[$i], $appreciation[$i], $codeetudiant, $checkmat[$i], $cla);
-        }
+if (isset($_POST["donnee"])) {
+    $donnee = $_POST["donnee"];
+    foreach ($donnee as $idMatiere => $note) {
+      $sem1 = $note['semestre1'];
+      $sem2  = $note['semestre2'];
+      $sem3 = $note['semestre3'];
+      $sem4  = $note['semestre4'];
+      $app = $note['appreciation'];
+      $codeetudiant = $_POST["codeetudiant"];
+      $codematiere = $idMatiere;
+      $codeclasse = $_POST["codeclasse"];
+      
+      
+      note_saisie($sem1, $sem2, $sem3, $sem4, $app, $codeetudiant, $codematiere, $codeclasse);
     }
+    add_notif_modal("success", "Modifications Sauvegardés.", "Vos modifications ont été enregistrées avec succès !");
+    
+    $noteetudiant = recupere_notes($etudiant);
+    echo "<script>classe = " . json_encode($noteetudiant) . "</script>";
 }
+require_once '../view/Note.php';
+
 require_once '../view/includes/footer.php';
+
+//ajout des notes et appreciations dans la bdd
+
+
+
+//if (isset($_POST['code']) && isset($_POST['code'])
+
 ?>
