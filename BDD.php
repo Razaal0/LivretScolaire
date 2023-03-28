@@ -530,58 +530,58 @@ function recupere_classe_enseignant($enseignant) {
     );
 }
 
+// Cette fonction calcule la moyenne finale d'un étudiant pour chaque matière et pour chaque classe à laquelle il appartient
 function moyenne($codeetudiant) {
     // récupération de l'étudiant dans la étudiant
-    $etudiant = connexion()->prepare("SELECT M.classecode, codeetudiant, M.codematiere, ROUND((moyetudiant2*10)/moyenneClasseMatiere,1) AS MoyenneFinale FROM MOYENNEELEVE M JOIN vMoyeneClasseParMatiere V ON (V.codematiere=M.codematiere and M.classecode=V.classecode) WHERE codeetudiant=:codeetudiant group by M.classecode,M.codematiere, codeetudiant");
-    $etudiant->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT);
-    $etudiant->execute();
-    return $etudiant;
+    $etudiant = connexion()->prepare("SELECT M.classecode, codeetudiant, M.codematiere, "
+            . "ROUND((moyetudiant2*10)/moyenneClasseMatiere,1) AS MoyenneFinale " // Calcule la moyenne finale avec une précision de 1 décimale
+            . "FROM MOYENNEELEVE M JOIN vMoyeneClasseParMatiere V ON (V.codematiere=M.codematiere and M.classecode=V.classecode) " // Jointure entre les tables MOYENNEELEVE et vMoyeneClasseParMatiere
+            . "WHERE codeetudiant=:codeetudiant group by M.classecode,M.codematiere, codeetudiant"); // Filtre pour récupérer uniquement les données de l'étudiant avec le codeetudiant donné en paramètre
+    $etudiant->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT); // Bind le paramètre codeetudiant à la requête préparée
+    $etudiant->execute(); // Exécute la requête préparée
+    return $etudiant; // Retourne le résultat de la requête
 }
 
+// Cette fonction calcule la moyenne de l'année 1 pour chaque matière d'un étudiant
 function moyenneAnnee1($codeetudiant) {
     // récupération de l'étudiant dans la étudiant
-    $etudiant1 = connexion()->prepare("SELECT codeetudiant,codematiere,ROUND(SUM(semestre1+ semestre2)/2,1) AS moyetudiant
+    $etudiant1 = connexion()->prepare("SELECT codeetudiant,codematiere,ROUND(SUM(semestre1+ semestre2)/2,1) AS moyetudiant // Calcule la moyenne de l'étudiant pour l'année 1 avec une précision de 1 décimale
         From NOTE_ETUDIANT
         WHERE codeetudiant = :codeetudiant
-        group by codeetudiant,codematiere;");
-    $etudiant1->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT);
-    $etudiant1->execute();
-    return $etudiant1;
+        group by codeetudiant,codematiere;"); // Groupe les résultats par codeetudiant et codematiere
+    $etudiant1->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT); // Bind le paramètre codeetudiant à la requête préparée
+    $etudiant1->execute(); // Exécute la requête préparée
+    return $etudiant1; // Retourne le résultat de la requête
 }
 
+// Cette fonction calcule la moyenne de l'année 2 pour chaque matière d'un étudiant
 function moyenneAnnee2($codeetudiant) {
     // récupération de l'étudiant dans la étudiant
-    $etudiant2 = connexion()->prepare("SELECT codeetudiant,codematiere,ROUND(SUM(semestre3+ semestre4)/2,1) AS moyetudiant
+    $etudiant2 = connexion()->prepare("SELECT codeetudiant,codematiere,ROUND(SUM(semestre3+ semestre4)/2,1) AS moyetudiant // Calcule la moyenne de l'étudiant pour l'année 2 avec une précision de 1 décimale
         From NOTE_ETUDIANT
         WHERE codeetudiant = :codeetudiant
-        group by codeetudiant,codematiere;");
-    $etudiant2->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT);
+        group by codeetudiant,codematiere;"); // Groupe les résultats par codeetudiant et codematiere
+    $etudiant2->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT); // Bind le paramètre codeetudiant
     $etudiant2->execute();
     return $etudiant2;
 }
 
-function recupere_moy_classeMat() {
-    $MoyClassM = connexion()->prepare("SELECT classecode, codematiere ,TOTAL/nbNote as moyenneMatiere FROM `vtotNoteParClasseEtMatiere` group by classecode, codematiere;");
-    $MoyClassM->execute();
-    return $MoyClassM->fetchAll(PDO::FETCH_ASSOC);
-}
-
 function recuperer_MoyParClasse($classecode) {
-    $recup_class = connexion()->prepare("SELECT classecode, codematiere ,TOTAL/nbNote as moyenneMatiere FROM `vtotNoteParClasseEtMatiere` WHERE classecode =:codeclass group by classecode, codematiere");
-    $recup_class->bindParam(':codeclass', $classecode, PDO::PARAM_INT);
-    $recup_class->execute();
-    return $recup_class;
+$recup_class = connexion()->prepare("SELECT classecode, codematiere ,TOTAL/nbNote as moyenneMatiere FROM vtotNoteParClasseEtMatiere WHERE classecode =:codeclass group by classecode, codematiere");
+$recup_class->bindParam(':codeclass', $classecode, PDO::PARAM_INT); //liaison de la variable :codeclass à la valeur de la variable $classecode
+$recup_class->execute(); //exécution de la requête préparée
+return $recup_class; //retourne un objet PDOStatement contenant les résultats de la requête
 }
 
 function procedure_NoteparClasseetMatiere($classecode) {
-    $appelprocedure = connexion()->prepare("Call NoteparClasseetMatiere(:classecode)");
-    $appelprocedure->bindParam(':classecode', $classecode);
-    $appelprocedure->execute();
-    return $appelprocedure;
+$appelprocedure = connexion()->prepare("Call NoteparClasseetMatiere(:classecode)"); //prépare l'appel de la procédure stockée NoteparClasseetMatiere avec la variable :classecode
+$appelprocedure->bindParam(':classecode', $classecode); //liaison de la variable :classecode à la valeur de la variable $classecode
+$appelprocedure->execute(); //exécution de l'appel à la procédure stockée
+return $appelprocedure; //retourne un objet PDOStatement contenant les résultats de la procédure stockée
 }
 
 function MoyenneparClasse1erAnnee() {
-    $recup_class = connexion()->prepare("select `NOTE_ETUDIANT`.`classecode` AS `classecode`,`NOTE_ETUDIANT`.`codematiere` AS `codematiere`,sum(`NOTE_ETUDIANT`.`Semestre1` + `NOTE_ETUDIANT`.`Semestre2`) / 2 AS `TOTAL`,count(0) AS `nbNote` from `NOTE_ETUDIANT` group by `NOTE_ETUDIANT`.`classecode`,`NOTE_ETUDIANT`.`codematiere`");
-    $recup_class->execute();
-    return $recup_class;
+$recup_class = connexion()->prepare("select NOTE_ETUDIANT.classecode AS classecode,NOTE_ETUDIANT.codematiere AS codematiere,sum(NOTE_ETUDIANT.Semestre1 + NOTE_ETUDIANT.Semestre2) / 2 AS TOTAL,count(0) AS nbNote from NOTE_ETUDIANT group by NOTE_ETUDIANT.classecode,NOTE_ETUDIANT.codematiere"); //requête SQL qui calcule la moyenne par classe et par matière pour la première année
+$recup_class->execute(); //exécution de la requête préparée
+return $recup_class; //retourne un objet PDOStatement contenant les résultats de la requête
 }
