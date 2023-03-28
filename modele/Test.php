@@ -17,32 +17,41 @@ require './BDD.php';
 //while ($donnees = $requete->fetch()){
 //    
 //}
+// Récupération des paramètres de l'URL
 $classecode = $_GET['classe'];
 $codeetudiant = $_GET['codeetud'];
+
+// Récupération des matières de l'élève et de sa moyenne annuelle
 $matiere = recupere_matieres_by_eleve($codeetudiant);
 $moyenne = moyenneAnnee2($codeetudiant);
+
+// Calcul de la moyenne sur 10
 $moyennea10 = moyennea10($codeetudiant);
+
+// Récupération des notes par classe et matière
 $classe = procedure_NoteparClasseetMatiere($classecode);
 
-// Définir les données pour le graphique
+// Définition des données pour le graphique
 foreach ($matiere as $m) {
-    $matieres[] = $m['LibMatiere'];
+$matieres[] = $m['LibMatiere']; // Ajout de chaque matière dans le tableau des matières
 }
 
+// Si la classe est de type 3, on utilise la moyenne sur 10 pour la génération du graphique
 if ($classecode == 3) {
-    foreach ($moyennea10 as $moy10) {
-        $notes[] = $moy10['MoyenneFinale'];
-    }
+foreach ($moyennea10 as $moy10) {
+$notes[] = $moy10['MoyenneFinale']; // Ajout de chaque moyenne sur 10 dans le tableau des notes
+}
 } else {
-    foreach ($moyenne as $moy) {
-        $notes[] = $moy['moyetudiant'];
-    }
+// Sinon, on utilise la moyenne annuelle
+foreach ($moyenne as $moy) {
+$notes[] = $moy['moyetudiant']; // Ajout de chaque moyenne annuelle dans le tableau des notes
+}
 }
 
+// Ajout de chaque moyenne par matière dans le tableau des notes1
 foreach ($classe as $cla) {
-    $notes1[] = $cla['moyenneMatiere'];
+$notes1[] = $cla['moyenneMatiere'];
 }
-
 //$notes = array(11.5,14.2,15,10,5,17,18.9,12.2);
 //$notes1 = array(random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20));
 // Créer une image de 1280x720 pixels
