@@ -146,6 +146,14 @@ function recupere_matieres_by_classe($classecode)
     return $m;
 }
 
+function recupere_matieres_by_eleve($codeetudiant) {
+    $matiere = connexion()->prepare("SELECT * FROM `NOTE_ETUDIANT` JOIN MATIERE on NOTE_ETUDIANT.codematiere = MATIERE.CodeMatiere where codeetudiant = :codeetudiant ");
+    $matiere->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT);
+    $matiere->execute();
+    $m = $matiere->fetchAll(PDO::FETCH_ASSOC);
+    return $m;
+}
+
 function insert_matieres()
 {
     $matiere = filter_input(INPUT_POST, "matieres");
@@ -460,9 +468,21 @@ function note_saisie($semestre1, $semestre2, $semestre3, $semestre4, $appreciati
     return $note;
 }
 
-/**
- * D
- */
+function ajouter_etudiant_csv($NOMETUDIANT, $PRENOMETUDIANT, $datedenaissance, $Numeronational) {
+    $note = connexion()->prepare("INSERT INTO `ETUDIANT`(`NOMETUDIANT`, `PRENOMETUDIANT`, `datedenaissance`, `Numeronational`) values(:NOMETUDIANT, :PRENOMETUDIANT, :datedenaissance, :Numeronational)");
+    $note->bindParam(':NOMETUDIANT', $NOMETUDIANT, PDO::PARAM_STR);
+    $note->bindParam(':PRENOMETUDIANT', $PRENOMETUDIANT, PDO::PARAM_STR);
+    $note->bindParam(':datedenaissance', $datedenaissance, PDO::PARAM_STR);
+    $note->bindParam(':Numeronational', $Numeronational, PDO::PARAM_INT);
+    $note->execute();
+
+    $ajout_etud = connexion()->prepare("INSERT INTO `ETUDIANT_CLASSE` (`codeetudiant`, `classecode`) VALUES (:code_etudiant, :code_classe);");
+    $ajout_etud->bindParam(':code_etudiant', $id_eleve_test, PDO::PARAM_INT);
+    $ajout_etud->bindParam(':code_classe', $classe, PDO::PARAM_INT);
+    $ajout_etud->execute();
+    return $note;
+}
+
 function recupere_user($email) {
     $us = connexion()->prepare("SELECT * FROM UTILISATEUR WHERE EMAIL = :username");
     $us->bindParam(':username', $email, PDO::PARAM_STR);
@@ -626,4 +646,60 @@ function recupere_classe_enseignant($enseignant){
         "CodeMatiere" => [],
         "classecode" => ""
     );
+}
+
+function moyennea10($codeetudiant) {
+    // récupération de l'étudiant dans la étudiant
+    $etudiant = connexion()->prepare("SELECT M.classecode, codeetudiant, M.codematiere, ROUND((moyetudiant2*10)/moyenneClasseMatiere,1) AS MoyenneFinale FROM MOYENNEELEVE M JOIN vMoyeneClasseParMatiere V ON (V.codematiere=M.codematiere and M.classecode=V.classecode) WHERE codeetudiant=:codeetudiant group by M.classecode,M.codematiere, codeetudiant");
+    $etudiant->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT);
+    $etudiant->execute();
+    return $etudiant;
+}
+
+function moyenneAnnee1($codeetudiant) {
+    // récupération de l'étudiant dans la étudiant
+    $etudiant1 = connexion()->prepare("SELECT codeetudiant,codematiere,ROUND(SUM(semestre1+ semestre2)/2,1) AS moyetudiant
+        From NOTE_ETUDIANT
+        WHERE codeetudiant = :codeetudiant
+        group by codeetudiant,codematiere;");
+    $etudiant1->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT);
+    $etudiant1->execute();
+    return $etudiant1;
+}
+
+function moyenneAnnee2($codeetudiant) {
+    // récupération de l'étudiant dans la étudiant
+    $etudiant2 = connexion()->prepare("SELECT codeetudiant,codematiere,ROUND(SUM(semestre3+ semestre4)/2,1) AS moyetudiant
+        From NOTE_ETUDIANT
+        WHERE codeetudiant = :codeetudiant
+        group by codeetudiant,codematiere;");
+    $etudiant2->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT);
+    $etudiant2->execute();
+    return $etudiant2;
+}
+
+function recupere_moy_classeMat() {
+    $MoyClassM = connexion()->prepare("SELECT classecode, codematiere ,TOTAL/nbNote as moyenneMatiere FROM `vtotNoteParClasseEtMatiere` group by classecode, codematiere;");
+    $MoyClassM->execute();
+    return $MoyClassM->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function recuperer_MoyParClasse($classecode) {
+    $recup_class = connexion()->prepare("SELECT classecode, codematiere ,TOTAL/nbNote as moyenneMatiere FROM `vtotNoteParClasseEtMatiere` WHERE classecode =:codeclass group by classecode, codematiere");
+    $recup_class->bindParam(':codeclass', $classecode, PDO::PARAM_INT);
+    $recup_class->execute();
+    return $recup_class;
+}
+
+function procedure_NoteparClasseetMatiere($classecode) {
+    $appelprocedure = connexion()->prepare("Call NoteparClasseetMatiere(:classecode)");
+    $appelprocedure->bindParam(':classecode', $classecode);
+    $appelprocedure->execute();
+    return $appelprocedure;
+}
+
+function MoyenneparClasse1erAnnee() {
+    $recup_class = connexion()->prepare("select `NOTE_ETUDIANT`.`classecode` AS `classecode`,`NOTE_ETUDIANT`.`codematiere` AS `codematiere`,sum(`NOTE_ETUDIANT`.`Semestre1` + `NOTE_ETUDIANT`.`Semestre2`) / 2 AS `TOTAL`,count(0) AS `nbNote` from `NOTE_ETUDIANT` group by `NOTE_ETUDIANT`.`classecode`,`NOTE_ETUDIANT`.`codematiere`");
+    $recup_class->execute();
+    return $recup_class;
 }
