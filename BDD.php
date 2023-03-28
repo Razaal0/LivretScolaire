@@ -545,7 +545,8 @@ function moyenne($codeetudiant) {
 // Cette fonction calcule la moyenne de l'année 1 pour chaque matière d'un étudiant
 function moyenneAnnee1($codeetudiant) {
     // récupération de l'étudiant dans la étudiant
-    $etudiant1 = connexion()->prepare("SELECT codeetudiant,codematiere,ROUND(SUM(semestre1+ semestre2)/2,1) AS moyetudiant // Calcule la moyenne de l'étudiant pour l'année 1 avec une précision de 1 décimale
+    // Calcule la moyenne de l'étudiant pour l'année 1 avec une précision de 1 décimale
+    $etudiant1 = connexion()->prepare("SELECT codeetudiant,codematiere,ROUND(SUM(semestre1+ semestre2)/2,1) AS moyetudiant 
         From NOTE_ETUDIANT
         WHERE codeetudiant = :codeetudiant
         group by codeetudiant,codematiere;"); // Groupe les résultats par codeetudiant et codematiere
@@ -557,7 +558,8 @@ function moyenneAnnee1($codeetudiant) {
 // Cette fonction calcule la moyenne de l'année 2 pour chaque matière d'un étudiant
 function moyenneAnnee2($codeetudiant) {
     // récupération de l'étudiant dans la étudiant
-    $etudiant2 = connexion()->prepare("SELECT codeetudiant,codematiere,ROUND(SUM(semestre3+ semestre4)/2,1) AS moyetudiant // Calcule la moyenne de l'étudiant pour l'année 2 avec une précision de 1 décimale
+    // Calcule la moyenne de l'étudiant pour l'année 2 avec une précision de 1 décimale
+    $etudiant2 = connexion()->prepare("SELECT codeetudiant,codematiere,ROUND(SUM(semestre3+ semestre4)/2,1) AS moyetudiant 
         From NOTE_ETUDIANT
         WHERE codeetudiant = :codeetudiant
         group by codeetudiant,codematiere;"); // Groupe les résultats par codeetudiant et codematiere
