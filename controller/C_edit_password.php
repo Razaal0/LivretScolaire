@@ -6,10 +6,6 @@ require_once('../view/includes/PHPMailer/PHPMailer.php');
 require_once('../view/includes/PHPMailer/SMTP.php');
 require_once('../view/includes/user-session.php');
 
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-
 // Méthode pour envoyer le code de réinitialisation par mail
 if (isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['email']) && !UserConnected()) {
     $code = kodex_random_string();
@@ -22,19 +18,18 @@ if (isset($_POST['prenom']) && isset($_POST['nom']) && isset($_POST['email']) &&
 
     $_SESSION['emailmdp'] = $email;
 
-
-    $phpMailer = new PHPMailer(true);
-
     try{
         $to = $email;
         $subject = "Réinitialisation de votre mot de passe";
         $message = "Bonjour $prenom $nom, <br> Votre code de réinitialisation est : $code";
-        
-        $headers .= "Reply-To: expéditeur@example.com\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+
+        $headers = "From:
+        $email";
+        $headers .= "MIME-Version: 1.0\r";
         
         $mail_sent = mail($to, $subject, $message, $headers);
         add_notif_modal("success", "Un mail vous a été envoyé.", "Veuillez vérifier votre boite mail !");
+        echo "<meta http-equiv='refresh' content='0; url=".$path."/view/insert_psw_code.php' />";
     } catch (Exception $ex) {
         // echo "danger", "Une erreur est survenue", "Email non envoyé erreur : $ex";
         add_notif_modal("success", "Un mail vous a été envoyé.", "Veuillez vérifier votre boite mail ! ".$code);
