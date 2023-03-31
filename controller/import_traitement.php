@@ -4,11 +4,22 @@ require_once '../view/includes/user-session.php';
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo '<meta http-equiv="refresh" content="0; url=/view" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();
 }
 
 
+/**
+ * Créer par : Théo mouty
+ * 
+ * Programme qui permet d'importer les élèves depuis un fichier csv
+ * Elle vérifie que le fichier est bien au bon format
+ * Elle vérifie que les classes sont bien présentes dans la base de données
+ * Si un élève n'a pas pu être inséré, il est ajouté dans un tableau d'erreur
+ * On affiche le nombre d'élèves insérés et s'il y a des erreurs
+ * on affiche le nombre d'erreurs et on affiche les élèves qui n'ont pas pu être insérés
+ * et on affiche un bouton de téléchargement du fichier csv avec les élèves qui n'ont pas pu être insérés
+ */
 require_once('../view/includes/header.php');
 require_once('../view/includes/nav.php');
 if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
@@ -46,8 +57,20 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
     // récupérer les autres lignes. Les mettres dans un dictionnaire avec comme clé le nom de la colonne
     $data = array();
     while ($row = fgetcsv($handle, 0, ";")) {
+        // il faut que toutes la ligne ne soit pas vide pour l'ajouter
         $data[] = array_combine($first_line, $row);
     }
+
+    // vérifiez que chaque ligne n'est pas vide
+    $newdata = array();
+    foreach ($data as $row) {
+        // enlever la ligne si elle est vide
+        if (!empty($row['NOM']) && !empty($row['PRENOM']) && !empty($row['SEXE']) && !empty($row['NE(E)LE']) && !empty($row['DIV.'])) {
+            $newdata[] = $row;
+        }
+    }
+    $data = $newdata;
+
 
 
     // vérifier que les entêtes sont correctes comme dans le fichier exemple
@@ -108,11 +131,12 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
                 // si verif_insert == False, alors 
                 if ($verif_insert == False) {
                     $eleve_error_insert[] = $row;
-                    echo "<script>console.log('Impossible d'insérer l'élève : " . $row['NOM'] . " " . $row['PRENOM'] . " dans la classe : " . $classe . "');</script>";
+                    echo "<script>console.log('Impossible dinsérer lélève : " . $row['NOM'] . " " . $row['PRENOM'] . " dans la classe : " . $classe . "');</script>";
                 }
                 // si il y a pas de numéro national
             } else {
                 // ajouter toutes les données de l'élève dans un tableau d'erreur, si la classe n'existe pas
+                echo "<script>console.log('Impossible dinsérer lélève erreur classe : " . $row['NOM'] . " " . $row['PRENOM'] . " dans la classe : " . $classe . "');</script>";
                 $eleve_error_insert[] = $row;
             }
             $compteur++;
@@ -128,12 +152,12 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
     <?php
         } else {
             // ajouter toutes les données de l'élève dans un tableau d'erreur, si il manque des données
+            echo "<script>console.log('Impossible dinsérer lélève erreur données non présentes : " . $row['NOM'] . " " . $row['PRENOM'] . " dans la classe : " . $classe . "');</script>";
             $eleve_error_insert[] = $row;
         }
     }
 
     fclose($handle);
-
 
     ?>
     <?php
@@ -157,7 +181,6 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
         }
 
         fclose($file);
-
     ?>
         <script>
             // ajouter dans card-body
@@ -166,9 +189,9 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
             document.querySelectorAll('.card-body')[1].innerHTML += "<br />";
 
             document.querySelectorAll('.card-body')[1].innerHTML += "<h3>Résultat de l'insertion :</h3>";
-            document.querySelectorAll('.card-body')[1].innerHTML += "<h4>Nombre d'étudiants insérés : <?php echo count($data) - (count($eleve_error_insert_classe) + count($eleve_error_insert_inconnu)); ?></h4>";
-            document.querySelectorAll('.card-body')[1].innerHTML += "<h4>Nombre d'étudiants non insérés : <?php echo count($eleve_error_insert_classe) + count($eleve_error_insert_inconnu); ?></h4>";
-            document.querySelectorAll('.card-body')[1].innerHTML += "<a href='/controller/C_import.php' class='btn btn-primary'>Retour</a>";
+            document.querySelectorAll('.card-body')[1].innerHTML += "<h4>Nombre d'étudiants insérés : <?php echo count($data) - (count($eleve_error_insert)); ?></h4>";
+            document.querySelectorAll('.card-body')[1].innerHTML += "<h4>Nombre d'étudiants non insérés : <?php echo count($eleve_error_insert); ?></h4>";
+            document.querySelectorAll('.card-body')[1].innerHTML += "<a href='<?= $path?>/controller/C_import.php' class='btn btn-primary'>Retour</a>";
         </script>
     <?php
     } else {
@@ -182,7 +205,7 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
             document.querySelectorAll('.card-body')[1].innerHTML += "<h3>Résultat de l'insertion :</h3>";
             document.querySelectorAll('.card-body')[1].innerHTML += "<h4>Nombre d'étudiants insérés : <?php echo $nb_eleve_insert; ?></h4>";
             // bouton pour revenir à la page d'imporation
-            document.querySelectorAll('.card-body')[1].innerHTML += "<a href='/controller/C_import.php' class='btn btn-primary'>Retour</a>";
+            document.querySelectorAll('.card-body')[1].innerHTML += "<a href='<?= $path?>/controller/C_import.php' class='btn btn-primary'>Retour</a>";
         </script>
 <?php
 

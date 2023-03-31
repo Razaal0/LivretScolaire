@@ -34,7 +34,7 @@ require_once('includes/nav.php');
                   <p class="text-center small">Un code temporaire vous a été envoyé !</p>
                 </div>
 
-                <form class="row g-3 needs-validation" action="/controller/C_edit_password.php"  method="POST" novalidate>
+                <form class="row g-3 needs-validation" action="<?php echo $path?>/controller/C_edit_password.php"  method="POST" novalidate>
 
                   <div class="col-12">
                     <label for="code" class="form-label">Code</label>

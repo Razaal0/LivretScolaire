@@ -4,7 +4,7 @@ require_once '../view/includes/user-session.php';
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo '<meta http-equiv="refresh" content="0; url=/view" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();
 }
 
@@ -45,7 +45,7 @@ if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['date_naissa
         add_notif_modal("danger", "Erreur", "Erreur lors de l'insertion de l'étudiant : " . $nom . " " . $prenom . " dans la classe : " . $classes);
         $error = 1;
     }
-        echo '<meta http-equiv="refresh" content="0; url=/controller/C_etudiant.php" />';
+        echo "<meta http-equiv='refresh' content='0; url=".$path."/controller/C_etudiant.php' />";
         exit();
 }
 require_once '../view/Etudiant.php';

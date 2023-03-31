@@ -34,7 +34,7 @@ require_once('includes/nav.php');
                   <p class="text-center small">Vous avez oublié votre mot de passe ? Pas de soucis, veuillez nous renseigner les informations ci-dessous.</p>
                 </div>
 
-                <form class="row g-3 needs-validation" action="/controller/C_edit_password.php"  method="POST" novalidate>
+                <form class="row g-3 needs-validation" action="<?php echo $path?>/controller/C_edit_password.php"  method="POST" novalidate>
 
                   <div class="col-12">
                     <label for="prenom" class="form-label">Prénom</label>

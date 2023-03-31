@@ -14,18 +14,18 @@ require_once('user-session.php');
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
 <!-- Vendor JS Files -->
-<script src="/view/assets/vendor/apexcharts/apexcharts.min.js"></script>
-<script src="/view/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="/view/assets/vendor/chart.js/chart.min.js"></script>
-<script src="/view/assets/vendor/echarts/echarts.min.js"></script>
-<script src="/view/assets/vendor/quill/quill.min.js"></script>
-<script src="/view/assets/vendor/datatables/jquery.dataTables.js"></script>
-<script src="/view/assets/vendor/tinymce/tinymce.min.js"></script>
-<script src="/view/assets/vendor/php-email-form/validate.js"></script>
+<script src="<?= $path ?>/view/assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="<?= $path ?>/view/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= $path ?>/view/assets/vendor/chart.js/chart.min.js"></script>
+<script src="<?= $path ?>/view/assets/vendor/echarts/echarts.min.js"></script>
+<script src="<?= $path ?>/view/assets/vendor/quill/quill.min.js"></script>
+<script src="<?= $path ?>/view/assets/vendor/datatables/jquery.dataTables.js"></script>
+<script src="<?= $path ?>/view/assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="<?= $path ?>/view/assets/vendor/php-email-form/validate.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.10.25/i18n/French.json"></script>
 
 <!-- Template Main JS File -->
-<script src="/view/assets/js/main.js"></script>
+<script src="<?= $path ?>/view/assets/js/main.js"></script>
 
 <!-- créer un Toasts avec un modal qui est en bas à droite -->
 <!-- il s'affiche seulement si la session "notif-modal" qui est une arraylist est supérieur à 0 -->

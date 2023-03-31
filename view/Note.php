@@ -2,7 +2,7 @@
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(10)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo '<meta http-equiv="refresh" content="0; url=/view" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();
 }
 ?>
@@ -42,7 +42,9 @@ if (!hasAccess(10)) {
                             </tr>
                                  <div name="donnee">
                                     <?php
+                                    $classcode;
                                     foreach ($matiere as $m) {
+                                        $classcode = $m['classecode'];
                                         ?>
                                 <tr data-id-mat="<?= $m['CodeMatiere']?>">
                                     <td class="w-25"><?php echo $m['LibMatiere'] ?> </td>
@@ -56,7 +58,7 @@ if (!hasAccess(10)) {
                             }
                             ?>
                                 <input type="hidden" placeholder="Appréciation"  name="codeetudiant" class="w-100" value="<?= $et["codeetudiant"];?>"/>
-                                <input type="hidden" placeholder="Appréciation"  name="codeclasse" class="w-100" value="<?php echo $m['classecode'] ?>"/>
+                                <input type="hidden" placeholder="Appréciation"  name="codeclasse" class="w-100" value="<?php echo $classcode ?>"/>
                              </div>
                         </tbody>
                     </table>

@@ -5,7 +5,7 @@ require_once '../view/includes/user-session.php';
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo '<meta http-equiv="refresh" content="0; url=/view" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();
 }
 
@@ -55,9 +55,9 @@ if (isset($_POST['form_prof']) & isset($_POST['form_classe']) & isset($_POST['fo
                     <?php
                     supprimer_affectation_enseignant_classe($code_classe, $code_prof);
                     ?>
-                    window.location.href = "/controller/C_affectation.php";
+                    window.location.href = "<?= $path?>/controller/C_affectation.php";
                 } else {
-                    window.location.href = "/controller/C_affectation.php";
+                    window.location.href = "<?= $path?>/controller/C_affectation.php";
                 }
             </script>
             <?php
@@ -82,7 +82,7 @@ if (isset($_POST['form_prof']) & isset($_POST['form_classe']) & isset($_POST['fo
     }
 
     // On redirige vers la page de gestion des affectations
-    echo '<meta http-equiv="refresh" content="0; url=/controller/C_affectation.php" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/controller/C_affectation.php' />";
     exit();
 }
 

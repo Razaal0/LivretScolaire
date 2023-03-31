@@ -4,7 +4,7 @@ require_once('../modele/BDD.php');
 require_once 'includes/user-session.php';
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo '<meta http-equiv="refresh" content="0; url=/view" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();
 }
 ?>
@@ -63,7 +63,7 @@ if (!hasAccess(100)) {
                                                     <script>
                                                         // afficher les classe de l'enseignant avec en plus un bouton editer et supprimer
                                                         enseignant_classe.forEach(element => {
-                                                            document.querySelector('#classe_prof').innerHTML += '<tr id="' + element.classecode + '"><td>' + classe[element.classecode - 1].Libellecourt + '</td><td><a href="/controller/C_affectation_add_mod.php?type=edit&code_prof=' + <?php echo $_POST['code_enseignant']; ?> + '&code_classe=' + element.classecode + '"class="btn btn-primary">Editer</a></td><td><a onClick="Delete_Association_Prof_Classe(' + element.CodeEnseignant + ',' + element.classecode + ',\'' + classe[element.classecode - 1].Libellecourt + '\')" class="btn btn-danger">Supprimer</a></td></tr>';
+                                                            document.querySelector('#classe_prof').innerHTML += '<tr id="' + element.classecode + '"><td>' + classe[element.classecode - 1].Libellecourt + '</td><td><a href="<?php echo $path?>/controller/C_affectation_add_mod.php?type=edit&code_prof=' + <?php echo $_POST['code_enseignant']; ?> + '&code_classe=' + element.classecode + '"class="btn btn-primary">Editer</a></td><td><a onClick="Delete_Association_Prof_Classe(' + element.CodeEnseignant + ',' + element.classecode + ',\'' + classe[element.classecode - 1].Libellecourt + '\')" class="btn btn-danger">Supprimer</a></td></tr>';
                                                         });
                                                     </script>
                                                 </tr>
@@ -101,7 +101,7 @@ if (!hasAccess(100)) {
                                                             }
 
                                                             if (!classe_deja_affecte) {
-                                                                document.querySelector('#classe_pas_au_prof').innerHTML += '<tr><td>' + element.Libellecourt + '</td><td><a href="/controller/C_affectation_add_mod.php?type=add&code_prof=' + <?php echo $_POST['code_enseignant']; ?> + '&code_classe=' + element.classecode + '" class="btn btn-primary">Ajouter</a></td></tr>';
+                                                                document.querySelector('#classe_pas_au_prof').innerHTML += '<tr><td>' + element.Libellecourt + '</td><td><a href="<?php echo $path?>/controller/C_affectation_add_mod.php?type=add&code_prof=' + <?php echo $_POST['code_enseignant']; ?> + '&code_classe=' + element.classecode + '" class="btn btn-primary">Ajouter</a></td></tr>';
                                                             }
                                                         });
                                                     </script>
@@ -147,7 +147,7 @@ if (!hasAccess(100)) {
                     // supprimer la ligne du tableau*
                     $('#classe_prof #' + Code_classe).remove();
                     // ajouter la ligne dans le tableau des classes non affectées
-                    $('#classe_pas_au_prof').append('<tr><td>' + nom_classe + '</td><td><a href="/controller/C_affectation_add_mod.php?type=add&code_prof=' + prof + '&code_classe=' + Code_classe + '" class="btn btn-primary">Ajouter</a></td></tr>');
+                    $('#classe_pas_au_prof').append('<tr><td>' + nom_classe + '</td><td><a href="<?php echo $path?>/controller/C_affectation_add_mod.php?type=add&code_prof=' + prof + '&code_classe=' + Code_classe + '" class="btn btn-primary">Ajouter</a></td></tr>');
                 } else {
                     // faire une autre action si la réponse n'est pas "success"
                 }

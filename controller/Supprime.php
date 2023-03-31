@@ -4,7 +4,7 @@ require_once('../view/includes/user-session.php');
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo '<meta http-equiv="refresh" content="0; url=/view" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();
 }
 
@@ -25,21 +25,13 @@ require_once '../modele/BDD.php';
 if ($codemat) {
     supprimer_matiere($codemat);
     add_notif_modal("success", "Matière supprimée", "La matière a bien été supprimée");
-?>
-    <script>
-         window.location.replace("/controller/C_matiere.php");
-    </script>
-<?php
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/controller/C_matiere.php' />";
 }
 //Suppression de l'enseignant
 if ($codeens) {
     supprimer_enseignant($codeens);
     add_notif_modal("success", "Enseignant supprimé", "L'enseignant a bien été supprimé");
-?>
-    <script>
-       window.location.replace("/controller/C_prof.php");
-    </script>
-<?php
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/controller/C_prof.php' />";
 }
 
 //Suppression de l'�tudiant
@@ -52,11 +44,7 @@ if ($codeetudiant) {
         $error = 1;
         add_notif_modal("danger", "Erreur", "L'étudiant n'a pas pu être supprimé" . $e->getMessage());
     }
-?>
-    <script>
-       window.location.replace("/controller/C_etudiant.php");
-    </script>
-<?php
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/controller/C_etudiant.php' />";
 }
 
 

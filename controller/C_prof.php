@@ -4,7 +4,7 @@ require_once '../view/includes/user-session.php';
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
   add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-  echo '<meta http-equiv="refresh" content="0; url=/view" />';
+  echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
   exit();
 }
 ?>
@@ -24,7 +24,7 @@ if (verif_submit('saisie_pr') == 'Ajouter') {
     insert_enseignants();
     add_notif_modal("success", "Enseignant ajouté", "L'enseignant a bien été ajouté");
     // redirection
-    echo '<meta http-equiv="refresh" content="0; url=/controller/C_prof.php" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/controller/C_prof.php' />";
     exit();
   } else {
     //retourner une erreur si au moins un des champs est vide

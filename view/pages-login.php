@@ -34,7 +34,7 @@ if (UserConnected()) {
                   <p class="text-center small">Entrez votre email et votre mot de passe pour vous connecter</p>
                 </div>
 
-                <form class="row g-3 needs-validation" action="/controller/C_login.php" method="POST" novalidate>
+                <form class="row g-3 needs-validation" action="<?php echo $path?>/controller/C_login.php" method="POST" novalidate>
 
                   <div class="col-12">
                     <label for="email" class="form-label">Email</label>

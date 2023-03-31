@@ -2,7 +2,7 @@
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo '<meta http-equiv="refresh" content="0; url=/view" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();
 }
 ?>
@@ -14,7 +14,7 @@ if (!hasAccess(100)) {
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Ajouter une nouvelle  matière :</h5>
+                <h5 class="card-title">Ajouter une nouvelle matière :</h5>
                 <!-- Formulaire pour ajouter un étudiant -->
                 <form class="row g-3" method="POST">
 
@@ -39,7 +39,7 @@ if (!hasAccess(100)) {
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Listes des professeur :</h5>
+                        <h5 class="card-title">Listes des matières :</h5>
                         
                         <table class="table datatable">
                             <thead>

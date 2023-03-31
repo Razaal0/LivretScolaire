@@ -20,7 +20,7 @@ require_once('includes/nav.php');
           <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
 
             <div class="d-flex justify-content-center py-4">
-              <a href="index.html" class="logo d-flex align-items-center w-auto">
+              <a href="<?php echo $path?>index.html" class="logo d-flex align-items-center w-auto">
                 <img src="assets/img/logo.png" alt="">
                 <span class="d-none d-lg-block">Livret Scolaire</span>
               </a>
@@ -35,7 +35,7 @@ require_once('includes/nav.php');
                   <p class="text-center small">Vous avez oublié votre mot de passe ? Pas de soucis, veuillez nous renseigner les informations ci-dessous.</p>
                 </div>
 
-                <form class="row g-3 needs-validation" action="/controller/C_edit_password.php"  method="POST" novalidate>
+                <form class="row g-3 needs-validation" action="<?php echo $path?>/controller/C_edit_password.php"  method="POST" novalidate>
 
                   <div class="col-12">
                     <label for="mdp" class="form-label">Nouveau mot de passe</label>

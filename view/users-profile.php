@@ -90,7 +90,7 @@ require_once('includes/nav.php');
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                 <!-- Profile Edit Form -->
-                <form class="row g-3 needs-validation" action="/controller/C_edit_password.php"  method="POST" novalidate>
+                <form class="row g-3 needs-validation" action="<?php echo $path?>/controller/C_edit_password.php"  method="POST" novalidate>
 
                 <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
@@ -122,7 +122,7 @@ require_once('includes/nav.php');
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- Change Password Form -->
-                <form class="row g-3 needs-validation" action="/controller/C_edit_password.php"  method="POST" novalidate>
+                <form class="row g-3 needs-validation" action="<?php echo $path?>/controller/C_edit_password.php"  method="POST" novalidate>
 
                   <div class="row mb-3">
                     <label for="CurrentPassword" class="col-md-4 col-lg-3 col-form-label w-auto">Mot de passe actuel</label>

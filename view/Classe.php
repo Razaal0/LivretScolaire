@@ -2,7 +2,7 @@
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(10)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo '<meta http-equiv="refresh" content="0; url=/view" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();
 }
 ?>
@@ -38,8 +38,8 @@ if (!hasAccess(10)) {
                                     ?>
                                     <td><?php echo $et['NOMETUDIANT']; ?> </td>
                                     <td><?php echo $et['PRENOMETUDIANT']; ?></td>
-                                    <td><?php echo '<a href="/controller/C_note.php?codeetud=' . $et['codeetudiant'] . '&classe='.$valeur.'">'?>Saisir Notes <img src="../bootstrap-icons-1.8.3/pencil-square.svg" height="14" width="25"/></a> </td>
-                                    <td><?php echo '<a href="/view/Edition.php?codeetud=' . $et['codeetudiant'] . '&classe='.$valeur.'">'?>Editer  <img src="../bootstrap-icons-1.8.3/file-earmark-pdf.svg" height="14" width="25"/></a> </td>
+                                    <td><?php echo '<a href="'.$path.'/controller/C_note.php?codeetud=' . $et['codeetudiant'] . '&classe='.$valeur.'">'?>Saisir Notes <img src="../bootstrap-icons-1.8.3/pencil-square.svg" height="14" width="25"/></a> </td>
+                                    <td><?php echo '<a href="'.$path.'/modele/Test.php?codeetud=' . $et['codeetudiant'] . '&classe='.$valeur.'">'?>Editer  <img src="../bootstrap-icons-1.8.3/file-earmark-pdf.svg" height="14" width="25"/></a> </td>
                                 </tr>
                                 <?php
                             }

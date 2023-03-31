@@ -2,7 +2,7 @@
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo '<meta http-equiv="refresh" content="0; url=/view" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();
 }
 ?>
@@ -46,7 +46,7 @@ if (!hasAccess(100)) {
                                     </div>
                                     <div class="col-sm-10 d-flex justify-content-start">
                                         <button type="submit" class="btn btn-primary">Modifier</button>
-                                        <button type="button" class="btn btn-danger ms-3" onclick="window.location.href = '/controller/c_Affectation.php';">Annuler</button>
+                                        <button type="button" class="btn btn-danger ms-3" onclick="window.location.href = '<?= $path?>/controller/c_Affectation.php';">Annuler</button>
 
                                     </div>
                                 </div>

@@ -4,7 +4,7 @@ require_once '../view/includes/user-session.php';
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo '<meta http-equiv="refresh" content="0; url=/view" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();
 }
 
@@ -21,7 +21,7 @@ require_once '../view/Modification.php';
 if (isset($_POST['matiere'])) {
     modif_matiere($codemat);
     add_notif_modal("success", "Modification réussie", "Les modifications ont bien été prises en compte");
-    echo '<meta http-equiv="refresh" content="0; url=/controller/C_matiere.php" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/controller/C_matiere.php' />";
     exit();
 }
 
@@ -29,7 +29,7 @@ if (isset($_POST['matiere'])) {
 if (isset($_POST['nomens']) || isset($_POST['prenomens'])) {
     modif_ens($codeens);
     add_notif_modal("success", "Modification réussie", "Les modifications ont bien été prises en compte");
-    echo '<meta http-equiv="refresh" content="0; url=/controller/C_prof.php" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/controller/C_prof.php' />";
     exit();
 }
 
@@ -37,7 +37,7 @@ if (isset($_POST['nomens']) || isset($_POST['prenomens'])) {
 if (isset($_POST['nometu']) || isset($_POST['prenometu']) || isset($_POST['date']) || isset($_POST['classe'])) {
     modif_etud($codeetudiant);
     add_notif_modal("success", "Modification réussie", "Les modifications ont bien été prises en compte");
-    echo '<meta http-equiv="refresh" content="0; url=/controller/C_etudiant.php" />';
+    echo "<meta http-equiv='refresh' content='0; url=".$path."/controller/C_etudiant.php' />";
     exit();
 }
 require_once '../view/includes/footer.php';

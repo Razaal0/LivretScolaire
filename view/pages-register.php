@@ -33,7 +33,7 @@ if (UserConnected()) {
                   <p class="text-center small">Entrez vos données personnelles pour créer un compte</p>
                 </div>
 
-                <form class="row g-3 needs-validation" action="/controller/C_register.php"  method="POST" novalidate>
+                <form class="row g-3 needs-validation" action="<?php echo $path?>/controller/C_register.php"  method="POST" novalidate>
 
                   <div class="col-12">
                     <label for="email" class="form-label">Email</label>
