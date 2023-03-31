@@ -69,8 +69,7 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
         exit();
     }
     // initiation des tableaux d'erreur
-    $eleve_error_insert_classe = array();
-    $eleve_error_insert_inconnu = array();
+    $eleve_error_insert = array();
 
 
     // garder juste l'id et le libellecourt des classes
@@ -88,7 +87,7 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
         document.querySelectorAll('.card-body')[1].innerHTML = "<h4>Insertion des élèves en cours</h4>";
         document.querySelectorAll('.card-body')[1].innerHTML += "<h4>Merci de ne pas actualiser la page !</h4>";
         document.querySelectorAll('.card-body')[1].innerHTML += "<h5><?php echo $compteur; ?>/<?php echo count($data); ?></h5>";
-        document.querySelectorAll('.card-body')[1].innerHTML += "<h5><?php echo "Erreur d'insertion : " . count($eleve_error_insert_inconnu) + count($eleve_error_insert_classe); ?></h5>";
+        document.querySelectorAll('.card-body')[1].innerHTML += "<h5><?php echo "Erreur d'insertion : " . count($eleve_error_insert) ?></h5>";
     </script>
     <?php
     // afficher la liste des éléves
@@ -97,7 +96,7 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
         // vérifier si toutes les données sont présentes
         if (!empty($row['NOM']) || !empty($row['PRENOM']) || !empty($row['SEXE']) || !empty($row['NE(E)LE']) || !empty($row['DIV.'])) {
 
-            $classe = $row['DIV.'];
+            $classe = str_replace('', '', $row['DIV.']);
             if (in_array($classe, $nomclasse)) {
                 // trouvé l'id de la classe avec nomclasse
                 $id_classe = array_search($classe, $nomclasse);
@@ -108,25 +107,28 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
                 $verif_insert = insert_etudiant($row['NOM'], $row['PRENOM'], $date_naissance, $id_classe, "");
                 // si verif_insert == False, alors 
                 if ($verif_insert == False) {
-                    $eleve_error_insert_inconnu[] = $row;
+                    $eleve_error_insert[] = $row;
                     echo "<script>console.log('Impossible d'insérer l'élève : " . $row['NOM'] . " " . $row['PRENOM'] . " dans la classe : " . $classe . "');</script>";
                 }
                 // si il y a pas de numéro national
             } else {
                 // ajouter toutes les données de l'élève dans un tableau d'erreur, si la classe n'existe pas
-                $eleve_error_insert_classe[] = $row;
+                $eleve_error_insert[] = $row;
             }
             $compteur++;
-            $nb_eleve_error = count($eleve_error_insert_inconnu) + count($eleve_error_insert_classe);
+            $nb_eleve_error = count($eleve_error_insert);
     ?>
             <script>
                 // mettre à jour le compteur
                 document.querySelectorAll('.card-body')[1].innerHTML = "<h4>Insertion des élèves en cours</h4>";
                 document.querySelectorAll('.card-body')[1].innerHTML += "<h4>Merci de ne pas actualiser la page !</h4>";
-                document.querySelectorAll('.card-body')[1].innerHTML += "<h5>Nombre d'étudiants insérés : <?php echo $compteur; ?>/<?php echo count($data); ?></h5>";
+                document.querySelectorAll('.card-body')[1].innerHTML += "<h5>Nombre d'étudiants insérés : <?php echo $compteur - $nb_eleve_error; ?>/<?php echo count($data); ?></h5>";
                 document.querySelectorAll('.card-body')[1].innerHTML += "<h5><?php echo "Erreur d'insertion : " . $nb_eleve_error; ?></h5>";
             </script>
     <?php
+        } else {
+            // ajouter toutes les données de l'élève dans un tableau d'erreur, si il manque des données
+            $eleve_error_insert[] = $row;
         }
     }
 
@@ -139,38 +141,24 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
 
     // retourner le tableau d'erreur en csv
     // si le tableau n'est pas vide
-    if (count($eleve_error_insert_classe) + count($eleve_error_insert_inconnu) > 0 && !empty($error)){
+    if (count($eleve_error_insert) > 0) {
         // créer un fichier csv
         $file = fopen('error.csv', 'w');
         fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF)); //formart UTF-8
 
         // modifier le nom de la première feuille
         // mettre un message dans le fichier excel avec l'erreur : Classe inconnu
-        fputcsv($file, $error, ';');
         // mettre les données dans le fichier csv
         // ajouter une seul fois les clés du tableau, qui sont les noms des colonnes, dans chaque colonne
-        fputcsv($file, array_keys($eleve_error_insert_classe[0]));
+        fputcsv($file, array_keys($eleve_error_insert[0]));
         // ajouter les valeurs du tableau
-        foreach ($eleve_error_insert_classe as $row) {
+        foreach ($eleve_error_insert as $row) {
             fputcsv($file, $row);
         }
 
-        // créer une deuxième feuille si le tableau elev_error_insert_inconnu n'est pas vide
-        if (!empty($eleve_error_insert_inconnu)) {
-            // créer une deuxième feuille
-            $file = $spreadsheet->createSheet();
-            // mettre un message dans le fichier excel avec l'erreur : Erreur inconnu
-            fputcsv($file, $error, ';');
-            // ajouter une seul fois les clés du tableau, qui sont les noms des colonnes, dans chaque colonne
-            fputcsv($file, array_keys($eleve_error_insert_inconnu[0]));
-            // ajouter les valeurs du tableau
-            foreach ($eleve_error_insert_inconnu as $row) {
-                fputcsv($file, $row);
-            }
-        }
         fclose($file);
 
-        ?>
+    ?>
         <script>
             // ajouter dans card-body
             document.querySelectorAll('.card-body')[1].innerHTML = "<h4>Attention, tous les élèves n'ont pas été insérés</h4>";
@@ -182,7 +170,7 @@ if (isset($_FILES['import']) && !empty($_FILES['import']['tmp_name'])) {
             document.querySelectorAll('.card-body')[1].innerHTML += "<h4>Nombre d'étudiants non insérés : <?php echo count($eleve_error_insert_classe) + count($eleve_error_insert_inconnu); ?></h4>";
             document.querySelectorAll('.card-body')[1].innerHTML += "<a href='/controller/C_import.php' class='btn btn-primary'>Retour</a>";
         </script>
-        <?php
+    <?php
     } else {
         // compter nombre d'étudiants inséré
         $nb_eleve_insert = count($data);
