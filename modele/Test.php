@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Script pour générer un graphique à partir des données de l'élève.
+ *
+ * Ce script récupère les données de l'élève, crée une image de 1280x970 pixels,
+ * puis dessine un graphique de notes en fonction des matières.
+ * 
+ * @param string $classecode Le code de la classe de l'élève.
+ * @param string $codeetudiant Le code de l'étudiant.
+ *
+ * @return void
+ */
+
 require './BDD.php';
 
 $classecode = $_GET['classe'];
