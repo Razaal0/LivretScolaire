@@ -1,22 +1,7 @@
 <?php
 
 require './BDD.php';
-//function connexion()
-//{
-//    try {
-//        // ip :  145.239.62.99
-//        $conn = new PDO('mysql:host=readergen.synology.me;dbname=livret;port=3307', 'livret', 'Livret2023*');
-//    } catch (Exception $ex) {
-//        die('Erreur:' . $ex->getMessage());
-//    }
-//    return $conn;
-//}
-////test d'impotation des matiere
-//$requete = connexion()->prepare('SELECT LibMatiere FROM CLASSE C INNER JOIN CLASSE_MATIERE CM on C.classecode=CM.classecode INNER JOIN MATIERE M on CM.CodeMatiere=M.CodeMatiere WHERE C.classecode=3;');
-//$requete->execute(array($valeurs));
-//while ($donnees = $requete->fetch()){
-//    
-//}
+
 $classecode = $_GET['classe'];
 $codeetudiant = $_GET['codeetud'];
 $matiere = recupere_matieres_by_eleve($codeetudiant);
@@ -43,8 +28,6 @@ foreach ($classe as $cla) {
     $notes1[] = $cla['moyenneMatiere'];
 }
 
-//$notes = array(11.5,14.2,15,10,5,17,18.9,12.2);
-//$notes1 = array(random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20), random_int(0, 20));
 // Créer une image de 1280x720 pixels
 $largeur = 1280;
 $hauteur = 720 + 250;
