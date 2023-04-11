@@ -1,0 +1,13 @@
+Lien des sites Livret Scolaire:
+Serveur Baptiste PUCHAUX
+- readergen.synology.me/Livret_Original      Version Original non modifiable pour examen
+- readergen.synology.me/Livret               Modifiable pour les eleves
+
+Serveur Theo
+-bts.theomouty.fr/cours/livret
+
+Base de données:
+- readergen.synology.me/phpmyadmin
+
+id : Livret
+mdp: Livret2023*
