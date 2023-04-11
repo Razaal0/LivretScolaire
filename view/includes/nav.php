@@ -6,7 +6,7 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="<?php echo $path?>/view/index.php" class="logo d-flex align-items-center">
+        <a href="<?php echo $path ?>/view/index.php" class="logo d-flex align-items-center">
             <img src="assets/img/logo.png" alt="">
             <span class="d-none d-lg-block">Livret Scolaire</span>
         </a>
@@ -18,41 +18,6 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
             <?php
             if (UserConnected()) {
             ?>
-                <li class="nav-item dropdown">
-
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number">4</span>
-                    </a><!-- End Notification Icon -->
-
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                        <li class="dropdown-header">
-                            You have 4 new notifications
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-exclamation-circle text-warning"></i>
-                            <i class="bi bi-x-circle text-danger"></i>
-                            <i class="bi bi-check-circle text-success"></i>
-                            <i class="bi bi-info-circle text-primary"></i>
-                            <div>
-                                <h4>Lorem Ipsum</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>30 min. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                    </ul><!-- End Notification Dropdown Items -->
-
-                </li><!-- End Notification Nav -->
-
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
@@ -70,7 +35,7 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="<?php echo $path?>/view/users-profile.php">
+                            <a class="dropdown-item d-flex align-items-center" href="<?php echo $path ?>/view/users-profile.php">
                                 <i class="bi bi-gear"></i>
                                 <span>Paramètres du compte</span>
                             </a>
@@ -80,7 +45,7 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="<?php echo $path?>/view/pages-faq.php">
+                            <a class="dropdown-item d-flex align-items-center" href="<?php echo $path ?>/view/pages-faq.php">
                                 <i class="bi bi-question-circle"></i>
                                 <span>Besoin d'aide ?</span>
                             </a>
@@ -89,7 +54,7 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="<?php echo $path?>/controller/logout-session.php">
+                            <a class="dropdown-item d-flex align-items-center" href="<?php echo $path ?>/controller/logout-session.php">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Se déconnecter</span>
                             </a>
@@ -111,7 +76,7 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="<?php echo $path?>/view/index.php">
+            <a class="nav-link " href="<?php echo $path ?>/view/index.php">
                 <i class="bi bi-grid"></i>
                 <span>Accueil</span>
             </a>
@@ -132,27 +97,27 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
             <!-- Bouton pour voir les menu dans la liste déroulante de l'administration -->
             <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="<?php echo $path?>/controller/C_prof.php">
+                    <a href="<?php echo $path ?>/controller/C_prof.php">
                         <i class="bi bi-circle"></i><span>Enseignants</span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo $path?>/controller/C_matiere.php">
+                    <a href="<?php echo $path ?>/controller/C_matiere.php">
                         <i class="bi bi-circle"></i><span>Matières</span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo $path?>/controller/C_affectation.php">
+                    <a href="<?php echo $path ?>/controller/C_affectation.php">
                         <i class="bi bi-circle"></i><span>Affectation</span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo $path?>/controller/C_etudiant.php">
+                    <a href="<?php echo $path ?>/controller/C_etudiant.php">
                         <i class="bi bi-circle"></i><span>Etudiants</span>
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo $path?>/controller/C_import.php">
+                    <a href="<?php echo $path ?>/controller/C_import.php">
                         <i class="bi bi-circle"></i><span>Importer</span>
                     </a>
                 </li>
@@ -170,7 +135,7 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
 
                 <!-- Saisr notes -->
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="<?php echo $path?>/controller/C_classe.php">
+                    <a class="nav-link collapsed" href="<?php echo $path ?>/controller/C_classe.php">
                         <i class="bi bi-currency-bitcoin"></i>
                         <span>Saisr notes</span>
                     </a>
@@ -188,14 +153,14 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
         if (!UserConnected()) {
         ?>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo $path?>/view/pages-register.php">
+                <a class="nav-link collapsed" href="<?php echo $path ?>/view/pages-register.php">
                     <i class="bi bi-card-list"></i>
                     <span>Inscription</span>
                 </a>
             </li><!-- End Register Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo $path?>/view/pages-login.php">
+                <a class="nav-link collapsed" href="<?php echo $path ?>/view/pages-login.php">
                     <i class="bi bi-box-arrow-in-right"></i>
                     <span>Connexion</span>
                 </a>
@@ -204,7 +169,7 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
         }
         ?>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="<?php echo $path?>/view/pages-faq.php">
+            <a class="nav-link collapsed" href="<?php echo $path ?>/view/pages-faq.php">
                 <i class="bi bi-question-circle"></i>
                 <span>F.A.Q</span>
             </a>

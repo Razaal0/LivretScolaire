@@ -2,7 +2,7 @@
 require_once('../modele/BDD.php');
 require_once '../view/includes/user-session.php';
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
-if (!hasAccess(100)) {
+if (!hasAccess(10)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
     echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
     exit();

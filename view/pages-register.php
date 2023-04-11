@@ -63,13 +63,14 @@ if (UserConnected()) {
                     <div class="invalid-feedback">Veuillez entrer votre mot de passe.</div>
                   </div>
 
-                  <div class="col-12">
+                  <!-- Button des pour accepter les conditions générales -->
+                  <!-- <div class="col-12">
                     <div class="form-check">
                       <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
                       <label class="form-check-label" for="acceptTerms">Je suis d'accord et j'accepte les <a href="#">conditions générales conditions</a></label>
                       <div class="invalid-feedback">Vous devez accepter les conditions d'utilisation de la plateforme pour pouvoir vous inscrire.</div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="col-12">
                     <button class="btn btn-primary w-100" type="submit">Inscription</button>
                   </div>
