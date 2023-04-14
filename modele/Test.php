@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Script pour générer un graphique à partir des données de l'élève.
+ *
+ * Ce script récupère les données de l'élève, crée une image de 1280x970 pixels,
+ * puis dessine un graphique de notes en fonction des matières.
+ * 
+ * @param string $classecode Le code de la classe de l'élève.
+ * @param string $codeetudiant Le code de l'étudiant.
+ *
+ * @return void
+ */
+
 require './BDD.php';
 
 $classecode = $_GET['classe'];
@@ -92,17 +104,17 @@ for ($i = 0; $i < count($notes) - 1; $i++) {
 // Dessiner les points pour chaque matière
 for ($i = 0; $i < count($notes1); $i++) {
 
-    $x = 110 + $i * 80;
-    $y = $hauteur - 50 - $notes1[$i] * 30;
+    $x = round(110 + $i * 80, 0);
+    $y = round($hauteur - 50 - $notes1[$i] * 30, 0);
     imagefilledellipse($image, $x, $y, 10, 10, $bleu);
 //    imagestring($image, 3, $x-10, $y-20, strval($notes[$i]), $bleu);  Sert à afficher les notes sur les points du graphique
 }
 // Relier les points par des lignes rouges
 for ($i = 0; $i < count($notes1) - 1; $i++) {
     $x1 = 110 + $i * 80;
-    $y1 = $hauteur - 50 - $notes1[$i] * 30;
+    $y1 = round($hauteur - 50 - $notes1[$i] * 30,0);
     $x2 = 110 + ($i + 1) * 80;
-    $y2 = $hauteur - 50 - $notes1[$i + 1] * 30;
+    $y2 = round($hauteur - 50 - $notes1[$i + 1] * 30,0);
     imageline($image, $x1, $y1, $x2, $y2, $vert);
 }
 // Dessiner la légende
@@ -148,4 +160,3 @@ imagepng($image);
 // Libérer la mémoire
 imagedestroy($image);
 ?>
-
