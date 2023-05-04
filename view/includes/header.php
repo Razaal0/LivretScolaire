@@ -1,7 +1,7 @@
 <?php
 require_once('user-session.php');
 // enregistrement de la page actuelle
-$path = "/lol";
+$path = "";
 
 ?>
 <!DOCTYPE html>

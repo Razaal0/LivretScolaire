@@ -12,19 +12,20 @@
                     <form class="row g-3 d-flex justify-content-center" method="POST">
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="text" class="form-control w-100" name="nomens" id="nomens" value="<?php echo $enseignant["NOM"] ?>" placeholder=" " >
+                                <input type="text" class="form-control w-100" name="nomens" id="nomens" value="<?php echo $enseignant["NOM"] ?>" placeholder=" ">
                                 <label for="nometu" class="form-label">Prénom</label>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="text" class="form-control w-100" name="prenomens" id="prenomens" value="<?php echo $enseignant["PRENOM"] ?>" placeholder=" " >
+                                <input type="text" class="form-control w-100" name="prenomens" id="prenomens" value="<?php echo $enseignant["PRENOM"] ?>" placeholder=" ">
                                 <label for="prenomens" class="form-label">Nom</label>
                             </div>
                         </div>
 
                         <div class="col-12 d-flex justify-content-end">
+                            <button class="btn btn-danger me-2" onclick="history.go(-1)" type="button">Annuler</button>
                             <button class="btn btn-primary" name="saisie_en" type="submit">Modifier</button>
                         </div>
                     </form>
@@ -43,33 +44,35 @@
                     <form class="row g-3 d-flex justify-content-center" method="POST">
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="text" class="form-control w-100" name="nometu" id="nometu" value="<?php echo $etudiant["NOMETUDIANT"] ?>" placeholder=" " >
+                                <input type="text" class="form-control w-100" name="nometu" id="nometu" value="<?php echo $etudiant["NOMETUDIANT"] ?>" placeholder=" ">
                                 <label for="nomens" class="form-label">Nom</label>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="text" class="form-control w-100" name="prenometu" id="prenometu" value="<?php echo $etudiant["PRENOMETUDIANT"] ?>" placeholder=" " >
+                                <input type="text" class="form-control w-100" name="prenometu" id="prenometu" value="<?php echo $etudiant["PRENOMETUDIANT"] ?>" placeholder=" ">
                                 <label for="prenometu" class="form-label">Prénom</label>
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="date" class="form-control w-100" name="date" id="date" value="<?php echo $etudiant["datedenaissance"] ?>" >
+                                <input type="date" class="form-control w-100" name="date" id="date" value="<?php echo $etudiant["datedenaissance"] ?>">
                                 <label for="date" class="form-label">Date de naissance</label>
                             </div>
                         </div>
 
                         <div class="col-md-2 w-25">
                             <div class="form-floating">
-                                <select class="form-select" name="classe" id="classe" >
+                                <select class="form-select" name="classe" id="classe">
                                     <option value=""></option>
                                     <?php
                                     foreach ($classe as $c) {
-                                        ?>
-                                        <option value="<?php echo $c["classecode"];?>"<?php if ($c["classecode"] == $etudiant["classecode"]) {echo "selected";}?>><?php echo $c["Libellecourt"] ?></option>
+                                    ?>
+                                        <option value="<?php echo $c["classecode"]; ?>" <?php if ($c["classecode"] == $etudiant["classecode"]) {
+                                                                                            echo "selected";
+                                                                                        } ?>><?php echo $c["Libellecourt"] ?></option>
                                     <?php
                                     }
                                     ?>
@@ -79,6 +82,7 @@
                         </div>
 
                         <div class="col-12 d-flex justify-content-end">
+                            <button class="btn btn-danger me-2" onclick="history.go(-1)" type="button">Annuler</button>
                             <button class="btn btn-primary" name="saisie_et" type="submit">Modifier</button>
                         </div>
                     </form>
@@ -96,12 +100,13 @@
 
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input type="text" class="form-control" name="matiere" id="matiere" value="<?php echo $matiere["LibMatiere"] ?>" placeholder=" " >
+                                <input type="text" class="form-control" name="matiere" id="matiere" value="<?php echo $matiere["LibMatiere"] ?>" placeholder=" ">
                                 <label for="matiere" for="matiere" class="form-label">Matière</label>
                             </div>
                         </div>
                         <!-- right -->
                         <div class="col-12 d-flex justify-content-end">
+                            <button class="btn btn-danger me-2" onclick="history.go(-1)" type="button">Annuler</button>
                             <button class="btn btn-primary" name="saisie_ma" type="submit">Modifier</button>
                         </div>
                     </form>

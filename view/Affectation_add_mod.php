@@ -2,7 +2,7 @@
 // On vérifie que l'utilisateur est connecté et qu'il a les droits pour accéder à cette page
 if (!hasAccess(100)) {
     add_notif_modal('danger', "Accès refusé", "Vous n'avez pas les droits pour accéder à cette page");
-    echo "<meta http-equiv='refresh' content='0; url=".$path."/view' />";
+    echo "<meta http-equiv='refresh' content='0; url=" . $path . "/view' />";
     exit();
 }
 ?>
@@ -14,11 +14,7 @@ if (!hasAccess(100)) {
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <?php if ($type == 'add') { ?>
-                            <h5 class="card-title">Ajouter les matières à la classe <?php echo $nom_classe; ?></h5>
-                        <?php } else if ($type == 'edit') { ?>
-                            <h5 class="card-title">Modifier les matières à la classe <?php echo $nom_classe; ?></h5>
-                        <?php } ?>
+                        <h5 class="card-title"><?php echo $type == 'add' ? 'Ajouter' : 'Modifier'; ?> les matières à la classe <?php echo $nom_classe; ?></h5>
                         <h5 class="card-title"></h5>
 
                         <form action="#" method="POST">
@@ -31,7 +27,7 @@ if (!hasAccess(100)) {
                                         <div class="form-check m-3 d-flex">
                                             <input class="form-check-input" style="font-size:20px" type="checkbox" name="matiere[]" value="<?php echo $value['CodeMatiere']; ?>" id="matiere<?php echo $value['CodeMatiere']; ?>">
                                             <label class="form-check-label" style="font-size:20px" for="matiere<?php echo $value['CodeMatiere']; ?>">
-                                            <?php echo $value['LibMatiere']; ?>
+                                                <?php echo $value['LibMatiere']; ?>
                                             </label>
                                         </div>
                                     <?php
@@ -42,11 +38,11 @@ if (!hasAccess(100)) {
                                             <input type="hidden" name="form_prof" value="<?php echo $code_prof; ?>">
                                             <input type="hidden" name="form_classe" value="<?php echo $code_classe; ?>">
                                             <input type="hidden" name="form_type" value="<?php echo $type; ?>">
-                                        </div>  
+                                        </div>
                                     </div>
                                     <div class="col-sm-10 d-flex justify-content-start">
-                                        <button type="submit" class="btn btn-primary">Modifier</button>
-                                        <button type="button" class="btn btn-danger ms-3" onclick="window.location.href = '<?= $path?>/controller/c_Affectation.php';">Annuler</button>
+                                        <button type="submit" class="btn btn-primary"><?php echo $type == 'add' ? 'Ajouter' : 'Modifier'; ?></button>
+                                        <button type="button" class="btn btn-danger ms-3" onclick="window.location.href = '<?= $path ?>/controller/C_affectation.php';">Annuler</button>
 
                                     </div>
                                 </div>

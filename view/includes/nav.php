@@ -137,7 +137,7 @@ require_once('' . __DIR__ . '/../../modele/BDD.php');
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="<?php echo $path ?>/controller/C_classe.php">
                         <i class="bi bi-currency-bitcoin"></i>
-                        <span>Saisr notes</span>
+                        <span>Saisir notes</span>
                     </a>
                 </li>
             </ul>
