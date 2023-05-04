@@ -257,7 +257,7 @@ function insert_matieres()
         $ajoutmat->execute();
 ?>
         <script>
-            window.location.href = "../Controller/C_matiere.php ";
+            window.location.href = "../controller/C_matiere.php ";
         </script>
 <?php
     }

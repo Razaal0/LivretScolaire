@@ -64,8 +64,8 @@ if (!hasAccess(100)) {
                                     <tr data-toggle="collapse">
                                         <td><?php echo $e['NOM']; ?></td>
                                         <td><?php echo $e['PRENOM']; ?></td>
-                                        <td><?php echo "<a href=../Controller/C_modif.php?codeens=" . $e['CodeEnseignant'] . ">" ?>Modifier <img src="../bootstrap-icons-1.8.3/pencil.svg" height="14" width="25" /></a> </td>
-                                        <td><?php echo "<a href=../Controller/Supprime.php?codeens=" . $e['CodeEnseignant'] . " " . "onclick='return confirmation();'" . ">" ?> Supprimer <img src="../bootstrap-icons-1.8.3/trash.svg" height="14" width="25" /></a> </td>
+                                        <td><?php echo "<a href=../controller/C_modif.php?codeens=" . $e['CodeEnseignant'] . ">" ?>Modifier <img src="../bootstrap-icons-1.8.3/pencil.svg" height="14" width="25" /></a> </td>
+                                        <td><?php echo "<a href=../controller/Supprime.php?codeens=" . $e['CodeEnseignant'] . " " . "onclick='return confirmation();'" . ">" ?> Supprimer <img src="../bootstrap-icons-1.8.3/trash.svg" height="14" width="25" /></a> </td>
                                     </tr>
                                 <?php
                                 }

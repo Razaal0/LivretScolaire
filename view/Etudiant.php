@@ -98,8 +98,8 @@ if (!hasAccess(100)) {
                                         <td><?php echo $et['PRENOMETUDIANT']; ?></td>
                                         <td><?php echo $et['datedenaissance']; ?></td>
                                         <td><?php echo $et['Libellecourt']; ?></td>
-                                        <td><?php echo "<a href=../Controller/C_modif.php?codeetud=" . $et['codeetudiant'] . ">" ?>Modifier <img src="../bootstrap-icons-1.8.3/pencil.svg" height="14" width="25" /></a> </td>
-                                        <td><?php echo "<a href=../Controller/Supprime.php?codeetud=" . $et['codeetudiant'] . " " . "onclick='return confirmation();'" . ">" ?> Supprimer <img src="../bootstrap-icons-1.8.3/trash.svg" height="14" width="25" /></a> </td>
+                                        <td><?php echo "<a href=../controller/C_modif.php?codeetud=" . $et['codeetudiant'] . ">" ?>Modifier <img src="../bootstrap-icons-1.8.3/pencil.svg" height="14" width="25" /></a> </td>
+                                        <td><?php echo "<a href=../controller/Supprime.php?codeetud=" . $et['codeetudiant'] . " " . "onclick='return confirmation();'" . ">" ?> Supprimer <img src="../bootstrap-icons-1.8.3/trash.svg" height="14" width="25" /></a> </td>
                                     </tr>
                                 <?php
                                 }

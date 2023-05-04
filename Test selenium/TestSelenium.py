@@ -36,7 +36,7 @@ class TestSelenium(driver):
 
       # modifier un enseignant
       # cliquer sur le bouton "Modifier"
-      ligne.find_element(By.CSS_SELECTOR, 'a[href^="../Controller/C_modif.php?codeens="]').click()
+      ligne.find_element(By.CSS_SELECTOR, 'a[href^="../controller/C_modif.php?codeens="]').click()
 
       # modifier le prénom
       self.driver.find_element(By.ID, 'prenom').clear()
