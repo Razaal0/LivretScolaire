@@ -53,8 +53,8 @@ if (!hasAccess(10)) {
                                                 <tr data-toggle="collapse">
                                                     <td><?php echo $et['NOMETUDIANT']; ?></td>
                                                     <td><?php echo $et['PRENOMETUDIANT']; ?></td>
-                                                    <td><?php echo '<a href="' . $path . '/controller/C_note.php?codeetud=' . $et['codeetudiant'] . '&classe=' . $valeur . '">' ?>Saisir Notes <img src="../bootstrap-icons-1.8.3/pencil-square.svg" height="14" width="25" /></a> </td>
-                                                    <td><?php echo '<a href="' . $path . '/modele/Test.php?codeetud=' . $et['codeetudiant'] . '&classe=' . $valeur . '">' ?>Editer <img src="../bootstrap-icons-1.8.3/file-earmark-pdf.svg" height="14" width="25" /></a> </td>
+                                                    <td><?php echo '<a href="' . $path . '/controller/C_note.php?codeetud=' . $et['codeetudiant'] . '&classe=' . $valeur . '">' ?>Saisir Notes</a> </td>
+                                                    <td><?php echo '<a target="_blank" href="' . $path . '/controller/exporterPDF.php?codeetud=' . $et['codeetudiant'] . '">' ?>Ouvrir le PDF</a> </td>
                                                 </tr>
                                             <?php
                                             }
