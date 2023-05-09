@@ -330,6 +330,23 @@ function asso_cl_et($valeur)
 }
 
 /**
+ * récupère les informations d'une classe d'un étudiant
+ * 
+ * @param int $codeetud Le code de l'étudiant dont on veut récupérer les informations.
+ * 
+ * @return array|false Retourne un tableau associatif contenant les informations de la classe de l'étudiant ou false si une erreur survient.
+*/
+function recupere_classe_etud($codeetud){
+    $etud = connexion()->prepare("SELECT e.*,ec.codeetudiant FROM `CLASSE` e JOIN `ETUDIANT_CLASSE` ec on e.classecode=ec.classecode where ec.codeetudiant=:codeetudiant");
+    $etud->bindParam(':codeetudiant', $codeetud, PDO::PARAM_STR);
+    $etud->execute();
+    $et = $etud->fetchAll(PDO::FETCH_ASSOC);
+    
+    return $et;
+}
+
+
+/**
  * Récupère les informations d'un étudiant pour une classe donnée.
  *
  * @param int $classe Le code de la classe recherchée.

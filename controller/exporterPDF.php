@@ -1,7 +1,6 @@
 <?php
 
-//require('..\view\includes\fpdf\fpdf.php');
-require('..\view\includes\fpdf\MYPDF.php');
+require_once('../view/includes/FPDF/fpdf.php');
 require_once('../modele/BDD.php');
 $etud_note = recupere_notes($_GET['codeetud']);
 $class_etud = recupere_classe_etud($_GET['codeetud']);
