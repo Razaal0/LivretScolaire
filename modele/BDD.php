@@ -927,7 +927,7 @@ function moyenneAnnee1($codeetudiant) {
         group by codeetudiant,codematiere;");
     $etudiant1->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT);
     $etudiant1->execute();
-    return $etudiant1;
+    return $etudiant1->fetchAll(PDO::FETCH_ASSOC);
 }
 
 /**
@@ -945,7 +945,7 @@ function moyenneAnnee2($codeetudiant) {
         group by codeetudiant,codematiere;");
     $etudiant2->bindParam(':codeetudiant', $codeetudiant, PDO::PARAM_INT);
     $etudiant2->execute();
-    return $etudiant2;
+    return $etudiant2->fetchAll(PDO::FETCH_ASSOC);
 }
 
 /**

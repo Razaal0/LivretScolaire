@@ -12,18 +12,18 @@
  * @return void
  */
 
-require './BDD.php';
+require_once('../modele/BDD.php');
 
 $classecode = $_GET['classe'];
 $codeetudiant = $_GET['codeetud'];
-$matiere = recupere_matieres_by_eleve($codeetudiant);
+$matiere_etud = recupere_matieres_by_eleve($codeetudiant);
 $moyenne = moyenneAnnee2($codeetudiant);
 $moyennea10 = moyennea10($codeetudiant);
 $classe = procedure_NoteparClasseetMatiere($classecode);
 
 // Définir les données pour le graphique
-foreach ($matiere as $m) {
-    $matieres[] = $m['LibMatiere'];
+foreach ($matiere_etud as $m) {
+    $matieres_eleves[] = $m['LibMatiere'];
 }
 
 if ($classecode == 3) {
@@ -56,7 +56,7 @@ $couleurmc= imagecolorallocate($image,0, 170, 0);
 imagefilledrectangle($image, 0, 0, $largeur, $hauteur, $blanc);
 // Déterminer les valeurs minimales et maximales des axes des abscisses et des ordonnées
 $x_min = 0;
-$x_max = count($matieres) - 1;
+$x_max = count($matieres_eleves) - 1;
 $y_min = 0;
 $y_max = 20;
 // Dessiner la grille de fond
@@ -69,7 +69,7 @@ for ($i = $y_min; $i <= $y_max; $i++) {
         imageline($image, 75, $hauteur - 50 - $i * 30, $largeur - 50, $hauteur - 50 - $i * 30, $gris);
     }
 }
-for ($i = 0; $i < count($matieres); $i++) {
+for ($i = 0; $i < count($matieres_eleves); $i++) {
     imageline($image, 110 + $i * 80, $hauteur - 65, 110 + $i * 80, 310, $gris);
 }
 // Dessiner l'axe des ordonnées
@@ -80,10 +80,10 @@ for ($i = 0; $i <= $y_max; $i++) {
 }
 // Dessiner l'axe des abscisses
 imageline($image, 75, $hauteur - 50, $largeur - 50, $hauteur - 50, $noir);
-for ($i = 0; $i < count($matieres); $i++) {
+for ($i = 0; $i < count($matieres_eleves); $i++) {
     $x = 110 + $i * 80;
     imageline($image, $x, $hauteur - 65, $x, $hauteur - 50, $noir);
-    imagestringup($image, 3, $x - 7, $hauteur - 665, $matieres[$i], $noir);
+    imagestringup($image, 3, $x - 7, $hauteur - 665, $matieres_eleves[$i], $noir);
 }
 // Dessiner les points pour chaque matière
 for ($i = 0; $i < count($notes); $i++) {
@@ -151,12 +151,10 @@ for ($i = 0; $i < count($legende2); $i++) {
 }
 
 
-
-
-
 // Afficher l'image
-header('Content-type: image/png');
-imagepng($image);
+if (!isset($skip_header)) {
+    header('Content-type: image/png');
+}
 // Libérer la mémoire
 imagedestroy($image);
 ?>
