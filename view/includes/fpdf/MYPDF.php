@@ -1,6 +1,6 @@
  <?php
 // own pdf structure
- require('..\view\includes\fpdf\fpdf.php');
+ require('fpdf.php');
 
 class MYPDF extends FPDF
 {

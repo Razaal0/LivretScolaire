@@ -18,7 +18,7 @@ $pdf->SetMargins($pdf->left, $pdf->top, $pdf->right);
 $pdf->AddPage();
 
 // Insère un logo en haut à gauche à 300 dpi
-$pdf->Image('..\view\logo.png', 1, 1, 30, 30, 'PNG');
+$pdf->Image('../view/logo.png', 1, 1, 30, 30, 'PNG');
 
 //$pdf->Cell(0,30,'BREVET DE TECHNICIEN SUPERIEUR:',0,0,'C');
 $pdf->Cell(0,30,$class_etud[0]['Libelleclasse'] ,0,0,'C');
