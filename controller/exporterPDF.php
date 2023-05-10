@@ -1,6 +1,6 @@
 <?php
 
-require_once('../view/includes/FPDF/fpdf.php');
+require_once('../view/includes/fpdf/MYPDF.php');
 require_once('../modele/BDD.php');
 $etud_note = recupere_notes($_GET['codeetud']);
 $class_etud = recupere_classe_etud($_GET['codeetud']);
@@ -24,7 +24,6 @@ $pdf->Image('..\view\logo.png', 1, 1, 30, 30, 'PNG');
 $pdf->Cell(0,30,$class_etud[0]['Libelleclasse'] ,0,0,'C');
 //s$pdf->MultiCell(0,6,$risks,1,1,'L');
 $pdf->Ln();
-
 
 // create table
 $columns = array();      
@@ -190,11 +189,32 @@ $col[] = array('text' => 'COTATION DE LA CLASSE', 'width' => '90', 'height' => '
 $col[] = array('text' => 'RESULTATS DE LA SECTION LES 3 DERNIERES ANNEES', 'width' => '70', 'height' => '5', 'align' => 'L', 'font_name' => 'Arial', 'font_size' => '8', 'font_style' => 'B', 'fillcolor' => '255,255,255', 'textcolor' => '0,0,0', 'drawcolor' => '0,0,0', 'linewidth' => '0.4', 'linearea' => 'LTBR');
 $col[] = array('text' => 'Date, signature du candidat et remarques eventuelles', 'width' => '50', 'height' => '5', 'align' => 'L', 'font_name' => 'Arial', 'font_size' => '8', 'font_style' => 'B', 'fillcolor' => '255,255,255', 'textcolor' => '0,0,0', 'drawcolor' => '0,0,0', 'linewidth' => '0.4', 'linearea' => 'LTBR'); 
 $columns[] = $col;
-// Draw Table   
+
+// Draw Table
 $pdf->WriteTable($columns);
-   
-// Show PDF   
+
+// Add a new page
+$pdf->AddPage();
+
+// Récupéré le graphique
+$_GET['classe'] = $class_etud[0]['classecode'];
+require 'Generer_graphique.php';
+ob_start();
+header('Content-type: image/png');
+imagepng($image);
+$image_content = ob_get_clean();
+
+// Create a temporary file
+$tmp_file = tempnam(sys_get_temp_dir(), 'graph');
+
+// Write the image content to the temporary file
+file_put_contents($tmp_file, $image_content);
+
+// Ajoutez l'image dans le pdf :
+$pdf->Image($tmp_file, $pdf->GetX(), $pdf->GetY(), 280, 200, 'PNG');
+
+// Delete the temporary file
+unlink($tmp_file);
+
+// Show PDF
 $pdf->Output();
-?>
-
-
